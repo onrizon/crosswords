@@ -1,0 +1,5 @@
+{
+  "name": "Twitch Crossword 2",
+  "description": "An interactive crossword game integrated with Twitch chat using tmi.js. Viewers can guess words to fill the board.",
+  "requestFramePermissions": []
+}
