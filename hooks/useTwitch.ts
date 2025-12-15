@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef, useCallback } from 'react';
 import tmi from 'tmi.js';
 import { CHANNEL_NAME } from '../constants';
@@ -32,28 +33,20 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
   }, []);
 
   useEffect(() => {
+    // Ensure channel name is clean and in the array format tmi.js likes
+    const channelToConnect = CHANNEL_NAME.toLowerCase();
+
     const client = new tmi.Client({
-      channels: [CHANNEL_NAME],
-      // We don't need identity for read-only anonymous access usually,
-      // but providing an empty object helps some versions.
+      channels: [channelToConnect],
+      connection: {
+        secure: true,
+        reconnect: true,
+      },
     });
 
     clientRef.current = client;
 
-    const connect = async () => {
-      try {
-        setStatus('connecting');
-        await client.connect();
-        setStatus('connected');
-        console.log(`Connected to ${CHANNEL_NAME}`);
-      } catch (err) {
-        console.error('Failed to connect to Twitch:', err);
-        setStatus('error');
-      }
-    };
-
-    connect();
-
+    // Set up listeners BEFORE connecting to ensure we catch early events if any
     client.on('message', (channel, tags, message, self) => {
       if (self) return;
       const username = tags['display-name'] || tags.username || 'Anonymous';
@@ -74,6 +67,20 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
       });
     });
 
+    const connect = async () => {
+      try {
+        setStatus('connecting');
+        await client.connect();
+        setStatus('connected');
+        console.log(`Connected to ${channelToConnect}`);
+      } catch (err) {
+        console.error('Failed to connect to Twitch:', err);
+        setStatus('error');
+      }
+    };
+
+    connect();
+
     return () => {
       if (clientRef.current) {
         clientRef.current.removeAllListeners();
@@ -81,7 +88,7 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
         clientRef.current = null;
       }
     };
-  }, [addMessage]); // Depend only on stable addMessage, not onMessage
+  }, [addMessage]); // Depend only on stable addMessage
 
   return { status, messages, addMessage };
 };

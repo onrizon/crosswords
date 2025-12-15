@@ -23,6 +23,7 @@ export interface CellData {
   col: number;
   isStartOfWord?: boolean;
   clueNumber?: number;
+  delay?: number; // Animation delay in seconds
 }
 
 export interface ChatMessage {

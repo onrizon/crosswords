@@ -36,6 +36,11 @@ export const UI_TEXT: Record<SupportedLanguage, {
   loadingSubtitle: string;
   beFirst: string;
   streamOverlay: string;
+  infoTitle: string;
+  howToPlay: string;
+  howToPlayDesc: string;
+  commands: string;
+  cmdDesc: string;
 }> = {
   pt: {
     live: 'AO VIVO',
@@ -53,7 +58,12 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'CRIANDO CRUZADINHA...',
     loadingSubtitle: 'A IA ESTÁ CONECTANDO AS PALAVRAS',
     beFirst: 'Seja o primeiro a pontuar!',
-    streamOverlay: 'STREAM OVERLAY'
+    streamOverlay: 'STREAM OVERLAY',
+    infoTitle: 'AJUDA & COMANDOS',
+    howToPlay: 'COMO JOGAR',
+    howToPlayDesc: 'Espectadores: Digitem a resposta no chat (sem acentos). O primeiro a acertar ganha pontos!',
+    commands: 'COMANDOS (ADMIN)',
+    cmdDesc: 'Comandos disponíveis para o streamer no chat:'
   },
   en: {
     live: 'LIVE',
@@ -71,7 +81,12 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'CREATING CROSSWORD...',
     loadingSubtitle: 'AI IS CONNECTING THE WORDS',
     beFirst: 'Be the first to score!',
-    streamOverlay: 'STREAM OVERLAY'
+    streamOverlay: 'STREAM OVERLAY',
+    infoTitle: 'HELP & COMMANDS',
+    howToPlay: 'HOW TO PLAY',
+    howToPlayDesc: 'Viewers: Type the answer in chat. First to guess correctly gets points!',
+    commands: 'COMMANDS (ADMIN)',
+    cmdDesc: 'Commands available for the streamer in chat:'
   },
   fr: {
     live: 'EN DIRECT',
@@ -89,7 +104,12 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'CRÉATION DE MOTS CROISÉS...',
     loadingSubtitle: 'L\'IA CONNECTE LES MOTS',
     beFirst: 'Soyez le premier à marquer !',
-    streamOverlay: 'SUPERPOSITION DE FLUX'
+    streamOverlay: 'SUPERPOSITION DE FLUX',
+    infoTitle: 'AIDE & COMMANDES',
+    howToPlay: 'COMMENT JOUER',
+    howToPlayDesc: 'Spectateurs : Tapez la réponse dans le chat. Le premier à deviner gagne des points !',
+    commands: 'COMMANDES (ADMIN)',
+    cmdDesc: 'Commandes disponibles pour le streamer dans le chat :'
   },
   de: {
     live: 'LIVE',
@@ -107,7 +127,12 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'KREUZWORTRÄTSEL WIRD ERSTELLT...',
     loadingSubtitle: 'KI VERBINDET DIE WÖRTER',
     beFirst: 'Sei der Erste, der punktet!',
-    streamOverlay: 'STREAM OVERLAY'
+    streamOverlay: 'STREAM OVERLAY',
+    infoTitle: 'HILFE & BEFEHLE',
+    howToPlay: 'SPIELANLEITUNG',
+    howToPlayDesc: 'Zuschauer: Antwort in den Chat eingeben. Wer zuerst richtig rät, bekommt Punkte!',
+    commands: 'BEFEHLE (ADMIN)',
+    cmdDesc: 'Verfügbare Befehle für den Streamer im Chat:'
   },
   it: {
     live: 'IN DIRETTA',
@@ -125,7 +150,12 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'CREAZIONE CRUCIVERBA...',
     loadingSubtitle: 'L\'IA STA COLLEGANDO LE PAROLE',
     beFirst: 'Sii il primo a segnare!',
-    streamOverlay: 'STREAM OVERLAY'
+    streamOverlay: 'STREAM OVERLAY',
+    infoTitle: 'AIUTO & COMANDI',
+    howToPlay: 'COME GIOCARE',
+    howToPlayDesc: 'Spettatori: Digitate la risposta in chat. Il primo a indovinare ottiene punti!',
+    commands: 'COMANDI (ADMIN)',
+    cmdDesc: 'Comandi disponibili per lo streamer nella chat:'
   },
   es: {
     live: 'EN VIVO',
@@ -143,6 +173,11 @@ export const UI_TEXT: Record<SupportedLanguage, {
     loadingTitle: 'CREANDO CRUCIGRAMA...',
     loadingSubtitle: 'LA IA ESTÁ CONECTANDO LAS PALABRAS',
     beFirst: '¡Sé el primero en puntuar!',
-    streamOverlay: 'SUPERPOSICIÓN DE STREAM'
+    streamOverlay: 'SUPERPOSICIÓN DE STREAM',
+    infoTitle: 'AYUDA & COMANDOS',
+    howToPlay: 'CÓMO JUGAR',
+    howToPlayDesc: 'Espectadores: Escriban la respuesta en el chat. ¡El primero en adivinar gana puntos!',
+    commands: 'COMANDOS (ADMIN)',
+    cmdDesc: 'Comandos disponibles para el streamer en el chat:'
   }
 };
