@@ -2,7 +2,7 @@ import { GoogleGenAI, Type } from '@google/genai';
 import { SupportedLanguage } from '../types';
 
 // Get API key from environment variable
-const API_KEY = 'AIzaSyCcR2Pt8FukEdZwdHFAstLJGq5-EGy0hNQ';
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
 
 if (!API_KEY) {
   console.warn(
