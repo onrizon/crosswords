@@ -1,4 +1,5 @@
-// @ts-expect-error: No types available for 'canvas-confetti'
+import { CameraPlaceholder } from '@/components/cameraPlaceholder';
+import { TopPlayers } from '@/components/topPlayers';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -7,6 +8,7 @@ import {
   Info,
   LayoutGrid,
   Loader2,
+  LogOut,
   Pause,
   Play,
   Radio,
@@ -14,16 +16,13 @@ import {
   Save,
   Settings,
   Sparkles,
-  Trophy,
-  Video,
   X,
 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '../components/Grid';
 import { FALLBACK_WORDS, UI_TEXT } from '../constants';
 import { useTwitch } from '../hooks/useTwitch';
-import { generateTopicAndWords } from '../services/genai';
 import { generateLayout } from '../services/layoutEngine';
 import { SupportedLanguage, UserScores, WordData } from '../types';
 
@@ -65,15 +64,12 @@ const Game: React.FC = () => {
   // --- Game State ---
   const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
   const [words, setWords] = useState<WordData[]>(FALLBACK_WORDS);
-  const [revealedHints, setRevealedHints] = useState<Set<string>>(new Set());
   const [timeLeft, setTimeLeft] = useState(customDuration);
   const [isLoading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
-
-  const [lastCorrectUser, setLastCorrectUser] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
   const [userScores, setUserScores] = useState<UserScores>({});
   const { data: session } = useSession();
@@ -119,9 +115,10 @@ const Game: React.FC = () => {
         durationOverride !== undefined ? durationOverride : customDuration;
 
       try {
-        const data = await generateTopicAndWords(langToUse);
+        const data = await fetch(`/api/level?language=${langToUse}`).then(
+          (res) => res.json()
+        );
         const validLayout = generateLayout(data.words);
-
         if (validLayout.length < 5) {
           throw new Error(
             'Could not generate a valid grid structure. Try again.'
@@ -129,7 +126,6 @@ const Game: React.FC = () => {
         }
 
         setWords(validLayout);
-        setRevealedHints(new Set()); // Reset hints
         setCurrentTheme(data.theme);
         setTimeLeft(durationToUse); // Reset time to the configured duration
         setNotification(`${UI_TEXT[langToUse].newTheme}: ${data.theme}!`);
@@ -144,75 +140,6 @@ const Game: React.FC = () => {
     },
     [language, customDuration]
   );
-
-  // --- Hint Logic ---
-  const handleHint = useCallback(() => {
-    // 1. Map the grid state to find intersections and unrevealed cells
-    const cellMap = new Map<
-      string,
-      { count: number; isRevealedByWord: boolean; char: string }
-    >();
-
-    words.forEach((w) => {
-      for (let i = 0; i < w.word.length; i++) {
-        const r = w.direction === 'V' ? w.start.row + i : w.start.row;
-        const c = w.direction === 'H' ? w.start.col + i : w.start.col;
-        const key = `${r},${c}`;
-
-        const current = cellMap.get(key) || {
-          count: 0,
-          isRevealedByWord: false,
-          char: w.word[i],
-        };
-
-        cellMap.set(key, {
-          count: current.count + 1,
-          isRevealedByWord: current.isRevealedByWord || w.isRevealed,
-          char: current.char,
-        });
-      }
-    });
-
-    // 2. Identify candidates: Cells that are NOT fully revealed by a word and NOT already a hint
-    const candidates: string[] = [];
-    const intersectionCandidates: string[] = [];
-
-    cellMap.forEach((val, key) => {
-      if (!val.isRevealedByWord && !revealedHints.has(key)) {
-        candidates.push(key);
-        if (val.count > 1) {
-          intersectionCandidates.push(key);
-        }
-      }
-    });
-
-    // 3. Select a hint
-    let hintKey: string | null = null;
-
-    if (intersectionCandidates.length > 0) {
-      // Prioritize intersections
-      hintKey =
-        intersectionCandidates[
-          Math.floor(Math.random() * intersectionCandidates.length)
-        ];
-    } else if (candidates.length > 0) {
-      // Fallback to any unrevealed cell
-      hintKey = candidates[Math.floor(Math.random() * candidates.length)];
-    }
-
-    // 4. Update state
-    if (hintKey) {
-      setRevealedHints((prev) => {
-        const newSet = new Set(prev);
-        newSet.add(hintKey!);
-        return newSet;
-      });
-      playSuccessSound(); // Use success sound for hint
-    } else {
-      setNotification('Não há mais dicas disponíveis!');
-      setTimeout(() => setNotification(null), 2000);
-    }
-  }, [words, revealedHints]);
 
   // --- Settings Logic ---
   const handleOpenSettings = () => {
@@ -257,6 +184,10 @@ const Game: React.FC = () => {
   const handleCloseInfo = () => {
     setIsInfoOpen(false);
     if (!isSettingsOpen) setIsPaused(false);
+  };
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/' });
   };
 
   // Sound effect helper
@@ -394,10 +325,6 @@ const Game: React.FC = () => {
           setIsPaused(false);
           return;
         }
-        if (msgLower === '!hint') {
-          handleHint();
-          return;
-        }
       }
 
       if (isLoading) return;
@@ -425,7 +352,6 @@ const Game: React.FC = () => {
         });
 
         if (wordFound) {
-          setLastCorrectUser(username);
           setNotification(`${username} ${t.guessed} ${cleanMessage}!`);
 
           setUserScores((prev) => ({
@@ -441,14 +367,7 @@ const Game: React.FC = () => {
         return newWords;
       });
     },
-    [
-      isLoading,
-      t.guessed,
-      handleNextLevel,
-      currentTheme,
-      webhookUrl,
-      handleHint,
-    ]
+    [isLoading, t.guessed, handleNextLevel, currentTheme, webhookUrl]
   );
 
   const { status } = useTwitch({ onMessage: handleTwitchMessage });
@@ -459,10 +378,6 @@ const Game: React.FC = () => {
   const totalCount = words.length;
   const progress =
     totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
-
-  const topScorers = Object.entries(userScores).sort(
-    ([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number)
-  );
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -492,6 +407,16 @@ const Game: React.FC = () => {
         }}
       >
         {/* HEADER: 4 Fixed Sections */}
+        {/* <Header
+          words={words}
+          session={session}
+          status={status}
+          t={t}
+          isLoading={isLoading}
+          language={language}
+          currentTheme={currentTheme}
+          getThemeStyle={getThemeStyle}
+        /> */}
         <header className='flex-shrink-0 w-full flex items-center gap-0 bg-slate-900/60 p-0 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl z-20 relative h-32 overflow-hidden'>
           {/* SECTION 1: LOGO (Fixed Width ~350px) */}
           <div className='w-[380px] h-full flex items-center gap-5 px-8 border-r border-white/5 bg-black/20'>
@@ -617,6 +542,14 @@ const Game: React.FC = () => {
               >
                 <Info size={24} />
               </button>
+              <button
+                onClick={handleLogout}
+                disabled={isLoading || isSettingsOpen}
+                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
+                title='Ajuda / Comandos'
+              >
+                <LogOut size={24} />
+              </button>
             </div>
           </div>
 
@@ -720,7 +653,7 @@ const Game: React.FC = () => {
               </div>
 
               <div className='absolute inset-0 overflow-auto flex items-center justify-center p-6 custom-scrollbar'>
-                <Grid words={words} revealedHints={revealedHints} />
+                <Grid words={words} />
               </div>
             </div>
           </div>
@@ -728,79 +661,10 @@ const Game: React.FC = () => {
           {/* RIGHT: Sidebar (Fixed Width) - Layout always assumes horizontal desktop view */}
           <div className='flex w-[400px] flex-shrink-0 flex-col gap-6 h-full'>
             {/* Streamer Camera Placeholder */}
-            <div className='aspect-video bg-black/80 rounded-2xl border border-white/10 relative overflow-hidden shadow-2xl group shrink-0 ring-1 ring-white/5'>
-              <div className='absolute inset-0 flex flex-col items-center justify-center text-slate-600'>
-                <Video
-                  size={48}
-                  className='mb-3 opacity-50 text-purple-500/50'
-                />
-                <span className='text-sm font-mono uppercase tracking-widest opacity-50'>
-                  {t.streamOverlay}
-                </span>
-              </div>
-              <div className='absolute top-4 left-4 px-3 py-1 bg-red-600/90 backdrop-blur text-white text-xs font-black rounded uppercase tracking-wider border border-red-400/50 shadow-[0_0_10px_rgba(220,38,38,0.5)]'>
-                {t.live}
-              </div>
-            </div>
+            <CameraPlaceholder t={t} />
 
             {/* Leaderboard - Expanded to fill remaining space */}
-            <div className='flex-1 bg-slate-900/60 backdrop-blur-md rounded-2xl border border-white/10 p-6 flex flex-col gap-4 shadow-xl overflow-hidden min-h-0'>
-              <div className='flex items-center gap-3 border-b border-white/10 pb-4 shrink-0'>
-                <Trophy size={24} className='text-yellow-400' />
-                <h3 className='text-base font-black uppercase tracking-widest text-slate-300'>
-                  {t.topPlayers}
-                </h3>
-              </div>
-              <div className='flex-1 overflow-y-auto space-y-3 pr-1 custom-scrollbar'>
-                {topScorers.length === 0 ? (
-                  <div className='text-base text-slate-500 italic text-center py-8'>
-                    {t.beFirst}
-                  </div>
-                ) : (
-                  topScorers.map(([user, score], index) => (
-                    <div
-                      key={user}
-                      className='flex items-center justify-between text-lg group p-2 rounded-xl hover:bg-white/5 transition-colors'
-                    >
-                      <div className='flex items-center gap-4'>
-                        <div
-                          className={`
-                             w-8 h-8 flex items-center justify-center rounded-lg text-sm font-bold shadow-lg
-                             ${
-                               index === 0
-                                 ? 'bg-gradient-to-br from-yellow-300 to-yellow-600 text-yellow-950 ring-1 ring-yellow-300/50'
-                                 : index === 1
-                                 ? 'bg-gradient-to-br from-slate-300 to-slate-500 text-slate-900 ring-1 ring-slate-300/50'
-                                 : index === 2
-                                 ? 'bg-gradient-to-br from-orange-300 to-orange-600 text-orange-950 ring-1 ring-orange-300/50'
-                                 : 'bg-slate-800 text-slate-500'
-                             }
-                           `}
-                        >
-                          {index + 1}
-                        </div>
-                        <span
-                          className={`font-bold ${
-                            index === 0 ? 'text-yellow-200' : 'text-slate-300'
-                          }`}
-                        >
-                          {user}{' '}
-                          {index === 0 && (
-                            <Crown
-                              size={16}
-                              className='inline ml-1 text-yellow-400'
-                            />
-                          )}
-                        </span>
-                      </div>
-                      <span className='font-mono font-bold text-emerald-400 drop-shadow-sm'>
-                        {score}
-                      </span>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
+            <TopPlayers userScores={userScores} t={t} />
           </div>
         </main>
 

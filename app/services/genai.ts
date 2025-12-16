@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from '@google/genai';
-import { SupportedLanguage } from '../types';
+import { Level, SupportedLanguage } from '../types';
 
 // Get API key from environment variable
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
@@ -13,14 +13,6 @@ if (!API_KEY) {
 const ai = new GoogleGenAI({
   apiKey: API_KEY,
 });
-
-export interface GeneratedContent {
-  theme: string;
-  words: {
-    word: string;
-    clue: string;
-  }[];
-}
 
 // Broad, common knowledge categories suitable for a general audience
 const INSPIRATIONS = [
@@ -147,35 +139,35 @@ const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
 };
 
 // Robust fallback data with enough words to guarantee a valid grid
-const FALLBACK_DATA: GeneratedContent = {
+const FALLBACK_DATA: Level = {
   theme: 'TECNOLOGIA (OFFLINE)',
   words: [
-    { word: 'INTERNET', clue: 'Rede mundial de computadores' },
-    { word: 'COMPUTADOR', clue: 'Máquina de processar dados' },
-    { word: 'MOUSE', clue: 'Dispositivo apontador' },
-    { word: 'TECLADO', clue: 'Periférico para digitar' },
-    { word: 'MONITOR', clue: 'Tela de exibição' },
-    { word: 'WIFI', clue: 'Conexão sem fio' },
-    { word: 'DADOS', clue: 'Informações digitais' },
-    { word: 'MEMORIA', clue: 'Armazenamento temporário' },
-    { word: 'PROCESSADOR', clue: 'Cérebro do computador' },
-    { word: 'SOFTWARE', clue: 'Programas e aplicativos' },
-    { word: 'HARDWARE', clue: 'Parte física do PC' },
-    { word: 'CAMERA', clue: 'Grava vídeo' },
-    { word: 'FONE', clue: 'Escuta áudio' },
-    { word: 'GAMER', clue: 'Jogador de jogos eletrônicos' },
-    { word: 'STREAM', clue: 'Transmissão de vídeo ao vivo' },
-    { word: 'CHAT', clue: 'Conversa em tempo real' },
-    { word: 'BOTAO', clue: 'Tecla de comando' },
-    { word: 'CLIQUE', clue: 'Ação do mouse' },
-    { word: 'ICONE', clue: 'Símbolo gráfico' },
-    { word: 'PASTA', clue: 'Organizador de arquivos' },
+    { word: 'INTERNET' },
+    { word: 'COMPUTADOR' },
+    { word: 'MOUSE' },
+    { word: 'TECLADO' },
+    { word: 'MONITOR' },
+    { word: 'WIFI' },
+    { word: 'DADOS' },
+    { word: 'MEMORIA' },
+    { word: 'PROCESSADOR' },
+    { word: 'SOFTWARE' },
+    { word: 'HARDWARE' },
+    { word: 'CAMERA' },
+    { word: 'FONE' },
+    { word: 'GAMER' },
+    { word: 'STREAM' },
+    { word: 'CHAT' },
+    { word: 'BOTAO' },
+    { word: 'CLIQUE' },
+    { word: 'ICONE' },
+    { word: 'PASTA' },
   ],
 };
 
 export const generateTopicAndWords = async (
   language: SupportedLanguage = 'pt'
-): Promise<GeneratedContent> => {
+): Promise<Level> => {
   // Return fallback data if no API key is configured
   if (!API_KEY) {
     console.warn('No API key configured, using fallback data');
@@ -213,12 +205,8 @@ export const generateTopicAndWords = async (
                     description:
                       'The word answer (uppercase, no spaces, no special chars, normalized).',
                   },
-                  clue: {
-                    type: Type.STRING,
-                    description: `A simple definition or clue in ${targetLanguage}.`,
-                  },
                 },
-                required: ['word', 'clue'],
+                required: ['word'],
               },
             },
           },
@@ -237,15 +225,15 @@ export const generateTopicAndWords = async (
         - Words must be between 3 and 10 letters long.
         - Words must be single words (NO spaces, NO hyphens).
         - Normalize words: Remove accents/diacritics (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
-        - Clues must be in ${targetLanguage}, simple and direct.
         - Do NOT repeat words from the example prompt.
+        - Generate only 20 words.
         - Return strictly JSON.`,
       },
       contents: `Generate a new crossword theme and word list in ${targetLanguage}. Random seed: ${randomSeed}`,
     });
 
     if (response.text) {
-      return JSON.parse(response.text) as GeneratedContent;
+      return JSON.parse(response.text) as Level;
     }
     throw new Error('Empty response from AI');
   } catch (error) {

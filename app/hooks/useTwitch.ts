@@ -35,61 +35,62 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
   }, []);
 
   useEffect(() => {
-    const channelToConnect = (session?.user?.twitchLogin || '').toLowerCase();
-
-    const client = new tmi.Client({
-      channels: [channelToConnect],
-      connection: {
-        secure: true,
-        reconnect: true,
-      },
-    });
-
-    clientRef.current = client;
-
-    // Set up listeners BEFORE connecting to ensure we catch early events if any
-    client.on('message', (channel, tags, message, self) => {
-      if (self) return;
-      const username = tags['display-name'] || tags.username || 'Anonymous';
-      const color = tags.color || '#a855f7'; // Default purple
-      const id = tags.id || Math.random().toString(36);
-
-      // Invoke the latest callback
-      if (onMessageRef.current) {
-        onMessageRef.current(username, message);
-      }
-
-      addMessage({
-        id,
-        username,
-        message,
-        color,
-        isCorrectGuess: false, // Updated by parent if needed, but here we just log raw
+    const channelToConnect = session?.user?.twitchLogin || '';
+    if (channelToConnect) {
+      const client = new tmi.Client({
+        channels: [channelToConnect],
+        connection: {
+          secure: true,
+          reconnect: true,
+        },
       });
-    });
 
-    const connect = async () => {
-      try {
-        setStatus('connecting');
-        await client.connect();
-        setStatus('connected');
-        console.log(`Connected to ${channelToConnect}`);
-      } catch (err) {
-        console.error('Failed to connect to Twitch:', err);
-        setStatus('error');
-      }
-    };
+      clientRef.current = client;
 
-    connect();
+      // Set up listeners BEFORE connecting to ensure we catch early events if any
+      client.on('message', (channel, tags, message, self) => {
+        if (self) return;
+        const username = tags['display-name'] || tags.username || 'Anonymous';
+        const color = tags.color || '#a855f7'; // Default purple
+        const id = tags.id || Math.random().toString(36);
 
-    return () => {
-      if (clientRef.current) {
-        clientRef.current.removeAllListeners();
-        clientRef.current.disconnect().catch(console.error);
-        clientRef.current = null;
-      }
-    };
-  }, [addMessage]); // Depend only on stable addMessage
+        // Invoke the latest callback
+        if (onMessageRef.current) {
+          onMessageRef.current(username, message);
+        }
+
+        addMessage({
+          id,
+          username,
+          message,
+          color,
+          isCorrectGuess: false, // Updated by parent if needed, but here we just log raw
+        });
+      });
+
+      const connect = async () => {
+        try {
+          setStatus('connecting');
+          await client.connect();
+          setStatus('connected');
+          console.log(`Connected to ${channelToConnect}`);
+        } catch (err) {
+          console.error('Failed to connect to Twitch:', err);
+          setStatus('error');
+        }
+      };
+
+      connect();
+
+      return () => {
+        if (clientRef.current) {
+          clientRef.current.removeAllListeners();
+          clientRef.current.disconnect().catch(console.error);
+          clientRef.current = null;
+        }
+      };
+    }
+  }, [addMessage, session?.user?.twitchLogin]); // Depend only on stable addMessage
 
   return { status, messages, addMessage };
 };

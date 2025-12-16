@@ -10,7 +10,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 1,
     word: 'TECLADO',
-    clue: 'Usado para digitar',
     direction: 'H',
     start: { row: 6, col: 8 },
     isRevealed: false,
@@ -18,7 +17,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 2,
     word: 'CADEIRA',
-    clue: 'Onde se senta',
     direction: 'V',
     start: { row: 3, col: 9 },
     isRevealed: false,
@@ -26,7 +24,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 3,
     word: 'DADOS',
-    clue: 'Informações',
     direction: 'V',
     start: { row: 6, col: 13 },
     isRevealed: false,
@@ -34,7 +31,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 4,
     word: 'REDE',
-    clue: 'Conexão',
     direction: 'H',
     start: { row: 8, col: 9 },
     isRevealed: false,
@@ -42,7 +38,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 5,
     word: 'MODEM',
-    clue: 'Aparelho',
     direction: 'H',
     start: { row: 9, col: 12 },
     isRevealed: false,
@@ -50,7 +45,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 6,
     word: 'EMAIL',
-    clue: 'Correio',
     direction: 'V',
     start: { row: 8, col: 15 },
     isRevealed: false,
@@ -58,7 +52,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 7,
     word: 'PASTA',
-    clue: 'Arquivo',
     direction: 'V',
     start: { row: 5, col: 11 },
     isRevealed: false,
@@ -66,7 +59,6 @@ export const FALLBACK_WORDS: WordData[] = [
   {
     id: 8,
     word: 'CAFE',
-    clue: 'Bebida',
     direction: 'H',
     start: { row: 3, col: 9 },
     isRevealed: false,

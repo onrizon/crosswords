@@ -1,4 +1,3 @@
-
 export interface Coordinate {
   row: number;
   col: number;
@@ -7,7 +6,6 @@ export interface Coordinate {
 export interface WordData {
   id: number;
   word: string; // The answer
-  clue: string;
   direction: 'H' | 'V';
   start: Coordinate;
   isRevealed: boolean;
@@ -22,7 +20,6 @@ export interface CellData {
   row: number;
   col: number;
   isStartOfWord?: boolean;
-  clueNumber?: number;
   delay?: number; // Animation delay in seconds
 }
 
@@ -43,11 +40,11 @@ export interface GameState {
 
 export type UserScores = Record<string, number>;
 
-export type LevelKey = 
-  | 'ESCRITORIO' 
-  | 'ESCOLA' 
-  | 'NATAL' 
-  | 'QUADRINHOS' 
+export type LevelKey =
+  | 'ESCRITORIO'
+  | 'ESCOLA'
+  | 'NATAL'
+  | 'QUADRINHOS'
   | 'ANIMAIS'
   | 'CHURRASCO'
   | 'FIM_DE_ANO'
@@ -59,6 +56,13 @@ export type LevelKey =
 export interface LevelData {
   key: LevelKey;
   words: WordData[];
+}
+
+export interface Level {
+  theme: string;
+  words: {
+    word: string;
+  }[];
 }
 
 export type SupportedLanguage = 'pt' | 'en' | 'fr' | 'de' | 'it' | 'es';
