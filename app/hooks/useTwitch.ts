@@ -1,7 +1,6 @@
-
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useSession } from 'next-auth/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import tmi from 'tmi.js';
-import { CHANNEL_NAME } from '../constants';
 import { ChatMessage } from '../types';
 
 interface UseTwitchProps {
@@ -9,10 +8,13 @@ interface UseTwitchProps {
 }
 
 export const useTwitch = ({ onMessage }: UseTwitchProps) => {
-  const [status, setStatus] = useState<'connecting' | 'connected' | 'error'>('connecting');
+  const [status, setStatus] = useState<'connecting' | 'connected' | 'error'>(
+    'connecting'
+  );
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const clientRef = useRef<tmi.Client | null>(null);
-  
+  const { data: session } = useSession();
+
   // Keep the latest callback in a ref to avoid reconnecting when the handler function identity changes
   const onMessageRef = useRef(onMessage);
 
@@ -33,8 +35,7 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
   }, []);
 
   useEffect(() => {
-    // Ensure channel name is clean and in the array format tmi.js likes
-    const channelToConnect = CHANNEL_NAME.toLowerCase();
+    const channelToConnect = (session?.user?.twitchLogin || '').toLowerCase();
 
     const client = new tmi.Client({
       channels: [channelToConnect],
@@ -52,7 +53,7 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
       const username = tags['display-name'] || tags.username || 'Anonymous';
       const color = tags.color || '#a855f7'; // Default purple
       const id = tags.id || Math.random().toString(36);
-      
+
       // Invoke the latest callback
       if (onMessageRef.current) {
         onMessageRef.current(username, message);
