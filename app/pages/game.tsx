@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '../components/Grid';
 import { FALLBACK_WORDS, UI_TEXT } from '../constants';
@@ -71,7 +72,8 @@ const Game: React.FC = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
   const [userScores, setUserScores] = useState<UserScores>({});
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
 
   // Layout Scaling
   const [scale, setScale] = useState(1);
@@ -84,6 +86,12 @@ const Game: React.FC = () => {
   });
 
   const t = UI_TEXT[language];
+
+  useEffect(() => {
+    if (sessionStatus === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [sessionStatus, router]);
 
   // --- Window Resize Effect ---
   // Lock aspect ratio logic: Fit the 1920x1080 container into the window
@@ -262,34 +270,13 @@ const Game: React.FC = () => {
     if (!webhookUrl) return;
 
     try {
-      // Check for Discord webhook URL structure
-      const isDiscord = webhookUrl.includes('discord');
-
-      const payload = isDiscord
-        ? {
-            // Discord specific payload with Embed
-            username: 'StreamCross',
-            avatar_url:
-              'https://cdn-icons-png.flaticon.com/512/10603/10603127.png',
-            embeds: [
-              {
-                title: '🎯 Palavra Encontrada!',
-                description: `**${username}** acertou a palavra **${word}**!`,
-                color: 11031031, // Purple (#a855f7)
-                fields: [{ name: 'Tema', value: currentTheme, inline: true }],
-                footer: { text: 'StreamCross • Twitch Integration' },
-                timestamp: new Date().toISOString(),
-              },
-            ],
-          }
-        : {
-            // Generic Payload
-            event: 'correct_guess',
-            username,
-            word,
-            theme: currentTheme,
-            timestamp: new Date().toISOString(),
-          };
+      const payload = {
+        event: 'correct_guess',
+        username,
+        word,
+        theme: currentTheme,
+        timestamp: new Date().toISOString(),
+      };
 
       await fetch(webhookUrl, {
         method: 'POST',
@@ -607,29 +594,6 @@ const Game: React.FC = () => {
                         {tempSettings.duration % 60}s
                       </div>
                     </div>
-                  </div>
-
-                  {/* Webhook */}
-                  <div className='flex flex-col gap-2'>
-                    <label className='text-sm font-bold text-slate-400 uppercase tracking-widest'>
-                      Webhook URL (Opcional)
-                    </label>
-                    <input
-                      type='url'
-                      placeholder='https://discord.com/api/webhooks/...'
-                      value={tempSettings.webhookUrl}
-                      onChange={(e) =>
-                        setTempSettings({
-                          ...tempSettings,
-                          webhookUrl: e.target.value,
-                        })
-                      }
-                      className='w-full bg-slate-800/50 border border-white/10 rounded-xl p-4 text-white font-mono text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600'
-                    />
-                    <p className='text-xs text-slate-500'>
-                      Dispara uma notificação POST quando um jogador acerta uma
-                      palavra.
-                    </p>
                   </div>
                 </div>
 
