@@ -1,18 +1,17 @@
 import { CameraPlaceholder } from '@/components/cameraPlaceholder';
+import { Menu } from '@/components/menu';
+import { Progress } from '@/components/progress';
+import { ThemeText } from '@/components/themeText';
+import { Timer } from '@/components/timer';
 import { TopPlayers } from '@/components/topPlayers';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  Clock,
   Crown,
   Info,
   LayoutGrid,
   Loader2,
-  LogOut,
-  Pause,
-  Play,
   Radio,
-  RefreshCw,
   Save,
   Settings,
   Sparkles,
@@ -184,6 +183,10 @@ const Game: React.FC = () => {
   const handleCloseInfo = () => {
     setIsInfoOpen(false);
     if (!isSettingsOpen) setIsPaused(false);
+  };
+
+  const handlePause = () => {
+    setIsPaused(!isPaused);
   };
 
   const handleLogout = () => {
@@ -374,25 +377,6 @@ const Game: React.FC = () => {
 
   // --- Render Helpers ---
 
-  const solvedCount = words.filter((w) => w.isRevealed).length;
-  const totalCount = words.length;
-  const progress =
-    totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const getThemeStyle = (text: string) => {
-    const length = text.length;
-    // Removed responsive classes (md:, lg:) to enforce fixed Desktop size
-    if (length > 35) return 'text-2xl leading-tight line-clamp-2';
-    if (length > 20) return 'text-4xl leading-tight line-clamp-2';
-    return 'text-5xl leading-none';
-  };
-
   return (
     // OUTER CONTAINER: Handles the Background and Centering
     <div className='fixed inset-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-purple-950 to-slate-950 overflow-hidden flex items-center justify-center bg-black'>
@@ -407,16 +391,6 @@ const Game: React.FC = () => {
         }}
       >
         {/* HEADER: 4 Fixed Sections */}
-        {/* <Header
-          words={words}
-          session={session}
-          status={status}
-          t={t}
-          isLoading={isLoading}
-          language={language}
-          currentTheme={currentTheme}
-          getThemeStyle={getThemeStyle}
-        /> */}
         <header className='flex-shrink-0 w-full flex items-center gap-0 bg-slate-900/60 p-0 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl z-20 relative h-32 overflow-hidden'>
           {/* SECTION 1: LOGO (Fixed Width ~350px) */}
           <div className='w-[380px] h-full flex items-center gap-5 px-8 border-r border-white/5 bg-black/20'>
@@ -451,152 +425,43 @@ const Game: React.FC = () => {
           </div>
 
           {/* SECTION 2: THEME (Flexible/Fixed behavior) */}
-          <div className='flex-1 h-full flex flex-col items-center justify-center px-4 bg-white/[0.02] relative group overflow-hidden'>
-            <div className='absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-50' />
-            <span className='text-xs font-black text-slate-500 uppercase tracking-[0.3em] mb-1 relative z-10 shrink-0'>
-              {language === 'pt' ? 'TEMA ATUAL' : 'CURRENT THEME'}
-            </span>
-            <div className='w-full flex items-center justify-center relative z-10 h-20 px-4'>
-              <h2
-                className={`${getThemeStyle(
-                  currentTheme
-                )} font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-purple-100 drop-shadow-md tracking-tight text-center uppercase break-words w-full flex items-center justify-center`}
-              >
-                {isLoading ? (
-                  <span className='animate-pulse opacity-70 text-3xl'>
-                    {t.generating}
-                  </span>
-                ) : (
-                  currentTheme
-                )}
-              </h2>
-            </div>
-          </div>
+          <ThemeText
+            currentTheme={currentTheme}
+            isLoading={isLoading}
+            language={language}
+            t={t.generating}
+          />
 
           {/* SECTION 3: TIME & OPTIONS (Fixed Width ~500px) */}
           <div className='w-[480px] h-full flex items-center justify-between px-8 border-l border-white/5 bg-black/20'>
             {/* Timer */}
-            <div className='flex items-center gap-4'>
-              <Clock
-                size={28}
-                className={
-                  timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen
-                    ? 'text-red-500 animate-pulse'
-                    : 'text-cyan-400'
-                }
-              />
-              <div className='flex flex-col w-20'>
-                <span
-                  className={`text-4xl font-mono font-bold leading-none ${
-                    timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen
-                      ? 'text-red-400'
-                      : 'text-white'
-                  }`}
-                >
-                  {formatTime(timeLeft)}
-                </span>
-                <span className='text-[10px] text-slate-500 uppercase font-bold tracking-widest'>
-                  {t.time}
-                </span>
-              </div>
-            </div>
+            <Timer
+              timeLeft={timeLeft}
+              isPaused={isPaused}
+              isSettingsOpen={isSettingsOpen}
+              isInfoOpen={isInfoOpen}
+              t={t.time}
+            />
 
             {/* Divider */}
             <div className='w-px h-12 bg-white/10' />
 
             {/* Buttons Grid */}
-            <div className='flex items-center gap-2'>
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                disabled={isSettingsOpen || isInfoOpen}
-                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white active:scale-95 disabled:opacity-30'
-                title={isPaused ? 'Retomar' : 'Pausar'}
-              >
-                {isPaused ? <Play size={24} /> : <Pause size={24} />}
-              </button>
-              <button
-                onClick={() => handleNextLevel()}
-                disabled={isLoading || isSettingsOpen || isInfoOpen}
-                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
-                title='Gerar Novo Nível'
-              >
-                {isLoading ? (
-                  <Loader2 size={24} className='animate-spin text-purple-400' />
-                ) : (
-                  <RefreshCw size={24} />
-                )}
-              </button>
-              <button
-                onClick={handleOpenSettings}
-                disabled={isLoading || isInfoOpen}
-                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
-                title='Configurações'
-              >
-                <Settings size={24} />
-              </button>
-              <button
-                onClick={handleOpenInfo}
-                disabled={isLoading || isSettingsOpen}
-                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
-                title='Ajuda / Comandos'
-              >
-                <Info size={24} />
-              </button>
-              <button
-                onClick={handleLogout}
-                disabled={isLoading || isSettingsOpen}
-                className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
-                title='Ajuda / Comandos'
-              >
-                <LogOut size={24} />
-              </button>
-            </div>
+            <Menu
+              isLoading={isLoading}
+              isPaused={isPaused}
+              isSettingsOpen={isSettingsOpen}
+              isInfoOpen={isInfoOpen}
+              handleOpenSettings={handleOpenSettings}
+              handleOpenInfo={handleOpenInfo}
+              handleLogout={handleLogout}
+              handlePause={handlePause}
+              handleNextLevel={handleNextLevel}
+            />
           </div>
 
           {/* SECTION 4: PROGRESS (Fixed Width ~240px) */}
-          <div className='w-[240px] h-full flex items-center justify-center gap-6 px-8 border-l border-white/5 bg-black/40'>
-            <div className='flex flex-col items-end'>
-              <span className='text-[10px] text-slate-500 font-bold uppercase tracking-wider'>
-                {t.progress}
-              </span>
-              <span className='text-2xl font-black text-white leading-none'>
-                {solvedCount}
-                <span className='text-slate-600 text-lg mx-1'>/</span>
-                {totalCount}
-              </span>
-            </div>
-            <div className='relative w-14 h-14'>
-              <svg
-                className='w-full h-full transform -rotate-90 drop-shadow-lg overflow-visible'
-                viewBox='0 0 96 96'
-              >
-                <circle
-                  cx='48'
-                  cy='48'
-                  r='36'
-                  stroke='currentColor'
-                  strokeWidth='10'
-                  className='text-slate-800/80'
-                  fill='none'
-                />
-                <circle
-                  cx='48'
-                  cy='48'
-                  r='36'
-                  stroke='currentColor'
-                  strokeWidth='10'
-                  className='text-purple-500 transition-all duration-1000 ease-out'
-                  fill='none'
-                  strokeDasharray='226.2'
-                  strokeDashoffset={226.2 - (226.2 * progress) / 100}
-                  strokeLinecap='round'
-                />
-              </svg>
-              <span className='absolute inset-0 flex items-center justify-center text-xs font-bold text-purple-200'>
-                {progress}%
-              </span>
-            </div>
-          </div>
+          <Progress words={words} t={t.progress} />
         </header>
 
         {/* Main Content Layout - Forced Horizontal (Desktop) */}
