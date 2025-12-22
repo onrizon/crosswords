@@ -1,3 +1,5 @@
+import infoStyles from '@/styles/Info.module.css';
+import styles from '@/styles/Settings.module.css';
 import { motion } from 'framer-motion';
 import { Crown, Info, Radio, X } from 'lucide-react';
 
@@ -15,88 +17,91 @@ export const InfoModal = ({
   };
 }) => {
   return (
-    <div className='fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4'>
+    <div className={styles.modalOverlay}>
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className='bg-slate-900 w-full max-w-lg rounded-3xl border border-white/10 shadow-2xl p-8 flex flex-col gap-6'
+        className={styles.modalContent}
       >
-        <div className='flex items-center justify-between border-b border-white/10 pb-4'>
-          <div className='flex items-center gap-3'>
-            <Info className='text-cyan-400' size={28} />
-            <h2 className='text-2xl font-black text-white uppercase tracking-wider'>
-              {t.infoTitle}
-            </h2>
+        <div className={styles.modalHeader}>
+          <div className={styles.modalHeaderLeft}>
+            <Info className={styles.modalHeaderIconCyan} size={28} />
+            <h2 className={styles.modalTitle}>{t.infoTitle}</h2>
           </div>
-          <button
-            onClick={handleCloseInfo}
-            className='text-slate-400 hover:text-white transition-colors'
-          >
+          <button onClick={handleCloseInfo} className={styles.modalCloseBtn}>
             <X size={28} />
           </button>
         </div>
 
-        <div className='flex flex-col gap-8'>
+        <div className={infoStyles.body}>
           {/* How to Play */}
-          <div className='flex flex-col gap-3'>
-            <div className='flex items-center gap-2 text-yellow-300'>
+          <div className={infoStyles.section}>
+            <div
+              className={`${infoStyles.sectionHeader} ${infoStyles.sectionHeaderYellow}`}
+            >
               <Crown size={20} />
-              <h3 className='text-sm font-black uppercase tracking-widest'>
-                {t.howToPlay}
-              </h3>
+              <h3 className={infoStyles.sectionTitle}>{t.howToPlay}</h3>
             </div>
-            <p className='text-slate-300 leading-relaxed bg-white/5 p-4 rounded-xl border border-white/5'>
-              {t.howToPlayDesc}
-            </p>
+            <p className={infoStyles.description}>{t.howToPlayDesc}</p>
           </div>
 
           {/* Commands */}
-          <div className='flex flex-col gap-3'>
-            <div className='flex items-center gap-2 text-purple-400'>
+          <div className={infoStyles.section}>
+            <div
+              className={`${infoStyles.sectionHeader} ${infoStyles.sectionHeaderPurple}`}
+            >
               <Radio size={20} />
-              <h3 className='text-sm font-black uppercase tracking-widest'>
-                {t.commands}
-              </h3>
+              <h3 className={infoStyles.sectionTitle}>{t.commands}</h3>
             </div>
-            <div className='flex flex-col gap-2'>
-              <p className='text-xs text-slate-500 mb-1 font-mono uppercase tracking-wide'>
-                {t.cmdDesc}
-              </p>
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                <div className='bg-slate-800/50 p-3 rounded-lg border border-white/5 flex flex-col gap-1'>
-                  <span className='font-mono text-cyan-300 font-bold'>
+            <div>
+              <p className={infoStyles.commandsLabel}>{t.cmdDesc}</p>
+              <div className={infoStyles.commandsGrid}>
+                <div className={infoStyles.commandCard}>
+                  <span
+                    className={`${infoStyles.commandName} ${infoStyles.commandNameCyan}`}
+                  >
                     !refresh
                   </span>
-                  <span className='text-xs text-slate-400'>
+                  <span className={infoStyles.commandDesc}>
                     Gerar novo nível
                   </span>
                 </div>
-                <div className='bg-slate-800/50 p-3 rounded-lg border border-white/5 flex flex-col gap-1'>
-                  <span className='font-mono text-red-300 font-bold'>
+                <div className={infoStyles.commandCard}>
+                  <span
+                    className={`${infoStyles.commandName} ${infoStyles.commandNameRed}`}
+                  >
                     !reset
                   </span>
-                  <span className='text-xs text-slate-400'>
+                  <span className={infoStyles.commandDesc}>
                     Zerar pontuação
                   </span>
                 </div>
-                <div className='bg-slate-800/50 p-3 rounded-lg border border-white/5 flex flex-col gap-1'>
-                  <span className='font-mono text-yellow-300 font-bold'>
+                <div className={infoStyles.commandCard}>
+                  <span
+                    className={`${infoStyles.commandName} ${infoStyles.commandNameYellow}`}
+                  >
                     !pause
                   </span>
-                  <span className='text-xs text-slate-400'>Pausar tempo</span>
+                  <span className={infoStyles.commandDesc}>Pausar tempo</span>
                 </div>
-                <div className='bg-slate-800/50 p-3 rounded-lg border border-white/5 flex flex-col gap-1'>
-                  <span className='font-mono text-emerald-300 font-bold'>
+                <div className={infoStyles.commandCard}>
+                  <span
+                    className={`${infoStyles.commandName} ${infoStyles.commandNameEmerald}`}
+                  >
                     !play / !resume
                   </span>
-                  <span className='text-xs text-slate-400'>Retomar tempo</span>
+                  <span className={infoStyles.commandDesc}>Retomar tempo</span>
                 </div>
-                <div className='bg-slate-800/50 p-3 rounded-lg border border-white/5 flex flex-col gap-1 col-span-1 sm:col-span-2'>
-                  <span className='font-mono text-orange-400 font-bold'>
+                <div
+                  className={`${infoStyles.commandCard} ${infoStyles.commandCardWide}`}
+                >
+                  <span
+                    className={`${infoStyles.commandName} ${infoStyles.commandNameOrange}`}
+                  >
                     !hint
                   </span>
-                  <span className='text-xs text-slate-400'>
+                  <span className={infoStyles.commandDesc}>
                     Revela uma letra (Prioridade: Interseções)
                   </span>
                 </div>
@@ -105,11 +110,8 @@ export const InfoModal = ({
           </div>
         </div>
 
-        <div className='mt-2'>
-          <button
-            onClick={handleCloseInfo}
-            className='w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-sm'
-          >
+        <div className={infoStyles.footer}>
+          <button onClick={handleCloseInfo} className={styles.btnUnderstood}>
             Entendido
           </button>
         </div>

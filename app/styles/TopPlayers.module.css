@@ -1,0 +1,145 @@
+.container {
+  flex: 1;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.icon {
+  color: rgb(250, 204, 21);
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(203, 213, 225);
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.list > * + * {
+  margin-top: 0.75rem;
+}
+
+.empty {
+  font-size: 1rem;
+  color: rgb(100, 116, 139);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.playerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.125rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s;
+}
+
+.playerRow:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.playerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.playerRank {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.playerRankGold {
+  background: linear-gradient(
+    to bottom right,
+    rgb(253, 224, 71),
+    rgb(202, 138, 4)
+  );
+  color: rgb(66, 32, 6);
+  box-shadow: 0 0 0 1px rgba(253, 224, 71, 0.5);
+}
+
+.playerRankSilver {
+  background: linear-gradient(
+    to bottom right,
+    rgb(203, 213, 225),
+    rgb(100, 116, 139)
+  );
+  color: rgb(15, 23, 42);
+  box-shadow: 0 0 0 1px rgba(203, 213, 225, 0.5);
+}
+
+.playerRankBronze {
+  background: linear-gradient(
+    to bottom right,
+    rgb(253, 186, 116),
+    rgb(234, 88, 12)
+  );
+  color: rgb(67, 20, 7);
+  box-shadow: 0 0 0 1px rgba(253, 186, 116, 0.5);
+}
+
+.playerRankDefault {
+  background-color: rgb(30, 41, 59);
+  color: rgb(100, 116, 139);
+}
+
+.playerName {
+  font-weight: 700;
+  color: rgb(203, 213, 225);
+}
+
+.playerNameGold {
+  color: rgb(254, 240, 138);
+}
+
+.playerCrown {
+  display: inline;
+  margin-left: 0.25rem;
+  color: rgb(250, 204, 21);
+}
+
+.playerScore {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
+    monospace;
+  font-weight: 700;
+  color: rgb(52, 211, 153);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+}

@@ -1,4 +1,5 @@
 import { useTwitchAuth } from '@/hooks/useTwitchAuth';
+import styles from '@/styles/Index.module.css';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -14,23 +15,20 @@ const App: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className='flex flex-col items-center justify-center h-screen bg-gray-900'>
-        <div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500'></div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
       </div>
     );
   }
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen gap-8 bg-gray-900'>
-      <h1 className='text-4xl font-bold text-white'>Crosswords</h1>
-      <p className='text-gray-400 text-lg'>Sign in to start playing</p>
+    <div className={styles.loginContainer}>
+      <h1 className={styles.loginTitle}>Crosswords</h1>
+      <p className={styles.loginSubtitle}>Sign in to start playing</p>
 
-      <button
-        onClick={() => loginWithTwitch()}
-        className='flex items-center gap-3 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl'
-      >
+      <button onClick={() => loginWithTwitch()} className={styles.loginButton}>
         <svg
-          className='w-6 h-6'
+          className={styles.loginButtonIcon}
           viewBox='0 0 24 24'
           fill='currentColor'
           xmlns='http://www.w3.org/2000/svg'

@@ -1,3 +1,4 @@
+import styles from '@/styles/Menu.module.css';
 import {
   Info,
   Loader2,
@@ -30,11 +31,13 @@ export const Menu = ({
   handleNextLevel: () => void;
 }) => {
   return (
-    <div className='flex items-center gap-2'>
+    <div className={styles.container}>
       <button
         onClick={handlePause}
         disabled={isSettingsOpen || isInfoOpen}
-        className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white active:scale-95 disabled:opacity-30'
+        className={`${styles.button} ${
+          isSettingsOpen || isInfoOpen ? styles.buttonPausedDisabled : ''
+        }`}
         title={isPaused ? 'Retomar' : 'Pausar'}
       >
         {isPaused ? <Play size={24} /> : <Pause size={24} />}
@@ -42,11 +45,11 @@ export const Menu = ({
       <button
         onClick={handleNextLevel}
         disabled={isLoading || isSettingsOpen || isInfoOpen}
-        className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
+        className={styles.button}
         title='Gerar Novo Nível'
       >
         {isLoading ? (
-          <Loader2 size={24} className='animate-spin text-purple-400' />
+          <Loader2 size={24} className={styles.loadingIcon} />
         ) : (
           <RefreshCw size={24} />
         )}
@@ -54,7 +57,7 @@ export const Menu = ({
       <button
         onClick={handleOpenSettings}
         disabled={isLoading || isInfoOpen}
-        className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
+        className={styles.button}
         title='Configurações'
       >
         <Settings size={24} />
@@ -62,7 +65,7 @@ export const Menu = ({
       <button
         onClick={handleOpenInfo}
         disabled={isLoading || isSettingsOpen}
-        className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
+        className={styles.button}
         title='Ajuda / Comandos'
       >
         <Info size={24} />
@@ -70,7 +73,7 @@ export const Menu = ({
       <button
         onClick={handleLogout}
         disabled={isLoading || isSettingsOpen}
-        className='p-3 hover:bg-white/10 rounded-xl transition-all text-slate-400 hover:text-white disabled:opacity-50 active:scale-95'
+        className={styles.button}
         title='Ajuda / Comandos'
       >
         <LogOut size={24} />

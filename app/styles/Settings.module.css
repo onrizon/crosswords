@@ -1,0 +1,204 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+.modalContent {
+  background-color: rgb(15, 23, 42);
+  width: 100%;
+  max-width: 32rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.modalHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.modalHeaderIconPurple {
+  color: rgb(192, 132, 252);
+}
+
+.modalHeaderIconCyan {
+  color: rgb(34, 211, 238);
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modalCloseBtn {
+  color: rgb(148, 163, 184);
+  transition: color 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modalCloseBtn:hover {
+  color: white;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: rgb(148, 163, 184);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.formSelect,
+.formInput {
+  width: 100%;
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: white;
+  font-weight: 700;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formSelect:focus,
+.formInput:focus {
+  border-color: rgb(168, 85, 247);
+  outline: none;
+  box-shadow: 0 0 0 1px rgb(168, 85, 247);
+}
+
+.formInput {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
+    monospace;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.formDurationDisplay {
+  color: rgb(100, 116, 139);
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
+    monospace;
+  font-size: 0.875rem;
+}
+
+.modalFooter {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.btnCancel {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  color: rgb(203, 213, 225);
+  transition: background-color 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btnCancel:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btnSave {
+  flex: 1;
+  padding: 1rem;
+  background-color: rgb(147, 51, 234);
+  color: white;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 10px 15px -3px rgba(88, 28, 135, 0.5);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btnSave:hover {
+  background-color: rgb(168, 85, 247);
+}
+
+.btnSave:active {
+  transform: scale(0.95);
+}
+
+.btnUnderstood {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgb(8, 145, 178);
+  color: white;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 10px 15px -3px rgba(22, 78, 99, 0.5);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btnUnderstood:hover {
+  background-color: rgb(6, 182, 212);
+}
+
+.btnUnderstood:active {
+  transform: scale(0.95);
+}

@@ -1,0 +1,118 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionHeaderYellow {
+  color: rgb(253, 224, 71);
+}
+
+.sectionHeaderPurple {
+  color: rgb(192, 132, 252);
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.description {
+  color: rgb(203, 213, 225);
+  line-height: 1.625;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.commandsLabel {
+  font-size: 0.75rem;
+  color: rgb(100, 116, 139);
+  margin-bottom: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.commandsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .commandsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.commandCard {
+  background-color: rgba(30, 41, 59, 0.5);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.commandCardWide {
+  grid-column: span 1;
+}
+
+@media (min-width: 640px) {
+  .commandCardWide {
+    grid-column: span 2;
+  }
+}
+
+.commandName {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
+    monospace;
+  font-weight: 700;
+}
+
+.commandNameCyan {
+  color: rgb(103, 232, 249);
+}
+
+.commandNameRed {
+  color: rgb(252, 165, 165);
+}
+
+.commandNameYellow {
+  color: rgb(253, 224, 71);
+}
+
+.commandNameEmerald {
+  color: rgb(110, 231, 183);
+}
+
+.commandNameOrange {
+  color: rgb(251, 146, 60);
+}
+
+.commandDesc {
+  font-size: 0.75rem;
+  color: rgb(148, 163, 184);
+}
+
+.footer {
+  margin-top: 0.5rem;
+}

@@ -1,3 +1,4 @@
+import styles from '@/styles/Grid.module.css';
 import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
 import { GRID_COLS, GRID_ROWS } from '../constants';
@@ -62,9 +63,9 @@ const Grid: React.FC<GridProps> = ({ words }) => {
   }, [words]);
 
   return (
-    <div className='relative p-6 select-none bg-slate-900/50 rounded-xl border border-white/5 shadow-2xl backdrop-blur-sm'>
+    <div className={styles.wrapper}>
       <div
-        className='grid gap-1.5'
+        className={styles.container}
         style={{
           gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))`,
           width: 'fit-content',
@@ -75,15 +76,16 @@ const Grid: React.FC<GridProps> = ({ words }) => {
           row.map((cell, cIndex) => {
             if (!cell) {
               return (
-                <div
-                  key={`${rIndex}-${cIndex}`}
-                  className='w-12 h-12 rounded-md bg-white/[0.02]'
-                />
+                <div key={`${rIndex}-${cIndex}`} className={styles.cellEmpty} />
               ); // Subtle spacer
             }
 
+            const isHintOnly = !cell.wordIds.some(
+              (id) => words.find((w) => w.id === id)?.isRevealed
+            );
+
             return (
-              <div key={`${rIndex}-${cIndex}`} className='relative w-12 h-12'>
+              <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
                 {cell.isRevealed ? (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
@@ -94,23 +96,16 @@ const Grid: React.FC<GridProps> = ({ words }) => {
                       stiffness: 400,
                       damping: 25,
                     }}
-                    className={`
-                      absolute inset-0 flex items-center justify-center rounded-lg text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-10 border border-white/20
-                      ${
-                        !cell.wordIds.some(
-                          (id) => words.find((w) => w.id === id)?.isRevealed
-                        )
-                          ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-red-500' // Different color for hints not yet fully solved
-                          : 'bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-600'
-                      }
-                    `}
+                    className={`${styles.cellRevealed} ${
+                      isHintOnly
+                        ? styles.cellRevealedHint
+                        : styles.cellRevealedWord
+                    }`}
                   >
-                    <span className='text-3xl font-black drop-shadow-md'>
-                      {cell.char}
-                    </span>
+                    <span className={styles.cellChar}>{cell.char}</span>
                   </motion.div>
                 ) : (
-                  <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-slate-800/60 border border-slate-700/50 hover:bg-slate-700/60 hover:border-purple-500/30 transition-colors'></div>
+                  <div className={styles.cellHidden}></div>
                 )}
               </div>
             );

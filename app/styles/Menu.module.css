@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s;
+  color: rgb(148, 163, 184);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background: transparent;
+  color: rgb(148, 163, 184);
+}
+
+.buttonPausedDisabled:disabled {
+  opacity: 0.3;
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+  color: rgb(192, 132, 252);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

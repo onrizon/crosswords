@@ -1,3 +1,4 @@
+import styles from '@/styles/Timer.module.css';
 import { Clock } from 'lucide-react';
 
 export const Timer = ({
@@ -19,29 +20,22 @@ export const Timer = ({
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
+  const isWarning =
+    timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen;
+
   return (
-    <div className='flex items-center gap-4'>
+    <div className={styles.container}>
       <Clock
         size={28}
-        className={
-          timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen
-            ? 'text-red-500 animate-pulse'
-            : 'text-cyan-400'
-        }
+        className={isWarning ? styles.iconWarning : styles.icon}
       />
-      <div className='flex flex-col w-20'>
+      <div className={styles.content}>
         <span
-          className={`text-4xl font-mono font-bold leading-none ${
-            timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen
-              ? 'text-red-400'
-              : 'text-white'
-          }`}
+          className={`${styles.value} ${isWarning ? styles.valueWarning : ''}`}
         >
           {formatTime(timeLeft)}
         </span>
-        <span className='text-[10px] text-slate-500 uppercase font-bold tracking-widest'>
-          {t}
-        </span>
+        <span className={styles.label}>{t}</span>
       </div>
     </div>
   );

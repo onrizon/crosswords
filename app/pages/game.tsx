@@ -6,6 +6,7 @@ import { Progress } from '@/components/progress';
 import { ThemeText } from '@/components/themeText';
 import { Timer } from '@/components/timer';
 import { TopPlayers } from '@/components/topPlayers';
+import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LayoutGrid, Loader2, Radio, Sparkles } from 'lucide-react';
@@ -362,43 +363,45 @@ const Game: React.FC = () => {
 
   return (
     // OUTER CONTAINER: Handles the Background and Centering
-    <div className='fixed inset-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-purple-950 to-slate-950 overflow-hidden flex items-center justify-center bg-black'>
+    <div className={styles.outerContainer}>
       {/* INNER SCALABLE CONTAINER: Fixed Resolution, Scaled via CSS */}
       <div
-        className='relative text-slate-100 flex flex-col items-center py-6 px-8 gap-4 font-sans overflow-hidden selection:bg-purple-500 selection:text-white shadow-2xl origin-center'
+        className={styles.innerContainer}
         style={{
-          width: `${BASE_WIDTH}px`,
+          width: `calc(${BASE_WIDTH}px - 30px)`,
           height: `${BASE_HEIGHT}px`,
           transform: `scale(${scale})`,
           flexShrink: 0, // Prevent flex compression
         }}
       >
         {/* HEADER: 4 Fixed Sections */}
-        <header className='flex-shrink-0 w-full flex items-center gap-0 bg-slate-900/60 p-0 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl z-20 relative h-32 overflow-hidden'>
+        <header className={styles.header}>
           {/* SECTION 1: LOGO (Fixed Width ~350px) */}
-          <div className='w-[380px] h-full flex items-center gap-5 px-8 border-r border-white/5 bg-black/20'>
-            <div className='p-3 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl shadow-lg shadow-purple-900/50 ring-1 ring-white/20'>
-              <LayoutGrid size={32} className='text-white' />
+          <div className={styles.headerLogoSection}>
+            <div className={styles.logoIconContainer}>
+              <LayoutGrid size={32} className={styles.logoIcon} />
             </div>
-            <div className='flex flex-col'>
-              <h1 className='text-4xl font-black italic bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-pink-200 drop-shadow-sm tracking-tight leading-none mb-1'>
+            <div className={styles.logoTextContainer}>
+              <h1 className={styles.logoTitle}>
                 StreamCross
-                <span className='text-sm text-slate-500 block'>
+                <span className={styles.logoSubtitle}>
                   {session?.user?.twitchLogin}
                 </span>
               </h1>
-              <div className='flex items-center gap-2'>
+              <div className={styles.statusContainer}>
                 <Radio
                   size={14}
                   className={
                     status === 'connected'
-                      ? 'text-emerald-400 animate-pulse'
-                      : 'text-red-500'
+                      ? styles.statusIconConnected
+                      : styles.statusIconDisconnected
                   }
                 />
                 <span
-                  className={`text-xs font-bold uppercase ${
-                    status === 'connected' ? 'text-emerald-400' : 'text-red-400'
+                  className={`${styles.statusText} ${
+                    status === 'connected'
+                      ? styles.statusTextConnected
+                      : styles.statusTextDisconnected
                   }`}
                 >
                   {status === 'connected' ? t.live : t.offline}
@@ -416,7 +419,7 @@ const Game: React.FC = () => {
           />
 
           {/* SECTION 3: TIME & OPTIONS (Fixed Width ~500px) */}
-          <div className='w-[480px] h-full flex items-center justify-between px-8 border-l border-white/5 bg-black/20'>
+          <div className={styles.headerTimerSection}>
             {/* Timer */}
             <Timer
               timeLeft={timeLeft}
@@ -427,7 +430,7 @@ const Game: React.FC = () => {
             />
 
             {/* Divider */}
-            <div className='w-px h-12 bg-white/10' />
+            <div className={styles.headerDivider} />
 
             {/* Buttons Grid */}
             <Menu
@@ -448,51 +451,37 @@ const Game: React.FC = () => {
         </header>
 
         {/* Main Content Layout - Forced Horizontal (Desktop) */}
-        <main className='w-full flex-1 flex flex-row gap-8 items-start min-h-0 overflow-hidden pt-2'>
+        <main className={styles.main}>
           {/* LEFT: Game Area (Flexible) */}
-          <div className='flex-1 flex flex-col gap-6 w-full h-full overflow-hidden'>
-            <div className='flex-1 flex flex-col justify-center overflow-hidden relative border border-white/10 rounded-3xl bg-slate-900/40 backdrop-blur-sm shadow-2xl'>
+          <div className={styles.gameArea}>
+            <div className={styles.gridContainer}>
               {/* Loading Overlay */}
               {isLoading && (
-                <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center'>
-                  <div className='relative'>
-                    <div className='absolute inset-0 bg-purple-500 blur-xl opacity-20 animate-pulse rounded-full'></div>
-                    <Loader2
-                      size={80}
-                      className='text-purple-500 animate-spin mb-8 relative z-10'
-                    />
+                <div className={styles.loadingOverlay}>
+                  <div className={styles.loadingGlow}>
+                    <Loader2 size={80} className={styles.loadingSpinnerIcon} />
                   </div>
-                  <h2 className='text-3xl font-black text-white mb-3 tracking-tight'>
-                    {t.loadingTitle}
-                  </h2>
-                  <p className='text-purple-300/80 text-base font-mono animate-pulse uppercase tracking-wider'>
-                    {t.loadingSubtitle}
-                  </p>
+                  <h2 className={styles.loadingTitle}>{t.loadingTitle}</h2>
+                  <p className={styles.loadingSubtitle}>{t.loadingSubtitle}</p>
                 </div>
               )}
 
               {/* Notification Overlay */}
-              <div className='absolute top-8 left-0 right-0 z-10 flex justify-center pointer-events-none'>
+              <div className={styles.notificationContainer}>
                 <AnimatePresence>
                   {(notification || generationError) && (
                     <motion.div
                       initial={{ opacity: 0, y: -40, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -40, scale: 0.9 }}
-                      className={`
-                        flex items-center rounded-2xl px-8 py-4 shadow-2xl mx-4 border border-white/20 backdrop-blur-md
-                        ${
-                          generationError
-                            ? 'bg-red-600/90 text-white'
-                            : 'bg-gradient-to-r from-emerald-500/90 to-teal-600/90 text-white'
-                        }
-                      `}
+                      className={`${styles.notificationBox} ${
+                        generationError
+                          ? styles.notificationError
+                          : styles.notificationSuccess
+                      }`}
                     >
-                      <Sparkles
-                        className='mr-4 text-yellow-300 flex-shrink-0 animate-spin-slow'
-                        size={28}
-                      />
-                      <span className='font-bold text-xl tracking-wide shadow-black drop-shadow-md'>
+                      <Sparkles size={28} className={styles.notificationIcon} />
+                      <span className={styles.notificationText}>
                         {generationError || notification}
                       </span>
                     </motion.div>
@@ -500,14 +489,14 @@ const Game: React.FC = () => {
                 </AnimatePresence>
               </div>
 
-              <div className='absolute inset-0 overflow-auto flex items-center justify-center p-6 custom-scrollbar'>
+              <div className={`${styles.gridScrollContainer} custom-scrollbar`}>
                 <Grid words={words} />
               </div>
             </div>
           </div>
 
           {/* RIGHT: Sidebar (Fixed Width) - Layout always assumes horizontal desktop view */}
-          <div className='flex w-[400px] flex-shrink-0 flex-col gap-6 h-full'>
+          <div className={styles.sidebar}>
             {/* Streamer Camera Placeholder */}
             <CameraPlaceholder t={t} />
 

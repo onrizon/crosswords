@@ -1,3 +1,12 @@
+import styles from '@/styles/ThemeText.module.css';
+import { Asap_Condensed } from 'next/font/google';
+
+const asapCondensed = Asap_Condensed({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-asap-condensed',
+});
+
 export const ThemeText = ({
   currentTheme,
   isLoading,
@@ -11,26 +20,25 @@ export const ThemeText = ({
 }) => {
   const getThemeStyle = (text: string) => {
     const length = text.length;
-    // Removed responsive classes (md:, lg:) to enforce fixed Desktop size
-    if (length > 35) return 'text-2xl leading-tight line-clamp-2';
-    if (length > 20) return 'text-4xl leading-tight line-clamp-2';
-    return 'text-5xl leading-none';
+    if (length > 35) return styles.textSmall;
+    if (length > 20) return styles.textMedium;
+    return styles.textLarge;
   };
 
   return (
-    <div className='flex-1 h-full flex flex-col items-center justify-center px-4 bg-white/[0.02] relative group overflow-hidden'>
-      <div className='absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-50' />
-      <span className='text-xs font-black text-slate-500 uppercase tracking-[0.3em] mb-1 relative z-10 shrink-0'>
+    <div className={styles.container}>
+      <div className={styles.gradientOverlay} />
+      <span className={styles.label}>
         {language === 'pt' ? 'TEMA ATUAL' : 'CURRENT THEME'}
       </span>
-      <div className='w-full flex items-center justify-center relative z-10 h-20 px-4'>
+      <div className={styles.titleContainer}>
         <h2
-          className={`${getThemeStyle(
-            currentTheme
-          )} font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-purple-100 drop-shadow-md tracking-tight text-center uppercase break-words w-full flex items-center justify-center`}
+          className={`${styles.title} ${getThemeStyle(currentTheme)} ${
+            asapCondensed.className
+          }`}
         >
           {isLoading ? (
-            <span className='animate-pulse opacity-70 text-3xl'>{t}</span>
+            <span className={styles.loading}>{t}</span>
           ) : (
             currentTheme
           )}
