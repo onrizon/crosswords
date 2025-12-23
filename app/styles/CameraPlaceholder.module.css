@@ -1,53 +1,86 @@
 .container {
-  aspect-ratio: 16 / 9;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #190b5e;
+  border: 2px solid #7976ff;
+  border-radius: 19px;
+  display: flex;
+  flex: 1;
+  height: 245px;
+  margin-top: 28px;
+  padding: 5px;
   position: relative;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  flex-shrink: 0;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-.placeholder {
-  position: absolute;
-  inset: 0;
+.borderContainer {
+  border: 1px solid #fbb3ff;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px #e72eed, inset 0 0 0 1px #e72eed, 0 0 0 2px #c800d8,
+    inset 0 0 0 2px #c800d8, 0 0 0 3px #850093, inset 0 0 0 3px #850093;
   display: flex;
-  flex-direction: column;
+  flex: 1;
+  margin: 3px;
+  padding: 8px;
+}
+
+.header {
   align-items: center;
-  justify-content: center;
-  color: rgb(71, 85, 105);
+  background: url('/images/bgSidebarTitle.svg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  height: 54px;
+  justify-content: space-between;
+  padding: 0 14px 5px 21px;
+  position: absolute;
+  right: -4px;
+  top: -38px;
+  width: 342px;
 }
 
 .icon {
-  margin-bottom: 0.75rem;
-  opacity: 0.5;
-  color: rgba(168, 85, 247, 0.5);
+  background: url('/images/icoUser.svg') no-repeat center center;
+  background-size: cover;
+  display: block;
+  height: 31px;
+  width: 26px;
 }
 
-.text {
-  font-size: 0.875rem;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
-    monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.5;
+.title {
+  align-items: center;
+  color: #ffffff;
+  display: flex;
+  font-size: 26px;
+  text-shadow: rgb(139, 19, 145) 2px 0px 0px,
+    rgb(139, 19, 145) 1.75517px 0.958851px 0px,
+    rgb(139, 19, 145) 1.0806px 1.68294px 0px,
+    rgb(139, 19, 145) 0.141474px 1.99499px 0px,
+    rgb(139, 19, 145) -0.832294px 1.81859px 0px,
+    rgb(139, 19, 145) -1.60229px 1.19694px 0px,
+    rgb(139, 19, 145) -1.97998px 0.28224px 0px,
+    rgb(139, 19, 145) -1.87291px -0.701566px 0px,
+    rgb(139, 19, 145) -1.30729px -1.5136px 0px,
+    rgb(139, 19, 145) -0.421592px -1.95506px 0px,
+    rgb(139, 19, 145) 0.567324px -1.91785px 0px,
+    rgb(139, 19, 145) 1.41734px -1.41108px 0px,
+    rgb(139, 19, 145) 1.92034px -0.558831px 0px;
 }
 
-.liveBadge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.25rem 0.75rem;
-  background-color: rgba(220, 38, 38, 0.9);
-  backdrop-filter: blur(4px);
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 900;
-  border-radius: 0.25rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 1px solid rgba(248, 113, 113, 0.5);
-  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+.button {
+  align-items: center;
+  background: #c303c9;
+  border: 1.5px solid #f75cff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px #a714af;
+  cursor: pointer;
+  display: flex;
+  height: 38px;
+  justify-content: center;
+  margin-left: 10px;
+  width: 38px;
+}
+
+.button span {
+  background: url('/images/icoLogout.svg') 0 0 no-repeat;
+  background-size: cover;
+  display: block;
+  height: 22px;
+  width: 22px;
 }

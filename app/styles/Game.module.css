@@ -13,19 +13,20 @@
 }
 
 .innerContainer {
+  align-items: center;
   background: radial-gradient(circle at center, #714afe 18%, #1301b8 100%);
-  position: relative;
+  border: 1.5px solid #a8f9ff;
+  border-radius: 19px;
+  box-shadow: 0 0 0 1.5px #00eeff, inset 0 0 0 1.5px #00eeff, 0 0 0 3px #00b2ff,
+    inset 0 0 0 3px #00b2ff;
   color: rgb(241, 245, 249);
   display: flex;
+  position: relative;
   flex-direction: column;
-  align-items: center;
-  padding: 1.5rem 2rem;
   gap: 1rem;
-  font-family: ui-sans-serif, system-ui, sans-serif;
   overflow: hidden;
+  padding: 1.5rem 2rem;
   transform-origin: center;
-  border: 1px solid #a8f9ff;
-  border-radius: 19px;
 }
 
 /* Header */
@@ -315,7 +316,7 @@
   width: 400px;
   flex-shrink: 0;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 40px;
   height: 100%;
 }
 

@@ -1,13 +1,5 @@
 import styles from '@/styles/Menu.module.css';
-import {
-  Info,
-  Loader2,
-  LogOut,
-  Pause,
-  Play,
-  RefreshCw,
-  Settings,
-} from 'lucide-react';
+import { Info, Loader2, Pause, Play, RefreshCw, Settings } from 'lucide-react';
 
 export const Menu = ({
   isPaused,
@@ -16,7 +8,6 @@ export const Menu = ({
   isInfoOpen,
   handleOpenSettings,
   handleOpenInfo,
-  handleLogout,
   handlePause,
   handleNextLevel,
 }: {
@@ -26,7 +17,6 @@ export const Menu = ({
   isInfoOpen: boolean;
   handleOpenSettings: () => void;
   handleOpenInfo: () => void;
-  handleLogout: () => void;
   handlePause: () => void;
   handleNextLevel: () => void;
 }) => {
@@ -69,14 +59,6 @@ export const Menu = ({
         title='Ajuda / Comandos'
       >
         <Info size={24} />
-      </button>
-      <button
-        onClick={handleLogout}
-        disabled={isLoading || isSettingsOpen}
-        className={styles.button}
-        title='Ajuda / Comandos'
-      >
-        <LogOut size={24} />
       </button>
     </div>
   );

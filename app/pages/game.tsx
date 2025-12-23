@@ -382,12 +382,7 @@ const Game: React.FC = () => {
               <LayoutGrid size={32} className={styles.logoIcon} />
             </div>
             <div className={styles.logoTextContainer}>
-              <h1 className={styles.logoTitle}>
-                StreamCross
-                <span className={styles.logoSubtitle}>
-                  {session?.user?.twitchLogin}
-                </span>
-              </h1>
+              <h1 className={styles.logoTitle}>StreamCross</h1>
               <div className={styles.statusContainer}>
                 <Radio
                   size={14}
@@ -440,7 +435,6 @@ const Game: React.FC = () => {
               isInfoOpen={isInfoOpen}
               handleOpenSettings={handleOpenSettings}
               handleOpenInfo={handleOpenInfo}
-              handleLogout={handleLogout}
               handlePause={handlePause}
               handleNextLevel={handleNextLevel}
             />
@@ -498,7 +492,11 @@ const Game: React.FC = () => {
           {/* RIGHT: Sidebar (Fixed Width) - Layout always assumes horizontal desktop view */}
           <div className={styles.sidebar}>
             {/* Streamer Camera Placeholder */}
-            <CameraPlaceholder t={t} />
+            <CameraPlaceholder
+              isLoading={isLoading}
+              isSettingsOpen={isSettingsOpen}
+              handleLogout={handleLogout}
+            />
 
             {/* Leaderboard - Expanded to fill remaining space */}
             <TopPlayers userScores={userScores} t={t} />
