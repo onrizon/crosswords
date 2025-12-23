@@ -1,11 +1,11 @@
-import { CameraPlaceholder } from '@/components/cameraPlaceholder';
-import { Menu } from '@/components/menu';
+import { CameraPlaceholder } from '@/components/CameraPlaceholder';
+import { Menu } from '@/components/Menu';
 import { InfoModal } from '@/components/modal/info';
 import { SettingsModal } from '@/components/modal/settings';
-import { Progress } from '@/components/progress';
-import { ThemeText } from '@/components/themeText';
-import { Timer } from '@/components/timer';
-import { TopPlayers } from '@/components/topPlayers';
+import { Progress } from '@/components/Progress';
+import { ThemeText } from '@/components/ThemeText';
+import { Timer } from '@/components/Timer';
+import { TopPlayers } from '@/components/TopPlayers';
 import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';

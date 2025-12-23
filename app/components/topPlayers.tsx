@@ -1,6 +1,13 @@
 import styles from '@/styles/TopPlayers.module.css';
 import { UserScores } from '@/types';
-import { Crown, Trophy } from 'lucide-react';
+
+import { Nunito_Sans } from 'next/font/google';
+
+const nunitoSans = Nunito_Sans({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-nunito-sans',
+});
 
 export const TopPlayers = ({
   userScores,
@@ -9,7 +16,25 @@ export const TopPlayers = ({
   userScores: UserScores;
   t: { topPlayers: string; beFirst: string };
 }) => {
-  const topScorers = Object.entries(userScores).sort(
+  const mockUserScores: Record<string, number> = {
+    alice: 3000,
+    bob: 2000,
+    charlie: 1000,
+    david: 500,
+    eve: 200,
+    frank: 100,
+    grace: 50,
+    hank: 25,
+    ivy: 10,
+    jack: 5,
+    jack1: 5,
+    jack2: 5,
+    jack3: 5,
+    jack4: 5,
+    jack5: 5,
+  };
+
+  const topScorers = Object.entries(mockUserScores).sort(
     ([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number)
   );
 
@@ -21,34 +46,33 @@ export const TopPlayers = ({
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <Trophy size={24} className={styles.icon} />
-        <h3 className={styles.title}>{t.topPlayers}</h3>
-      </div>
-      <div className={`${styles.list} custom-scrollbar`}>
-        {topScorers.length === 0 ? (
-          <div className={styles.empty}>{t.beFirst}</div>
-        ) : (
-          topScorers.map(([user, score], index) => (
-            <div key={user} className={styles.playerRow}>
-              <div className={styles.playerInfo}>
-                <div className={getRankClass(index)}>{index + 1}</div>
-                <span
-                  className={`${styles.playerName} ${
-                    index === 0 ? styles.playerNameGold : ''
-                  }`}
-                >
-                  {user}{' '}
-                  {index === 0 && (
-                    <Crown size={16} className={styles.playerCrown} />
-                  )}
-                </span>
+    <div className={`${styles.container} ${nunitoSans.className}`}>
+      <div className={styles.borderContainer}>
+        <div className={styles.header}>
+          <div className={styles.icon} />
+          <h3 className={styles.title}>{t.topPlayers}</h3>
+        </div>
+        <div className={`${styles.list} custom-scrollbar`}>
+          {topScorers.length === 0 ? (
+            <div className={styles.empty}>{t.beFirst}</div>
+          ) : (
+            topScorers.map(([user, score], index) => (
+              <div key={user} className={styles.playerRow}>
+                <div className={styles.playerInfo}>
+                  <div className={getRankClass(index)}>{index + 1}</div>
+                  <span
+                    className={`${styles.playerName} ${
+                      index === 0 ? styles.playerNameGold : ''
+                    }`}
+                  >
+                    {user}
+                  </span>
+                </div>
+                <span className={styles.playerScore}>{score}</span>
               </div>
-              <span className={styles.playerScore}>{score}</span>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

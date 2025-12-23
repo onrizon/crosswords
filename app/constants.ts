@@ -97,7 +97,7 @@ export const UI_TEXT: Record<
     generating: 'GERANDO...',
     time: 'TEMPO',
     progress: 'PROGRESSO',
-    topPlayers: 'TOP JOGADORES',
+    topPlayers: 'Ranking',
     chatTitle: 'CHAT AO VIVO',
     waitingForMessages: 'Aguardando mensagens...',
     correct: 'ACERTOU!',
