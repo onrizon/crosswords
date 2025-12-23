@@ -4,6 +4,14 @@ import React, { useMemo } from 'react';
 import { GRID_COLS, GRID_ROWS } from '../constants';
 import { CellData, WordData } from '../types';
 
+import { Asap_Condensed } from 'next/font/google';
+
+const asapCondensed = Asap_Condensed({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-asap-condensed',
+});
+
 interface GridProps {
   words: WordData[];
 }
@@ -85,7 +93,10 @@ const Grid: React.FC<GridProps> = ({ words }) => {
             );
 
             return (
-              <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
+              <div
+                key={`${rIndex}-${cIndex}`}
+                className={`${styles.cell} ${asapCondensed.className}`}
+              >
                 {cell.isRevealed ? (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}

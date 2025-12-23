@@ -15,10 +15,11 @@
 }
 
 .cellEmpty {
-  width: 3rem;
-  height: 3rem;
+  background-color: rgba(179, 49, 255, 0.2);
+  border: 1px solid rgba(212, 139, 255, 0.2);
   border-radius: 0.375rem;
-  background-color: rgba(255, 255, 255, 0.02);
+  height: 3rem;
+  width: 3rem;
 }
 
 .cell {
@@ -28,52 +29,66 @@
 }
 
 .cellRevealed {
-  position: absolute;
-  inset: 0;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  border: 1px solid #f75cff;
   border-radius: 0.5rem;
-  color: white;
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+  display: flex;
+  justify-content: center;
+  inset: 0;
+  position: absolute;
   z-index: 10;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cellRevealed:before {
+  background-color: #ffffff;
+  border-radius: 50%;
+  content: '';
+  display: block;
+  height: 5px;
+  left: 1px;
+  position: absolute;
+  top: 2px;
+  transform: rotate(-30deg);
+  width: 10px;
 }
 
 .cellRevealedWord {
-  background: linear-gradient(
-    to bottom right,
-    rgb(139, 92, 246),
-    rgb(147, 51, 234),
-    rgb(217, 70, 239)
-  );
-}
-
-.cellRevealedHint {
-  background: linear-gradient(
-    to bottom right,
-    rgb(245, 158, 11),
-    rgb(249, 115, 22),
-    rgb(239, 68, 68)
-  );
+  background: linear-gradient(to bottom, #e72eed 48%, #c400c9);
 }
 
 .cellChar {
-  font-size: 1.875rem;
-  font-weight: 900;
-  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07))
-    drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+  color: #ffffff;
+  font-size: 40px;
+  text-shadow: rgb(139, 19, 145) 3px 0px 0px,
+    rgb(139, 19, 145) 2.83487px 0.981584px 0px,
+    rgb(139, 19, 145) 2.35766px 1.85511px 0px,
+    rgb(139, 19, 145) 1.62091px 2.52441px 0px,
+    rgb(139, 19, 145) 0.705713px 2.91581px 0px,
+    rgb(139, 19, 145) -0.287171px 2.98622px 0px,
+    rgb(139, 19, 145) -1.24844px 2.72789px 0px,
+    rgb(139, 19, 145) -2.07227px 2.16926px 0px,
+    rgb(139, 19, 145) -2.66798px 1.37182px 0px,
+    rgb(139, 19, 145) -2.96998px 0.42336px 0px,
+    rgb(139, 19, 145) -2.94502px -0.571704px 0px,
+    rgb(139, 19, 145) -2.59586px -1.50383px 0px,
+    rgb(139, 19, 145) -1.96093px -2.27041px 0px,
+    rgb(139, 19, 145) -1.11013px -2.78704px 0px,
+    rgb(139, 19, 145) -0.137119px -2.99686px 0px,
+    rgb(139, 19, 145) 0.850987px -2.87677px 0px,
+    rgb(139, 19, 145) 1.74541px -2.43999px 0px,
+    rgb(139, 19, 145) 2.44769px -1.73459px 0px,
+    rgb(139, 19, 145) 2.88051px -0.838247px 0px;
 }
 
 .cellHidden {
-  position: absolute;
-  inset: 0;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background-color: rgba(179, 49, 255, 0.4);
+  border: 1px solid rgba(212, 139, 255, 0.4);
   border-radius: 0.5rem;
-  background-color: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(51, 65, 85, 0.5);
+  display: flex;
+  justify-content: center;
+  inset: 0;
+  position: absolute;
   transition: background-color 0.2s, border-color 0.2s;
 }
 
