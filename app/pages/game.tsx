@@ -449,6 +449,8 @@ const Game: React.FC = () => {
           {/* LEFT: Game Area (Flexible) */}
           <div className={styles.gameArea}>
             <div className={styles.gridContainer}>
+              <div className={styles.gridLightLeft}></div>
+              <div className={styles.gridLightRight}></div>
               {/* Loading Overlay */}
               {isLoading && (
                 <div className={styles.loadingOverlay}>

@@ -176,28 +176,47 @@
   gap: 1.5rem;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .gridContainer {
-  flex: 1;
+  background: rgba(25, 11, 94, 0.5);
+  border: 2px solid #7976ff;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
+  height: 776px;
   justify-content: center;
-  overflow: hidden;
+  margin: 5px 26px;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
-  background-color: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.gridLightLeft {
+  background: url('/images/gridLightLeft.svg') no-repeat center center;
+  background-size: contain;
+  height: 800px;
+  left: -28px;
+  position: absolute;
+  top: -13px;
+  width: 130px;
+  z-index: 10;
+}
+
+.gridLightRight {
+  background: url('/images/gridLightRight.svg') no-repeat center center;
+  background-size: contain;
+  height: 800px;
+  position: absolute;
+  right: -28px;
+  top: -13px;
+  width: 130px;
+  z-index: 10;
 }
 
 /* Loading Overlay */
 .loadingOverlay {
   position: absolute;
   inset: 0;
-  z-index: 50;
+  z-index: 9;
   background-color: rgba(2, 6, 23, 0.8);
   backdrop-filter: blur(12px);
   display: flex;
@@ -301,22 +320,22 @@
 
 /* Grid Scroll Container */
 .gridScrollContainer {
-  position: absolute;
-  inset: 0;
-  overflow: auto;
-  display: flex;
   align-items: center;
+  display: flex;
+  inset: 0;
   justify-content: center;
-  padding: 1.5rem;
+  overflow: hidden;
+  padding: 25px;
+  position: absolute;
 }
 
 /* Right Sidebar */
 .sidebar {
   display: flex;
-  width: 400px;
+  width: 404px;
   flex-shrink: 0;
   flex-direction: column;
-  gap: 40px;
+  gap: 42px;
   height: 100%;
 }
 

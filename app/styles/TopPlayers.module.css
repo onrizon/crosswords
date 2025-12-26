@@ -1,23 +1,21 @@
 .container {
+  align-items: center;
   background: #190b5e;
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
-  flex: 1;
   height: 511px;
-  padding: 5px;
+  justify-content: center;
   position: relative;
 }
 
-.borderContainer {
-  border: 1px solid #fbb3ff;
-  border-radius: 12px;
-  box-shadow: 0 0 0 1px #e72eed, inset 0 0 0 1px #e72eed, 0 0 0 2px #c800d8,
-    inset 0 0 0 2px #c800d8, 0 0 0 3px #850093, inset 0 0 0 3px #850093;
+.containerEdge {
+  background: url('/images/rankingEdge.svg') no-repeat center center;
+  background-size: contain;
   display: flex;
-  flex: 1;
-  margin: 3px;
-  padding: 8px;
+  height: 501px;
+  padding: 16px;
+  width: 392px;
 }
 
 .header {

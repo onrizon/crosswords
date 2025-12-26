@@ -21,7 +21,7 @@ export const CameraPlaceholder = ({
 
   return (
     <div className={`${styles.container} ${nunitoSans.className}`}>
-      <div className={styles.borderContainer}>
+      <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />
           <h3 className={styles.title}>

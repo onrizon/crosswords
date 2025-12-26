@@ -23,14 +23,6 @@ export interface CellData {
   delay?: number; // Animation delay in seconds
 }
 
-export interface ChatMessage {
-  id: string;
-  username: string;
-  message: string;
-  color?: string;
-  isCorrectGuess?: boolean;
-}
-
 export interface GameState {
   status: 'connecting' | 'connected' | 'error';
   words: WordData[];
