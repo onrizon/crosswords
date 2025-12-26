@@ -1,26 +1,43 @@
 .container {
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  bottom: 73px;
+  display: flex;
+  gap: 17px;
+  height: 64px;
+  justify-content: center;
+  position: absolute;
+  right: 218px;
+  width: 243;
 }
 
 .button {
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  transition: all 0.2s;
-  color: rgb(148, 163, 184);
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  align-items: center;
+  background-color: #e72eed;
+  border: 2px solid #f75cff;
+  border-radius: 50%;
+  box-shadow: 0 2px 0 #a714af, 0 4px 0 #d400e5;
+  color: #fff;
+  display: flex;
+  height: 43px;
+  justify-content: center;
+  position: relative;
+  width: 43px;
+}
+
+.button span {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  display: block;
 }
 
 .button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  background-color: #fa56ff;
 }
 
 .button:active {
-  transform: scale(0.95);
+  top: 2px;
+  box-shadow: 0 2px 0 #a714af;
 }
 
 .button:disabled {
@@ -28,25 +45,47 @@
   cursor: not-allowed;
 }
 
-.button:disabled:hover {
-  background: transparent;
-  color: rgb(148, 163, 184);
+.btnPlay {
 }
 
-.buttonPausedDisabled:disabled {
-  opacity: 0.3;
+.btnPause span {
+  background-image: url('/images/icoPause.svg');
+  height: 25px;
+  width: 22px;
+}
+.btnRefresh span {
+  background-image: url('/images/icoRefresh.svg');
+  height: 30px;
+  width: 34px;
+}
+.btnSettings span {
+  background-image: url('/images/icoSettings.svg');
+  height: 28px;
+  width: 28px;
+}
+.btnInfo span {
+  background-image: url('/images/icoInfo.svg');
+  height: 32px;
+  width: 10px;
 }
 
-.loadingIcon {
-  animation: spin 1s linear infinite;
-  color: rgb(192, 132, 252);
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.label {
+  bottom: -43px;
+  color: #fff;
+  display: block;
+  font-size: 24px;
+  height: 38px;
+  left: 20px;
+  line-height: 32px;
+  padding-left: 50px;
+  position: absolute;
+  text-align: center;
+  text-shadow: rgb(139, 19, 145) 1px 0px 0px,
+    rgb(139, 19, 145) 0.540302px 0.841471px 0px,
+    rgb(139, 19, 145) -0.416147px 0.909297px 0px,
+    rgb(139, 19, 145) -0.989992px 0.14112px 0px,
+    rgb(139, 19, 145) -0.653644px -0.756802px 0px,
+    rgb(139, 19, 145) 0.283662px -0.958924px 0px,
+    rgb(139, 19, 145) 0.96017px -0.279415px 0px;
+  width: 208px;
 }

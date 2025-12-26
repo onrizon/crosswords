@@ -1,5 +1,11 @@
 import styles from '@/styles/Menu.module.css';
-import { Info, Loader2, Pause, Play, RefreshCw, Settings } from 'lucide-react';
+import { Nunito_Sans } from 'next/font/google';
+
+const nunitoSans = Nunito_Sans({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-nunito-sans',
+});
 
 export const Menu = ({
   isPaused,
@@ -25,41 +31,39 @@ export const Menu = ({
       <button
         onClick={handlePause}
         disabled={isSettingsOpen || isInfoOpen}
-        className={`${styles.button} ${
-          isSettingsOpen || isInfoOpen ? styles.buttonPausedDisabled : ''
-        }`}
+        className={`${styles.button}
+        ${isSettingsOpen || isInfoOpen ? styles.buttonPausedDisabled : ''}
+        ${isPaused ? styles.btnPlay : styles.btnPause}
+        `}
         title={isPaused ? 'Retomar' : 'Pausar'}
       >
-        {isPaused ? <Play size={24} /> : <Pause size={24} />}
+        <span />
       </button>
       <button
         onClick={handleNextLevel}
         disabled={isLoading || isSettingsOpen || isInfoOpen}
-        className={styles.button}
+        className={`${styles.button} ${styles.btnRefresh}`}
         title='Gerar Novo Nível'
       >
-        {isLoading ? (
-          <Loader2 size={24} className={styles.loadingIcon} />
-        ) : (
-          <RefreshCw size={24} />
-        )}
+        <span />
       </button>
       <button
         onClick={handleOpenSettings}
         disabled={isLoading || isInfoOpen}
-        className={styles.button}
+        className={`${styles.button} ${styles.btnSettings}`}
         title='Configurações'
       >
-        <Settings size={24} />
+        <span />
       </button>
       <button
         onClick={handleOpenInfo}
         disabled={isLoading || isSettingsOpen}
-        className={styles.button}
+        className={`${styles.button} ${styles.btnInfo}`}
         title='Ajuda / Comandos'
       >
-        <Info size={24} />
+        <span />
       </button>
+      <p className={`${styles.label} ${nunitoSans.className}`}>live</p>
     </div>
   );
 };

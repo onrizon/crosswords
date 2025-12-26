@@ -16,25 +16,25 @@ export const TopPlayers = ({
   userScores: UserScores;
   t: { topPlayers: string; beFirst: string };
 }) => {
-  const mockUserScores: Record<string, number> = {
-    alice: 3000,
-    bob: 2000,
-    charlie: 1000,
-    david: 500,
-    eve: 200,
-    frank: 100,
-    grace: 50,
-    hank: 25,
-    ivy: 10,
-    jack: 5,
-    jack1: 5,
-    jack2: 5,
-    jack3: 5,
-    jack4: 5,
-    jack5: 5,
-  };
+  // const mockUserScores: Record<string, number> = {
+  //   alice: 3000,
+  //   bob: 2000,
+  //   charlie: 1000,
+  //   david: 500,
+  //   eve: 200,
+  //   frank: 100,
+  //   grace: 50,
+  //   hank: 25,
+  //   ivy: 10,
+  //   jack: 5,
+  //   jack1: 5,
+  //   jack2: 5,
+  //   jack3: 5,
+  //   jack4: 5,
+  //   jack5: 5,
+  // };
 
-  const topScorers = Object.entries(mockUserScores).sort(
+  const topScorers = Object.entries(userScores).sort(
     ([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number)
   );
 

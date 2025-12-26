@@ -1,11 +1,28 @@
 .container {
+  align-items: flex-start;
   display: flex;
+  flex-direction: column;
+  height: 122px;
+  justify-content: flex-start;
+  margin: 22px 0 0 5px;
+  width: 310px;
+}
+
+.top {
   align-items: center;
-  gap: 1rem;
+  display: flex;
+  gap: 18px;
+  justify-content: flex-start;
+  margin: 14px 0 0 28px;
+  width: 100%;
 }
 
 .icon {
-  color: rgb(34, 211, 238);
+  background: url('/images/icoClock.svg') no-repeat center center;
+  background-size: contain;
+  display: block;
+  height: 32px;
+  width: 32px;
 }
 
 .iconWarning {
@@ -13,31 +30,77 @@
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+.timeBar {
+  background: #004b96;
+  border: 1px solid #73fffb;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px #2a1c7c;
+  display: block;
+  height: 30px;
+  transform: skew(-15deg);
+  width: 212px;
+}
+
+.timeBar span {
+  background: #72f2ff;
+  border: 2px solid #cafffd;
+  border-radius: 1.5px;
+  display: block;
+  height: 100%;
+  transition: width 1s linear;
+}
+
 .content {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  width: 5rem;
+  justify-content: center;
+  padding-top: 10px;
+  width: 180px;
+}
+
+.label {
+  color: #72f2ff;
+  font-size: 18px;
+  letter-spacing: 2px;
+  line-height: 0.5;
+  text-shadow: rgb(21, 11, 96) 2px 0px 0px,
+    rgb(21, 11, 96) 1.75517px 0.958851px 0px,
+    rgb(21, 11, 96) 1.0806px 1.68294px 0px,
+    rgb(21, 11, 96) 0.141474px 1.99499px 0px,
+    rgb(21, 11, 96) -0.832294px 1.81859px 0px,
+    rgb(21, 11, 96) -1.60229px 1.19694px 0px,
+    rgb(21, 11, 96) -1.97998px 0.28224px 0px,
+    rgb(21, 11, 96) -1.87291px -0.701566px 0px,
+    rgb(21, 11, 96) -1.30729px -1.5136px 0px,
+    rgb(21, 11, 96) -0.421592px -1.95506px 0px,
+    rgb(21, 11, 96) 0.567324px -1.91785px 0px,
+    rgb(21, 11, 96) 1.41734px -1.41108px 0px,
+    rgb(21, 11, 96) 1.92034px -0.558831px 0px;
 }
 
 .value {
-  font-size: 2.25rem;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
-    monospace;
-  font-weight: 700;
+  color: #72f2ff;
+  font-size: 50px;
+  letter-spacing: 2px;
   line-height: 1;
-  color: white;
+  text-shadow: rgb(21, 11, 96) 2px 0px 0px,
+    rgb(21, 11, 96) 1.75517px 0.958851px 0px,
+    rgb(21, 11, 96) 1.0806px 1.68294px 0px,
+    rgb(21, 11, 96) 0.141474px 1.99499px 0px,
+    rgb(21, 11, 96) -0.832294px 1.81859px 0px,
+    rgb(21, 11, 96) -1.60229px 1.19694px 0px,
+    rgb(21, 11, 96) -1.97998px 0.28224px 0px,
+    rgb(21, 11, 96) -1.87291px -0.701566px 0px,
+    rgb(21, 11, 96) -1.30729px -1.5136px 0px,
+    rgb(21, 11, 96) -0.421592px -1.95506px 0px,
+    rgb(21, 11, 96) 0.567324px -1.91785px 0px,
+    rgb(21, 11, 96) 1.41734px -1.41108px 0px,
+    rgb(21, 11, 96) 1.92034px -0.558831px 0px;
 }
 
 .valueWarning {
   color: rgb(248, 113, 113);
-}
-
-.label {
-  font-size: 0.625rem;
-  color: rgb(100, 116, 139);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.1em;
 }
 
 @keyframes pulse {

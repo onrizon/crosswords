@@ -26,17 +26,12 @@ export const ThemeText = ({
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.gradientOverlay} />
+    <div className={`${styles.container} ${asapCondensed.className}`}>
       <span className={styles.label}>
-        {language === 'pt' ? 'TEMA ATUAL' : 'CURRENT THEME'}
+        {language === 'pt' ? 'TEMA' : 'THEME'}
       </span>
       <div className={styles.titleContainer}>
-        <h2
-          className={`${styles.title} ${getThemeStyle(currentTheme)} ${
-            asapCondensed.className
-          }`}
-        >
+        <h2 className={`${styles.title} ${getThemeStyle(currentTheme)}`}>
           {isLoading ? (
             <span className={styles.loading}>{t}</span>
           ) : (
@@ -44,6 +39,7 @@ export const ThemeText = ({
           )}
         </h2>
       </div>
+      <span className={styles.find}>ENCONTRE AS PALAVRAS</span>
     </div>
   );
 };

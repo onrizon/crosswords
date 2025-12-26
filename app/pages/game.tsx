@@ -9,7 +9,7 @@ import { TopPlayers } from '@/components/TopPlayers';
 import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
-import { LayoutGrid, Loader2, Radio, Sparkles } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -369,52 +369,26 @@ const Game: React.FC = () => {
         className={styles.innerContainer}
         style={{
           width: `calc(${BASE_WIDTH}px - 30px)`,
-          height: `${BASE_HEIGHT}px`,
+          height: `${BASE_HEIGHT + 26}px`,
           transform: `scale(${scale})`,
           flexShrink: 0, // Prevent flex compression
         }}
       >
         {/* HEADER: 4 Fixed Sections */}
         <header className={styles.header}>
-          {/* SECTION 1: LOGO (Fixed Width ~350px) */}
           <div className={styles.headerLogoSection}>
-            <div className={styles.logoIconContainer}>
-              <LayoutGrid size={32} className={styles.logoIcon} />
-            </div>
-            <div className={styles.logoTextContainer}>
-              <h1 className={styles.logoTitle}>StreamCross</h1>
-              <div className={styles.statusContainer}>
-                <Radio
-                  size={14}
-                  className={
-                    status === 'connected'
-                      ? styles.statusIconConnected
-                      : styles.statusIconDisconnected
-                  }
-                />
-                <span
-                  className={`${styles.statusText} ${
-                    status === 'connected'
-                      ? styles.statusTextConnected
-                      : styles.statusTextDisconnected
-                  }`}
-                >
-                  {status === 'connected' ? t.live : t.offline}
-                </span>
-              </div>
-            </div>
+            <span />
           </div>
 
-          {/* SECTION 2: THEME (Flexible/Fixed behavior) */}
-          <ThemeText
-            currentTheme={currentTheme}
-            isLoading={isLoading}
-            language={language}
-            t={t.generating}
-          />
+          <div className={styles.headerContentSection}>
+            {/* SECTION 2: THEME (Flexible/Fixed behavior) */}
+            <ThemeText
+              currentTheme={currentTheme}
+              isLoading={isLoading}
+              language={language}
+              t={t.generating}
+            />
 
-          {/* SECTION 3: TIME & OPTIONS (Fixed Width ~500px) */}
-          <div className={styles.headerTimerSection}>
             {/* Timer */}
             <Timer
               timeLeft={timeLeft}
@@ -423,9 +397,6 @@ const Game: React.FC = () => {
               isInfoOpen={isInfoOpen}
               t={t.time}
             />
-
-            {/* Divider */}
-            <div className={styles.headerDivider} />
 
             {/* Buttons Grid */}
             <Menu
@@ -438,10 +409,10 @@ const Game: React.FC = () => {
               handlePause={handlePause}
               handleNextLevel={handleNextLevel}
             />
-          </div>
 
-          {/* SECTION 4: PROGRESS (Fixed Width ~240px) */}
-          <Progress words={words} t={t.progress} />
+            {/* SECTION 4: PROGRESS (Fixed Width ~240px) */}
+            <Progress words={words} t={t.progress} />
+          </div>
         </header>
 
         {/* Main Content Layout - Forced Horizontal (Desktop) */}
