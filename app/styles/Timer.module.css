@@ -25,11 +25,6 @@
   width: 32px;
 }
 
-.iconWarning {
-  color: rgb(239, 68, 68);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
 .timeBar {
   background: #004b96;
   border: 1px solid #73fffb;
@@ -99,16 +94,21 @@
     rgb(21, 11, 96) 1.92034px -0.558831px 0px;
 }
 
-.valueWarning {
-  color: rgb(248, 113, 113);
+.warning .icon {
+  background: url('/images/icoClockRed.svg') no-repeat center center;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+.warning .timeBar {
+  background: #5c1355;
+  border: 1px solid #fd8ccc;
+}
+
+.warning .timeBar span {
+  background: #ff418d;
+  border: 2px solid #ff9ec5;
+}
+
+.warning .label,
+.warning .value {
+  color: #ff418d;
 }

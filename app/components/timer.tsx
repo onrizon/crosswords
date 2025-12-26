@@ -30,7 +30,11 @@ export const Timer = ({
     timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen;
 
   return (
-    <div className={`${styles.container} ${asapCondensed.className}`}>
+    <div
+      className={`${styles.container} ${isWarning ? styles.warning : ''} ${
+        asapCondensed.className
+      }`}
+    >
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>
@@ -39,11 +43,7 @@ export const Timer = ({
       </div>
       <div className={styles.content}>
         <span className={styles.label}>{t}</span>
-        <span
-          className={`${styles.value} ${isWarning ? styles.valueWarning : ''}`}
-        >
-          {formatTime(timeLeft)}
-        </span>
+        <span className={styles.value}>{formatTime(timeLeft)}</span>
       </div>
     </div>
   );
