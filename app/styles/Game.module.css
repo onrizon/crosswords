@@ -201,60 +201,6 @@
   right: -52px;
 }
 
-/* Loading Overlay */
-.loadingOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  background-color: rgba(2, 6, 23, 0.8);
-  backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.loadingGlow {
-  position: relative;
-}
-
-.loadingGlow::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-color: rgb(168, 85, 247);
-  filter: blur(24px);
-  opacity: 0.2;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  border-radius: 50%;
-}
-
-.loadingSpinnerIcon {
-  color: rgb(168, 85, 247);
-  animation: spin 1s linear infinite;
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 10;
-}
-
-.loadingTitle {
-  font-size: 1.875rem;
-  font-weight: 900;
-  color: white;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.025em;
-}
-
-.loadingSubtitle {
-  color: rgba(216, 180, 254, 0.8);
-  font-size: 1rem;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas,
-    monospace;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 /* Grid Scroll Container */
 .gridScrollContainer {
   align-items: center;

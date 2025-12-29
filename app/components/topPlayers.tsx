@@ -18,10 +18,10 @@ export const TopPlayers = ({
   t: { topPlayers: string; beFirst: string };
 }) => {
   // const mockUserScores: Record<string, number> = {
-  //   alice: 3000,
-  //   bob: 2000,
-  //   charlie: 1000,
-  //   david: 500,
+  //   aliceasdasdasdasdasdasdasd: 999999,
+  //   aliceasdasdasdasdasdasdasb: 999999,
+  //   aliceasdasdasdasdasdasdasw: 999999,
+  //   aliceasdasdasdasdasdasdasq: 999999,
   //   eve: 200,
   //   frank: 100,
   //   grace: 50,
@@ -68,8 +68,8 @@ export const TopPlayers = ({
                   >
                     {user}
                   </span>
+                  <span className={styles.playerScore}>{score}</span>
                 </div>
-                <span className={styles.playerScore}>{score}</span>
               </div>
             ))
           )}

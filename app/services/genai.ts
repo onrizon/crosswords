@@ -217,7 +217,7 @@ export const generateTopicAndWords = async (
         TASK:
         1. Create a BROAD, COMMON KNOWLEDGE theme based on the inspiration: "${inspiration}".
            - The theme should be simple and recognizable (e.g., if inspiration is "Kitchen", theme is "Objetos de Cozinha").
-        2. Generate exactly 45 common words related to that theme in the language: ${targetLanguage}.
+        2. Generate exactly 20 common words related to that theme in the language: ${targetLanguage}.
         
         RULES:
         - Words must be in ${targetLanguage}.

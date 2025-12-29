@@ -1,7 +1,6 @@
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import tmi from 'tmi.js';
-import { ChatMessage } from '../types';
 
 interface UseTwitchProps {
   onMessage: (user: string, message: string) => void;
@@ -11,7 +10,6 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
   const [status, setStatus] = useState<'connecting' | 'connected' | 'error'>(
     'connecting'
   );
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const clientRef = useRef<tmi.Client | null>(null);
   const { data: session } = useSession();
 
@@ -21,18 +19,6 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
-
-  const addMessage = useCallback((msg: ChatMessage) => {
-    setMessages((prev) => {
-      // Prevent duplicates based on unique message ID from Twitch
-      if (prev.some((m) => m.id === msg.id)) {
-        return prev;
-      }
-      const newHistory = [...prev, msg];
-      if (newHistory.length > 50) newHistory.shift(); // Keep last 50 messages
-      return newHistory;
-    });
-  }, []);
 
   useEffect(() => {
     const channelToConnect = session?.user?.twitchLogin || '';
@@ -51,21 +37,11 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
       client.on('message', (channel, tags, message, self) => {
         if (self) return;
         const username = tags['display-name'] || tags.username || 'Anonymous';
-        const color = tags.color || '#a855f7'; // Default purple
-        const id = tags.id || Math.random().toString(36);
 
         // Invoke the latest callback
         if (onMessageRef.current) {
           onMessageRef.current(username, message);
         }
-
-        addMessage({
-          id,
-          username,
-          message,
-          color,
-          isCorrectGuess: false, // Updated by parent if needed, but here we just log raw
-        });
       });
 
       const connect = async () => {
@@ -90,7 +66,7 @@ export const useTwitch = ({ onMessage }: UseTwitchProps) => {
         }
       };
     }
-  }, [addMessage, session?.user?.twitchLogin]); // Depend only on stable addMessage
+  }, [session?.user?.twitchLogin]); // Depend only on stable addMessage
 
-  return { status, messages, addMessage };
+  return { status };
 };

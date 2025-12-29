@@ -1,4 +1,5 @@
 import { CameraPlaceholder } from '@/components/CameraPlaceholder';
+import { Loading } from '@/components/Loading';
 import { Menu } from '@/components/Menu';
 import { InfoModal } from '@/components/modal/info';
 import { SettingsModal } from '@/components/modal/settings';
@@ -10,7 +11,6 @@ import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
 import classNames from 'classnames';
 import { AnimatePresence } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -428,16 +428,9 @@ const Game: React.FC = () => {
                   [styles.gridLightRightActive]: hit,
                 })}
               ></div>
+
               {/* Loading Overlay */}
-              {isLoading && (
-                <div className={styles.loadingOverlay}>
-                  <div className={styles.loadingGlow}>
-                    <Loader2 size={80} className={styles.loadingSpinnerIcon} />
-                  </div>
-                  <h2 className={styles.loadingTitle}>{t.loadingTitle}</h2>
-                  <p className={styles.loadingSubtitle}>{t.loadingSubtitle}</p>
-                </div>
-              )}
+              {isLoading && <Loading t={t.loadingTitle} />}
 
               <div
                 className={classNames(

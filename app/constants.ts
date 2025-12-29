@@ -104,7 +104,7 @@ export const UI_TEXT: Record<
     guessed: 'acertou',
     levelComplete: 'NÍVEL COMPLETO! Gerando próximo...',
     newTheme: 'Novo tema',
-    loadingTitle: 'CRIANDO CRUZADINHA...',
+    loadingTitle: 'CONECTANDO AS PALAVRAS',
     loadingSubtitle: 'A IA ESTÁ CONECTANDO AS PALAVRAS',
     beFirst: 'Seja o primeiro a pontuar!',
     streamOverlay: 'STREAM OVERLAY',
