@@ -1,5 +1,6 @@
 import styles from '@/styles/Progress.module.css';
 import { WordData } from '@/types';
+import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
 
 const asapCondensed = Asap_Condensed({
@@ -15,7 +16,7 @@ export const Progress = ({ words, t }: { words: WordData[]; t: string }) => {
     totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
 
   return (
-    <div className={`${styles.container} ${asapCondensed.className}`}>
+    <div className={classNames(styles.container, asapCondensed.className)}>
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>

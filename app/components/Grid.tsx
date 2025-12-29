@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { GRID_COLS, GRID_ROWS } from '../constants';
 import { CellData, WordData } from '../types';
 
+import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
 
 const asapCondensed = Asap_Condensed({
@@ -95,7 +96,7 @@ const Grid: React.FC<GridProps> = ({ words }) => {
             return (
               <div
                 key={`${rIndex}-${cIndex}`}
-                className={`${styles.cell} ${asapCondensed.className}`}
+                className={classNames(styles.cell, asapCondensed.className)}
               >
                 {cell.isRevealed ? (
                   <motion.div
@@ -107,11 +108,10 @@ const Grid: React.FC<GridProps> = ({ words }) => {
                       stiffness: 400,
                       damping: 25,
                     }}
-                    className={`${styles.cellRevealed} ${
-                      isHintOnly
-                        ? styles.cellRevealedHint
-                        : styles.cellRevealedWord
-                    }`}
+                    className={classNames(styles.cellRevealed, {
+                      [styles.cellRevealedHint]: isHintOnly,
+                      [styles.cellRevealedWord]: !isHintOnly,
+                    })}
                   >
                     <span className={styles.cellChar}>{cell.char}</span>
                   </motion.div>

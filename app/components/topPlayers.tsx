@@ -1,5 +1,6 @@
 import styles from '@/styles/TopPlayers.module.css';
 import { UserScores } from '@/types';
+import classNames from 'classnames';
 
 import { Nunito_Sans } from 'next/font/google';
 
@@ -46,13 +47,13 @@ export const TopPlayers = ({
   };
 
   return (
-    <div className={`${styles.container} ${nunitoSans.className}`}>
+    <div className={classNames(styles.container, nunitoSans.className)}>
       <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />
           <h3 className={styles.title}>{t.topPlayers}</h3>
         </div>
-        <div className={`${styles.list} custom-scrollbar`}>
+        <div className={classNames(styles.list, 'custom-scrollbar')}>
           {topScorers.length === 0 ? (
             <div className={styles.empty}>{t.beFirst}</div>
           ) : (
@@ -61,9 +62,9 @@ export const TopPlayers = ({
                 <div className={styles.playerInfo}>
                   <div className={getRankClass(index)}>{index + 1}</div>
                   <span
-                    className={`${styles.playerName} ${
-                      index === 0 ? styles.playerNameGold : ''
-                    }`}
+                    className={classNames(styles.playerName, {
+                      [styles.playerNameGold]: index === 0,
+                    })}
                   >
                     {user}
                   </span>

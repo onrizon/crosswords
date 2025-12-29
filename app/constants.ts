@@ -94,7 +94,7 @@ export const UI_TEXT: Record<
   pt: {
     live: 'AO VIVO',
     offline: 'OFFLINE',
-    generating: 'GERANDO...',
+    generating: 'CRIANDO A CRUZADINHA',
     time: 'TEMPO',
     progress: 'PROGRESSO',
     topPlayers: 'Ranking',

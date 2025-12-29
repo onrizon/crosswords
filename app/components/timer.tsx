@@ -1,4 +1,5 @@
 import styles from '@/styles/Timer.module.css';
+import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
 
 const asapCondensed = Asap_Condensed({
@@ -31,9 +32,9 @@ export const Timer = ({
 
   return (
     <div
-      className={`${styles.container} ${isWarning ? styles.warning : ''} ${
-        asapCondensed.className
-      }`}
+      className={classNames(styles.container, asapCondensed.className, {
+        [styles.warning]: isWarning,
+      })}
     >
       <div className={styles.top}>
         <div className={styles.icon}></div>

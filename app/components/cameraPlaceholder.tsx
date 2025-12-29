@@ -1,4 +1,5 @@
 import styles from '@/styles/CameraPlaceholder.module.css';
+import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 import { Nunito_Sans } from 'next/font/google';
 
@@ -20,7 +21,7 @@ export const CameraPlaceholder = ({
   const { data: session } = useSession();
 
   return (
-    <div className={`${styles.container} ${nunitoSans.className}`}>
+    <div className={classNames(styles.container, nunitoSans.className)}>
       <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />

@@ -45,7 +45,10 @@
   cursor: not-allowed;
 }
 
-.btnPlay {
+.btnPlay span {
+  background-image: url('/images/icoPlay.svg');
+  height: 27px;
+  width: 22px;
 }
 
 .btnPause span {

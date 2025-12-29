@@ -1,4 +1,5 @@
 import styles from '@/styles/Menu.module.css';
+import classNames from 'classnames';
 import { Nunito_Sans } from 'next/font/google';
 
 const nunitoSans = Nunito_Sans({
@@ -31,10 +32,11 @@ export const Menu = ({
       <button
         onClick={handlePause}
         disabled={isSettingsOpen || isInfoOpen}
-        className={`${styles.button}
-        ${isSettingsOpen || isInfoOpen ? styles.buttonPausedDisabled : ''}
-        ${isPaused ? styles.btnPlay : styles.btnPause}
-        `}
+        className={classNames(styles.button, {
+          [styles.buttonPausedDisabled]: isSettingsOpen || isInfoOpen,
+          [styles.btnPlay]: isPaused,
+          [styles.btnPause]: !isPaused,
+        })}
         title={isPaused ? 'Retomar' : 'Pausar'}
       >
         <span />
@@ -42,7 +44,7 @@ export const Menu = ({
       <button
         onClick={handleNextLevel}
         disabled={isLoading || isSettingsOpen || isInfoOpen}
-        className={`${styles.button} ${styles.btnRefresh}`}
+        className={classNames(styles.button, styles.btnRefresh)}
         title='Gerar Novo Nível'
       >
         <span />
@@ -50,7 +52,7 @@ export const Menu = ({
       <button
         onClick={handleOpenSettings}
         disabled={isLoading || isInfoOpen}
-        className={`${styles.button} ${styles.btnSettings}`}
+        className={classNames(styles.button, styles.btnSettings)}
         title='Configurações'
       >
         <span />
@@ -58,12 +60,12 @@ export const Menu = ({
       <button
         onClick={handleOpenInfo}
         disabled={isLoading || isSettingsOpen}
-        className={`${styles.button} ${styles.btnInfo}`}
+        className={classNames(styles.button, styles.btnInfo)}
         title='Ajuda / Comandos'
       >
         <span />
       </button>
-      <p className={`${styles.label} ${nunitoSans.className}`}>live</p>
+      <p className={classNames(styles.label, nunitoSans.className)}>live</p>
     </div>
   );
 };

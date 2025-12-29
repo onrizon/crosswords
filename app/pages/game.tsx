@@ -8,8 +8,9 @@ import { Timer } from '@/components/Timer';
 import { TopPlayers } from '@/components/TopPlayers';
 import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, Sparkles } from 'lucide-react';
+import classNames from 'classnames';
+import { AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -62,10 +63,9 @@ const Game: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
-  const [generationError, setGenerationError] = useState<string | null>(null);
-  const [notification, setNotification] = useState<string | null>(null);
   const [userScores, setUserScores] = useState<UserScores>({});
   const { data: session, status: sessionStatus } = useSession();
+  const [hit, setYouHit] = useState(false);
   const router = useRouter();
 
   // Layout Scaling
@@ -113,7 +113,6 @@ const Game: React.FC = () => {
     async (targetLang?: SupportedLanguage, durationOverride?: number) => {
       setIsLoading(true);
       setIsPaused(false);
-      setGenerationError(null);
       const langToUse = targetLang || language;
       const durationToUse =
         durationOverride !== undefined ? durationOverride : customDuration;
@@ -132,11 +131,8 @@ const Game: React.FC = () => {
         setWords(validLayout);
         setCurrentTheme(data.theme);
         setTimeLeft(durationToUse); // Reset time to the configured duration
-        setNotification(`${UI_TEXT[langToUse].newTheme}: ${data.theme}!`);
-        setTimeout(() => setNotification(null), 3000);
       } catch (err) {
         console.error(err);
-        setGenerationError('Erro ao gerar nível. Tentando novamente...');
         setTimeout(() => loadNewLevel(langToUse, durationToUse), 2000);
       } finally {
         setIsLoading(false);
@@ -253,7 +249,6 @@ const Game: React.FC = () => {
         origin: { y: 0.6 },
         colors: ['#a855f7', '#ec4899', '#3b82f6', '#f59e0b'],
       });
-      setNotification(t.levelComplete);
       const timeout = setTimeout(() => {
         handleNextLevel();
       }, 3000);
@@ -299,8 +294,6 @@ const Game: React.FC = () => {
         }
         if (msgLower === '!reset') {
           setUserScores({});
-          setNotification('PONTUAÇÃO ZERADA PELO ADMIN!');
-          setTimeout(() => setNotification(null), 3000);
           handleNextLevel();
           return;
         }
@@ -339,7 +332,7 @@ const Game: React.FC = () => {
         });
 
         if (wordFound) {
-          setNotification(`${username} ${t.guessed} ${cleanMessage}!`);
+          setYouHit(true);
 
           setUserScores((prev) => ({
             ...prev,
@@ -348,7 +341,9 @@ const Game: React.FC = () => {
 
           playSuccessSound();
           triggerWebhook(username, cleanMessage);
-          setTimeout(() => setNotification(null), 3000);
+          setTimeout(() => {
+            setYouHit(false);
+          }, 3000);
         }
 
         return newWords;
@@ -357,7 +352,7 @@ const Game: React.FC = () => {
     [isLoading, t.guessed, handleNextLevel, currentTheme, webhookUrl]
   );
 
-  const { status } = useTwitch({ onMessage: handleTwitchMessage });
+  useTwitch({ onMessage: handleTwitchMessage });
 
   // --- Render Helpers ---
 
@@ -383,6 +378,9 @@ const Game: React.FC = () => {
           <div className={styles.headerContentSection}>
             {/* SECTION 2: THEME (Flexible/Fixed behavior) */}
             <ThemeText
+              className={classNames({
+                [styles.hitTheme]: hit,
+              })}
               currentTheme={currentTheme}
               isLoading={isLoading}
               language={language}
@@ -420,8 +418,16 @@ const Game: React.FC = () => {
           {/* LEFT: Game Area (Flexible) */}
           <div className={styles.gameArea}>
             <div className={styles.gridContainer}>
-              <div className={styles.gridLightLeft}></div>
-              <div className={styles.gridLightRight}></div>
+              <div
+                className={classNames(styles.gridLightLeft, {
+                  [styles.gridLightLeftActive]: hit,
+                })}
+              ></div>
+              <div
+                className={classNames(styles.gridLightRight, {
+                  [styles.gridLightRightActive]: hit,
+                })}
+              ></div>
               {/* Loading Overlay */}
               {isLoading && (
                 <div className={styles.loadingOverlay}>
@@ -433,30 +439,12 @@ const Game: React.FC = () => {
                 </div>
               )}
 
-              {/* Notification Overlay */}
-              <div className={styles.notificationContainer}>
-                <AnimatePresence>
-                  {(notification || generationError) && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -40, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -40, scale: 0.9 }}
-                      className={`${styles.notificationBox} ${
-                        generationError
-                          ? styles.notificationError
-                          : styles.notificationSuccess
-                      }`}
-                    >
-                      <Sparkles size={28} className={styles.notificationIcon} />
-                      <span className={styles.notificationText}>
-                        {generationError || notification}
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className={`${styles.gridScrollContainer} custom-scrollbar`}>
+              <div
+                className={classNames(
+                  styles.gridScrollContainer,
+                  'custom-scrollbar'
+                )}
+              >
                 <Grid words={words} />
               </div>
             </div>
