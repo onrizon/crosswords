@@ -15,6 +15,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.TWITCH_SECRET!,
     }),
   ],
+  secret: process.env.SECRET,
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {
