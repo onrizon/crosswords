@@ -1,7 +1,15 @@
-import styles from '@/styles/Settings.module.css';
+import styles from '@/styles/Modal.module.css';
 import { SupportedLanguage } from '@/types';
+import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { Save, Settings, X } from 'lucide-react';
+import { Asap_Condensed } from 'next/font/google';
+
+const asapCondensed = Asap_Condensed({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-asap-condensed',
+});
 
 export const SettingsModal = ({
   handleCloseSettingsWithoutSaving,
@@ -23,7 +31,7 @@ export const SettingsModal = ({
   }) => void;
 }) => {
   return (
-    <div className={styles.modalOverlay}>
+    <div className={classNames(styles.modalOverlay, asapCondensed.className)}>
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

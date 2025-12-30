@@ -1,0 +1,85 @@
+.switch {
+  display: block;
+  height: 55px;
+  position: relative;
+  width: 132px;
+}
+
+.switch input {
+  display: none;
+}
+
+.switch label {
+  align-items: center;
+  background-color: #7b61ff;
+  border: 2px solid #9f8cff;
+  border-radius: 26px;
+  box-shadow: 0 0 0 2px #111156, 0 0 0 4px #5941cd;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  height: 55px;
+  padding: 0 15px;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  width: 132px;
+}
+
+.switch label:before {
+  background: #e4e1ff;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  content: '';
+  display: block;
+  height: 48px;
+  left: -2px;
+  position: absolute;
+  top: -2px;
+  transition: left 0.3s ease-in-out;
+  width: 48px;
+}
+
+.switch span {
+  color: #111156;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-shadow: rgb(159, 140, 255) 2px 0px 0px,
+    rgb(159, 140, 255) 1.75517px 0.958851px 0px,
+    rgb(159, 140, 255) 1.0806px 1.68294px 0px,
+    rgb(159, 140, 255) 0.141474px 1.99499px 0px,
+    rgb(159, 140, 255) -0.832294px 1.81859px 0px,
+    rgb(159, 140, 255) -1.60229px 1.19694px 0px,
+    rgb(159, 140, 255) -1.97998px 0.28224px 0px,
+    rgb(159, 140, 255) -1.87291px -0.701566px 0px,
+    rgb(159, 140, 255) -1.30729px -1.5136px 0px,
+    rgb(159, 140, 255) -0.421592px -1.95506px 0px,
+    rgb(159, 140, 255) 0.567324px -1.91785px 0px,
+    rgb(159, 140, 255) 1.41734px -1.41108px 0px,
+    rgb(159, 140, 255) 1.92034px -0.558831px 0px;
+}
+
+.switch.checked label {
+  background-color: #00e7ff;
+  border-color: #97faff;
+  justify-content: flex-start;
+}
+
+.switch.checked label:before {
+  left: 74px;
+}
+
+.switch.checked span {
+  text-shadow: rgb(151, 250, 255) 2px 0px 0px,
+    rgb(151, 250, 255) 1.75517px 0.958851px 0px,
+    rgb(151, 250, 255) 1.0806px 1.68294px 0px,
+    rgb(151, 250, 255) 0.141474px 1.99499px 0px,
+    rgb(151, 250, 255) -0.832294px 1.81859px 0px,
+    rgb(151, 250, 255) -1.60229px 1.19694px 0px,
+    rgb(151, 250, 255) -1.97998px 0.28224px 0px,
+    rgb(151, 250, 255) -1.87291px -0.701566px 0px,
+    rgb(151, 250, 255) -1.30729px -1.5136px 0px,
+    rgb(151, 250, 255) -0.421592px -1.95506px 0px,
+    rgb(151, 250, 255) 0.567324px -1.91785px 0px,
+    rgb(151, 250, 255) 1.41734px -1.41108px 0px,
+    rgb(151, 250, 255) 1.92034px -0.558831px 0px;
+}

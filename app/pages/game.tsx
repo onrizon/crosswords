@@ -473,7 +473,7 @@ const Game: React.FC = () => {
 
         {/* INFO MODAL */}
         <AnimatePresence>
-          {isInfoOpen && <InfoModal handleCloseInfo={handleCloseInfo} t={t} />}
+          {isInfoOpen && <InfoModal handleCloseInfo={handleCloseInfo} />}
         </AnimatePresence>
       </div>
     </div>

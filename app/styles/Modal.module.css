@@ -1,0 +1,259 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+.modalContent {
+  align-items: center;
+  background: url('/images/bgModal.svg') no-repeat center center;
+  background-size: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 653px;
+  padding: 70px 70px 80px;
+  width: 918px;
+}
+
+.modalHeader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.modalTitle {
+  color: #fff;
+  font-size: 50px;
+  text-shadow: rgb(21, 11, 96) 4px 0px 0px,
+    rgb(21, 11, 96) 3.87565px 0.989616px 0px,
+    rgb(21, 11, 96) 3.51033px 1.9177px 0px,
+    rgb(21, 11, 96) 2.92676px 2.72656px 0px,
+    rgb(21, 11, 96) 2.16121px 3.36588px 0px,
+    rgb(21, 11, 96) 1.26129px 3.79594px 0px,
+    rgb(21, 11, 96) 0.282949px 3.98998px 0px,
+    rgb(21, 11, 96) -0.712984px 3.93594px 0px,
+    rgb(21, 11, 96) -1.66459px 3.63719px 0px,
+    rgb(21, 11, 96) -2.51269px 3.11229px 0px,
+    rgb(21, 11, 96) -3.20457px 2.39389px 0px,
+    rgb(21, 11, 96) -3.69721px 1.52664px 0px,
+    rgb(21, 11, 96) -3.95997px 0.56448px 0px,
+    rgb(21, 11, 96) -3.97652px -0.432781px 0px,
+    rgb(21, 11, 96) -3.74583px -1.40313px 0px,
+    rgb(21, 11, 96) -3.28224px -2.28625px 0px,
+    rgb(21, 11, 96) -2.61457px -3.02721px 0px,
+    rgb(21, 11, 96) -1.78435px -3.57996px 0px,
+    rgb(21, 11, 96) -0.843183px -3.91012px 0px,
+    rgb(21, 11, 96) 0.150409px -3.99717px 0px,
+    rgb(21, 11, 96) 1.13465px -3.8357px 0px,
+    rgb(21, 11, 96) 2.04834px -3.43574px 0px,
+    rgb(21, 11, 96) 2.83468px -2.82216px 0px,
+    rgb(21, 11, 96) 3.44477px -2.03312px 0px,
+    rgb(21, 11, 96) 3.84068px -1.11766px 0px,
+    rgb(21, 11, 96) 3.9978px -0.132717px 0px;
+}
+
+.modalCloseBtn {
+  color: rgb(148, 163, 184);
+  transition: color 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modalCloseBtn:hover {
+  color: white;
+}
+
+.body {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  width: 100%;
+}
+
+.sectionTitle {
+  color: #8efaff;
+  display: block;
+  font-size: 24px;
+  letter-spacing: 2px;
+  text-shadow: rgb(21, 11, 96) 2px 0px 0px,
+    rgb(21, 11, 96) 1.75517px 0.958851px 0px,
+    rgb(21, 11, 96) 1.0806px 1.68294px 0px,
+    rgb(21, 11, 96) 0.141474px 1.99499px 0px,
+    rgb(21, 11, 96) -0.832294px 1.81859px 0px,
+    rgb(21, 11, 96) -1.60229px 1.19694px 0px,
+    rgb(21, 11, 96) -1.97998px 0.28224px 0px,
+    rgb(21, 11, 96) -1.87291px -0.701566px 0px,
+    rgb(21, 11, 96) -1.30729px -1.5136px 0px,
+    rgb(21, 11, 96) -0.421592px -1.95506px 0px,
+    rgb(21, 11, 96) 0.567324px -1.91785px 0px,
+    rgb(21, 11, 96) 1.41734px -1.41108px 0px,
+    rgb(21, 11, 96) 1.92034px -0.558831px 0px;
+}
+
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
+.description {
+  background: #1f007d;
+  border: 1px solid #4d39b9;
+  border-radius: 5px;
+  display: block;
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.switchDescription {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.description span {
+  color: #d3d7ff;
+  display: block;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.description .commandNameCyan {
+  color: #73eaff;
+  font-weight: 800;
+}
+
+.description .commandNameRed {
+  color: #f97fff;
+  font-weight: 800;
+}
+
+.description .commandNameYellow {
+  color: #ffd651;
+  font-weight: 800;
+}
+
+.description .commandNameEmerald {
+  color: #84ffad;
+  font-weight: 800;
+}
+
+.footer {
+  align-items: center;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  background-color: #7b61ff;
+  border: 2px solid #937dff;
+  border-radius: 12px;
+  box-shadow: 0 4px #6548f3, 0 6px 0 3px #111156, 0 6px 0 5px #5941cd;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 28px;
+  height: 60px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: rgb(78, 56, 186) 3px 0px 0px,
+    rgb(78, 56, 186) 2.83487px 0.981584px 0px,
+    rgb(78, 56, 186) 2.35766px 1.85511px 0px,
+    rgb(78, 56, 186) 1.62091px 2.52441px 0px,
+    rgb(78, 56, 186) 0.705713px 2.91581px 0px,
+    rgb(78, 56, 186) -0.287171px 2.98622px 0px,
+    rgb(78, 56, 186) -1.24844px 2.72789px 0px,
+    rgb(78, 56, 186) -2.07227px 2.16926px 0px,
+    rgb(78, 56, 186) -2.66798px 1.37182px 0px,
+    rgb(78, 56, 186) -2.96998px 0.42336px 0px,
+    rgb(78, 56, 186) -2.94502px -0.571704px 0px,
+    rgb(78, 56, 186) -2.59586px -1.50383px 0px,
+    rgb(78, 56, 186) -1.96093px -2.27041px 0px,
+    rgb(78, 56, 186) -1.11013px -2.78704px 0px,
+    rgb(78, 56, 186) -0.137119px -2.99686px 0px,
+    rgb(78, 56, 186) 0.850987px -2.87677px 0px,
+    rgb(78, 56, 186) 1.74541px -2.43999px 0px,
+    rgb(78, 56, 186) 2.44769px -1.73459px 0px,
+    rgb(78, 56, 186) 2.88051px -0.838247px 0px;
+  width: 322px;
+}
+
+.btn:hover {
+  background-color: #947eff;
+  border-color: #b8a9ff;
+  box-shadow: 0 4px #7b61ff, 0 6px 0 3px #111156, 0 6px 0 5px #5941cd;
+}
+
+.btn:active {
+  background-color: #5f43eb;
+  border-color: #8269ff;
+  box-shadow: 0 0px 0 3px #111156, 0 0px 0 5px #5941cd;
+  top: 4px;
+}
+
+.btn.btnPrimary {
+  background-color: #e72eed;
+  border: 2px solid #f75cff;
+  box-shadow: 0 4px #b105b7, 0 6px 0 3px #111156, 0 6px 0 5px #5941cd;
+  text-shadow: rgb(124, 0, 129) 3px 0px 0px,
+    rgb(124, 0, 129) 2.83487px 0.981584px 0px,
+    rgb(124, 0, 129) 2.35766px 1.85511px 0px,
+    rgb(124, 0, 129) 1.62091px 2.52441px 0px,
+    rgb(124, 0, 129) 0.705713px 2.91581px 0px,
+    rgb(124, 0, 129) -0.287171px 2.98622px 0px,
+    rgb(124, 0, 129) -1.24844px 2.72789px 0px,
+    rgb(124, 0, 129) -2.07227px 2.16926px 0px,
+    rgb(124, 0, 129) -2.66798px 1.37182px 0px,
+    rgb(124, 0, 129) -2.96998px 0.42336px 0px,
+    rgb(124, 0, 129) -2.94502px -0.571704px 0px,
+    rgb(124, 0, 129) -2.59586px -1.50383px 0px,
+    rgb(124, 0, 129) -1.96093px -2.27041px 0px,
+    rgb(124, 0, 129) -1.11013px -2.78704px 0px,
+    rgb(124, 0, 129) -0.137119px -2.99686px 0px,
+    rgb(124, 0, 129) 0.850987px -2.87677px 0px,
+    rgb(124, 0, 129) 1.74541px -2.43999px 0px,
+    rgb(124, 0, 129) 2.44769px -1.73459px 0px,
+    rgb(124, 0, 129) 2.88051px -0.838247px 0px;
+}
+
+.btn.btnPrimary:hover {
+  background-color: #f75cff;
+  border-color: #fa98ff;
+  box-shadow: 0 4px #d81dde, 0 6px 0 3px #111156, 0 6px 0 5px #5941cd;
+}
+
+.btn.btnPrimary:active {
+  background-color: #cb09d2;
+  border-color: #f159f6;
+  box-shadow: 0 0px 0 3px #111156, 0 0px 0 5px #5941cd;
+  top: 4px;
+}
