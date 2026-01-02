@@ -154,7 +154,9 @@
 }
 
 .gridLightLeft,
-.gridLightRight {
+.gridLightRight,
+.gridLightLeft:before,
+.gridLightRight:before {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
@@ -165,13 +167,32 @@
   z-index: 51;
 }
 
+.gridLightLeft:before,
+.gridLightRight:before {
+  animation: show 3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes show {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+}
+
 .gridLightLeft {
   background-image: url('/images/gridLightLeft.svg');
   left: -28px;
 }
 
-.gridLightLeftActive {
+.gridLightLeftActive:before {
   background-image: url('/images/gridLightLeftActive.svg');
+  content: '';
+  left: 0px;
+  top: 0px;
 }
 
 .gridLightRight {
@@ -179,12 +200,15 @@
   right: -28px;
 }
 
-.gridLightRightActive {
+.gridLightRightActive:before {
   background-image: url('/images/gridLightRightActive.svg');
+  content: '';
+  right: 0;
+  top: 0;
 }
 
-.gridLightLeftActive:before,
-.gridLightRightActive:before {
+.gridLightLeftActive:after,
+.gridLightRightActive:after {
   animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background: url('/images/gridLightActive.svg') 0 0 no-repeat;
   content: '';
@@ -196,7 +220,7 @@
   width: 120px;
 }
 
-.gridLightRightActive:before {
+.gridLightRightActive:after {
   left: auto;
   right: -52px;
 }
