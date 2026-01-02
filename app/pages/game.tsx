@@ -363,8 +363,8 @@ const Game: React.FC = () => {
       <div
         className={styles.innerContainer}
         style={{
-          width: `calc(${BASE_WIDTH}px - 30px)`,
-          height: `${BASE_HEIGHT + 26}px`,
+          width: `calc(${BASE_WIDTH}px - 50px)`,
+          height: `calc(${BASE_HEIGHT}px - 50px)`,
           transform: `scale(${scale})`,
           flexShrink: 0, // Prevent flex compression
         }}
