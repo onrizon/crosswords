@@ -18,6 +18,7 @@
   flex-direction: column;
   gap: 20px;
   height: 653px;
+  justify-content: space-between;
   padding: 70px 70px 80px;
   width: 918px;
 }
@@ -112,6 +113,27 @@
     rgb(21, 11, 96) 1.92034px -0.558831px 0px;
 }
 
+.formRow {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.formDurationDisplay {
+  color: #fff;
+  display: block;
+  font-size: 20px;
+  font-family: var(--font-nunito-sans);
+  padding: 0 24px;
+  width: 100%;
+}
+
+.formInput {
+  flex: 1;
+}
 .grid {
   display: grid;
   gap: 10px;

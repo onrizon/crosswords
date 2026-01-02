@@ -1,0 +1,46 @@
+.select {
+  align-items: center;
+  background-color: #1f007d;
+  border: 2px solid #6043ee;
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px #2d0b92;
+  display: flex;
+  height: 76px;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+}
+
+.select:focus-within {
+  background-color: #20066c;
+  border-color: #7f66ff;
+}
+
+.select::after {
+  background-image: url('/images/icoSelect.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  content: '';
+  display: block;
+  height: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 34px;
+}
+
+.select select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 28px;
+  height: 100%;
+  line-height: 1;
+  padding: 0 20px;
+  outline: none;
+  width: 100%;
+  z-index: 2;
+}

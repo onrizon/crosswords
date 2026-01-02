@@ -116,19 +116,13 @@ export const InfoModal = ({
         <div className={styles.footer}>
           <button
             onClick={handleCloseInfo}
-            className={classNames(styles.btn, asapCondensed.className)}
-          >
-            Entendido
-          </button>
-          <button
-            onClick={handleCloseInfo}
             className={classNames(
               styles.btn,
               styles.btnPrimary,
               asapCondensed.className
             )}
           >
-            Salvar
+            Ok
           </button>
         </div>
       </motion.div>

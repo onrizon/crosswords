@@ -13,12 +13,16 @@ export const Timer = ({
   isPaused,
   isSettingsOpen,
   isInfoOpen,
+  tempSettings,
   t,
 }: {
   timeLeft: number;
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
+  tempSettings: {
+    duration: number;
+  };
   t: string;
 }) => {
   const formatTime = (seconds: number) => {
@@ -39,7 +43,9 @@ export const Timer = ({
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>
-          <span style={{ width: `${(timeLeft / 120) * 100}%` }} />
+          <span
+            style={{ width: `${(timeLeft / tempSettings.duration) * 100}%` }}
+          />
         </div>
       </div>
       <div className={styles.content}>

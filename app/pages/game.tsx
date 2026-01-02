@@ -25,35 +25,28 @@ const BASE_WIDTH = 1920;
 const BASE_HEIGHT = 1080;
 
 const Game: React.FC = () => {
-  // --- Settings State (Initialized from LocalStorage) ---
-  const [language, setLanguage] = useState<SupportedLanguage>(() => {
-    try {
-      const saved = localStorage.getItem('cruzadinha_settings');
-      return saved ? JSON.parse(saved).language || 'pt' : 'pt';
-    } catch {
-      return 'pt';
-    }
-  });
+  // --- Settings State (Hydration-safe: defaults first, localStorage in useEffect) ---
+  const [language, setLanguage] = useState<SupportedLanguage>('pt');
+  const [customDuration, setCustomDuration] =
+    useState<number>(DEFAULT_DURATION);
+  const [webhookUrl, setWebhookUrl] = useState<string>('');
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  const [customDuration, setCustomDuration] = useState<number>(() => {
+  // Load settings from localStorage after hydration (client-side only)
+  useEffect(() => {
     try {
       const saved = localStorage.getItem('cruzadinha_settings');
-      return saved
-        ? JSON.parse(saved).duration || DEFAULT_DURATION
-        : DEFAULT_DURATION;
+      if (saved) {
+        const settings = JSON.parse(saved);
+        if (settings.language) setLanguage(settings.language);
+        if (settings.duration) setCustomDuration(settings.duration);
+        if (settings.webhookUrl) setWebhookUrl(settings.webhookUrl);
+      }
     } catch {
-      return DEFAULT_DURATION;
+      // Ignore localStorage errors
     }
-  });
-
-  const [webhookUrl, setWebhookUrl] = useState<string>(() => {
-    try {
-      const saved = localStorage.getItem('cruzadinha_settings');
-      return saved ? JSON.parse(saved).webhookUrl || '' : '';
-    } catch {
-      return '';
-    }
-  });
+    setIsHydrated(true);
+  }, []);
 
   // --- Game State ---
   const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
@@ -205,12 +198,16 @@ const Game: React.FC = () => {
     } catch (e) {}
   };
 
-  // Initial load
+  // Initial load - wait for hydration to ensure localStorage settings are loaded
   useEffect(() => {
-    if (currentTheme === 'ESCRITORIO' && words === FALLBACK_WORDS) {
+    if (
+      isHydrated &&
+      currentTheme === 'ESCRITORIO' &&
+      words === FALLBACK_WORDS
+    ) {
       loadNewLevel();
     }
-  }, []); // Run once
+  }, [isHydrated]); // Run once after hydration
 
   const handleNextLevel = useCallback(() => {
     loadNewLevel();
@@ -364,7 +361,7 @@ const Game: React.FC = () => {
         className={styles.innerContainer}
         style={{
           width: `calc(${BASE_WIDTH}px - 50px)`,
-          height: `calc(${BASE_HEIGHT}px - 50px)`,
+          height: `${BASE_HEIGHT}px`,
           transform: `scale(${scale})`,
           flexShrink: 0, // Prevent flex compression
         }}
@@ -393,6 +390,7 @@ const Game: React.FC = () => {
               isPaused={isPaused}
               isSettingsOpen={isSettingsOpen}
               isInfoOpen={isInfoOpen}
+              tempSettings={tempSettings}
               t={t.time}
             />
 

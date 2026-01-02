@@ -2,8 +2,9 @@ import styles from '@/styles/Modal.module.css';
 import { SupportedLanguage } from '@/types';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import { Save, Settings, X } from 'lucide-react';
 import { Asap_Condensed } from 'next/font/google';
+import { Input } from '../Input';
+import { Select } from '../Select';
 
 const asapCondensed = Asap_Condensed({
   subsets: ['latin'],
@@ -39,23 +40,14 @@ export const SettingsModal = ({
         className={styles.modalContent}
       >
         <div className={styles.modalHeader}>
-          <div className={styles.modalHeaderLeft}>
-            <Settings className={styles.modalHeaderIconPurple} size={28} />
-            <h2 className={styles.modalTitle}>Configurações</h2>
-          </div>
-          <button
-            onClick={handleCloseSettingsWithoutSaving}
-            className={styles.modalCloseBtn}
-          >
-            <X size={28} />
-          </button>
+          <h2 className={styles.modalTitle}>CONFIGURAÇÕES</h2>
         </div>
 
-        <div className={styles.modalBody}>
+        <div className={styles.body}>
           {/* Language */}
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Idioma / Language</label>
-            <select
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Idioma / Language</h3>
+            <Select
               value={tempSettings.language}
               onChange={(e) =>
                 setTempSettings({
@@ -63,24 +55,14 @@ export const SettingsModal = ({
                   language: e.target.value as SupportedLanguage,
                 })
               }
-              className={styles.formSelect}
-            >
-              <option value='pt'>Português (PT-BR)</option>
-              <option value='en'>English (US)</option>
-              <option value='fr'>Français</option>
-              <option value='de'>Deutsch</option>
-              <option value='it'>Italiano</option>
-              <option value='es'>Español</option>
-            </select>
+            ></Select>
           </div>
 
           {/* Duration */}
-          <div className={styles.formGroup}>
-            <label className={styles.formLabel}>
-              Tempo da Rodada (Segundos)
-            </label>
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Tempo da Rodada (Segundos)</h3>
             <div className={styles.formRow}>
-              <input
+              <Input
                 type='number'
                 min='30'
                 max='600'
@@ -101,16 +83,22 @@ export const SettingsModal = ({
             </div>
           </div>
         </div>
-
-        <div className={styles.modalFooter}>
+        <div className={styles.footer}>
           <button
             onClick={handleCloseSettingsWithoutSaving}
-            className={styles.btnCancel}
+            className={classNames(styles.btn, asapCondensed.className)}
           >
             Cancelar
           </button>
-          <button onClick={handleSaveSettings} className={styles.btnSave}>
-            <Save size={18} /> Salvar
+          <button
+            onClick={handleSaveSettings}
+            className={classNames(
+              styles.btn,
+              styles.btnPrimary,
+              asapCondensed.className
+            )}
+          >
+            Salvar
           </button>
         </div>
       </motion.div>
