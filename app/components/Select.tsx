@@ -8,18 +8,24 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const Select = (
-  props: React.SelectHTMLAttributes<HTMLSelectElement>
-) => {
+interface SelectOption {
+  value: string | number;
+  label: string;
+}
+
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  options: SelectOption[];
+}
+
+export const Select = ({ options, ...props }: SelectProps) => {
   return (
     <div className={classNames(styles.select, nunitoSans.className)}>
       <select {...props} className={nunitoSans.className}>
-        <option value='pt'>Português (PT-BR)</option>
-        <option value='en'>English (US)</option>
-        <option value='fr'>Français</option>
-        <option value='de'>Deutsch</option>
-        <option value='it'>Italiano</option>
-        <option value='es'>Español</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

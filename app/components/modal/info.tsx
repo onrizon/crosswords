@@ -1,7 +1,6 @@
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
 import { useState } from 'react';
 import { Switch } from '../Switch';
@@ -39,9 +38,6 @@ export const InfoModal = ({
       >
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>AJUDA E COMANDOS</h2>
-          <button onClick={handleCloseInfo} className={styles.modalCloseBtn}>
-            <X size={28} />
-          </button>
         </div>
 
         <div className={styles.body}>

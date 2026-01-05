@@ -87,8 +87,8 @@ const Game: React.FC = () => {
   // Lock aspect ratio logic: Fit the 1920x1080 container into the window
   useEffect(() => {
     const handleResize = () => {
-      const scaleX = window.innerWidth / BASE_WIDTH;
-      const scaleY = window.innerHeight / BASE_HEIGHT;
+      const scaleX = (window.innerWidth - 50) / BASE_WIDTH;
+      const scaleY = (window.innerHeight - 50) / BASE_HEIGHT;
       // Use the smaller scale to ensure it fits entirely ("contain" logic)
       const newScale = Math.min(scaleX, scaleY);
       setScale(newScale);
@@ -360,7 +360,7 @@ const Game: React.FC = () => {
       <div
         className={styles.innerContainer}
         style={{
-          width: `calc(${BASE_WIDTH}px - 50px)`,
+          width: `${BASE_WIDTH}px`,
           height: `${BASE_HEIGHT}px`,
           transform: `scale(${scale})`,
           flexShrink: 0, // Prevent flex compression

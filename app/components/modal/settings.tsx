@@ -3,7 +3,6 @@ import { SupportedLanguage } from '@/types';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { Asap_Condensed } from 'next/font/google';
-import { Input } from '../Input';
 import { Select } from '../Select';
 
 const asapCondensed = Asap_Condensed({
@@ -55,32 +54,41 @@ export const SettingsModal = ({
                   language: e.target.value as SupportedLanguage,
                 })
               }
-            ></Select>
+              options={[
+                { value: 'pt', label: 'Português (PT-BR)' },
+                { value: 'en', label: 'English (US)' },
+                { value: 'fr', label: 'Français' },
+                { value: 'de', label: 'Deutsch' },
+                { value: 'it', label: 'Italiano' },
+                { value: 'es', label: 'Español' },
+              ]}
+            />
           </div>
 
           {/* Duration */}
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Tempo da Rodada (Segundos)</h3>
-            <div className={styles.formRow}>
-              <Input
-                type='number'
-                min='30'
-                max='600'
-                value={tempSettings.duration}
-                onChange={(e) =>
-                  setTempSettings({
-                    ...tempSettings,
-                    duration: parseInt(e.target.value) || 120,
-                  })
-                }
-                className={styles.formInput}
-                style={{ flex: 1 }}
-              />
-              <div className={styles.formDurationDisplay}>
-                {Math.floor(tempSettings.duration / 60)}m{' '}
-                {tempSettings.duration % 60}s
-              </div>
-            </div>
+            <h3 className={styles.sectionTitle}>Tempo da Rodada</h3>
+            <Select
+              value={tempSettings.duration}
+              onChange={(e) =>
+                setTempSettings({
+                  ...tempSettings,
+                  duration: parseInt(e.target.value) || 120,
+                })
+              }
+              options={[
+                { value: 30, label: '30 segundos' },
+                { value: 60, label: '1 minuto' },
+                { value: 90, label: '1 minuto e 30 segundos' },
+                { value: 120, label: '2 minutos' },
+                { value: 150, label: '2 minutos e 30 segundos' },
+                { value: 180, label: '3 minutos' },
+                { value: 210, label: '3 minutos e 30 segundos' },
+                { value: 240, label: '4 minutos' },
+                { value: 270, label: '4 minutos e 30 segundos' },
+                { value: 300, label: '5 minutos' },
+              ]}
+            />
           </div>
         </div>
         <div className={styles.footer}>
