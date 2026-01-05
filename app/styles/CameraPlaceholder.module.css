@@ -4,9 +4,10 @@
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
+  height: 242px;
   justify-content: center;
   margin-top: 28px;
-  padding: 2px 0;
+  padding: 5px;
   position: relative;
 }
 
@@ -14,8 +15,8 @@
   background: url('/images/cameraEdge.svg') no-repeat center center;
   background-size: contain;
   display: flex;
-  height: 238px;
-  width: 392px;
+  height: 100%;
+  width: 100%;
 }
 
 .header {

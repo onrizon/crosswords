@@ -4,8 +4,9 @@
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
-  height: 511px;
+  height: 493px;
   justify-content: center;
+  padding: 5px;
   position: relative;
 }
 
@@ -13,9 +14,9 @@
   background: url('/images/rankingEdge.svg') no-repeat center center;
   background-size: contain;
   display: flex;
-  height: 501px;
+  height: 100%;
   padding: 16px;
-  width: 392px;
+  width: 100%;
 }
 
 .header {
