@@ -21,6 +21,8 @@ export interface CellData {
   col: number;
   isStartOfWord?: boolean;
   delay?: number; // Animation delay in seconds
+  startWordId?: number; // ID of the word that starts at this cell
+  startWordDirection?: 'H' | 'V'; // Direction of the word that starts at this cell
 }
 
 export interface GameState {

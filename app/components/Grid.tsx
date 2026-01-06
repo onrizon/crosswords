@@ -46,6 +46,9 @@ const Grid: React.FC<GridProps> = ({ words }) => {
           row: r,
           col: c,
           isStartOfWord: existing?.isStartOfWord || isStart,
+          startWordId: existing?.startWordId || (isStart ? w.id : undefined),
+          startWordDirection:
+            existing?.startWordDirection || (isStart ? w.direction : undefined),
         };
       }
     });
@@ -114,9 +117,36 @@ const Grid: React.FC<GridProps> = ({ words }) => {
                     })}
                   >
                     <span className={styles.cellChar}>{cell.char}</span>
+                    {cell.isStartOfWord && cell.startWordId !== undefined && (
+                      <div
+                        className={classNames(styles.cellClue, {
+                          [styles.cellClueH]: cell.startWordDirection === 'H',
+                          [styles.cellClueV]: cell.startWordDirection === 'V',
+                        })}
+                      >
+                        <span className={styles.cellClueArrow} />
+                        <span className={styles.cellClueNumber}>
+                          {cell.startWordId}
+                        </span>
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
-                  <div className={styles.cellHidden}></div>
+                  <div className={styles.cellHidden}>
+                    {cell.isStartOfWord && cell.startWordId !== undefined && (
+                      <div
+                        className={classNames(styles.cellClue, {
+                          [styles.cellClueH]: cell.startWordDirection === 'H',
+                          [styles.cellClueV]: cell.startWordDirection === 'V',
+                        })}
+                      >
+                        <span className={styles.cellClueArrow} />
+                        <span className={styles.cellClueNumber}>
+                          {cell.startWordId}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             );

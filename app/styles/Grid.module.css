@@ -1,13 +1,16 @@
 .wrapper {
-  background-color: rgba(26, 11, 94, 0.7);
-  background-image:
-    linear-gradient(rgba(212, 139, 255, 0.15) 1px, transparent 1px),
+  background-color: #251475;
+  background-image: linear-gradient(
+      rgba(212, 139, 255, 0.15) 1px,
+      transparent 1px
+    ),
     linear-gradient(90deg, rgba(212, 139, 255, 0.15) 1px, transparent 1px);
   background-size: 51px 51px;
-  background-position: 7px 7px;
+  background-position: 0px 0px;
   border-radius: 15px;
+  border: 5px solid #251475;
+  padding: 3px;
   position: relative;
-  padding: 10px;
   user-select: none;
 }
 
@@ -94,4 +97,56 @@
 .cellHidden:hover {
   background-color: rgba(51, 65, 85, 0.6);
   border-color: rgba(168, 85, 247, 0.3);
+}
+
+.cellClue {
+  align-items: center;
+  background-color: #97faff;
+  border: 1px solid #ccfdff;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  padding: 2px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  gap: 2px;
+  z-index: 20;
+}
+
+.cellClueV {
+  height: 17px;
+  left: -1px;
+  top: -22px;
+  width: 30px;
+}
+
+.cellClueH {
+  flex-direction: column;
+  height: 30px;
+  left: -22px;
+  top: -1px;
+  width: 17px;
+}
+
+.cellClueNumber {
+  color: #00319c;
+  font-size: 15px;
+  line-height: 0.85;
+}
+
+.cellClueArrow {
+  background-image: url('/images/icoArrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: block;
+  height: 10px;
+  min-height: 10px;
+  min-width: 10px;
+  width: 10px;
+}
+
+.cellClueH .cellClueArrow {
+  transform: rotate(-90deg);
 }
