@@ -4,7 +4,6 @@ import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import { useState } from 'react';
 import { Select } from '../Select';
 import { Switch } from '../Switch';
 
@@ -32,20 +31,16 @@ export const SettingsModal = ({
     language: string;
     duration: number;
     webhookUrl: string;
+    showCameraArea: boolean;
   };
   setTempSettings: (settings: {
     language: string;
     duration: number;
     webhookUrl: string;
+    showCameraArea: boolean;
   }) => void;
 }) => {
   const { t, locales } = useTranslation();
-
-  const [checked, setChecked] = useState(false);
-
-  const handleCheck = () => {
-    setChecked(!checked);
-  };
 
   return (
     <div className={classNames(styles.modalOverlay, asapCondensed.className)}>
@@ -126,7 +121,15 @@ export const SettingsModal = ({
               <span className={nunitoSans.className}>
                 {t('cameraAreaDesc')}
               </span>
-              <Switch checked={checked} onChange={handleCheck} />
+              <Switch
+                checked={tempSettings.showCameraArea}
+                onChange={() =>
+                  setTempSettings({
+                    ...tempSettings,
+                    showCameraArea: !tempSettings.showCameraArea,
+                  })
+                }
+              />
             </div>
           </div>
         </div>

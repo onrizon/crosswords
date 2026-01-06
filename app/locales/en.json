@@ -1,6 +1,6 @@
 {
   "and": "and",
-  "beFirstToScore": "Be the first to score!",
+  "beFirstToScore": "Find a word and be the first to enter the ranking",
   "cameraArea": "Camera area",
   "cameraAreaDesc": "Activate or deactivate the camera area, freeing up more space for the ranking.",
   "cancel": "Cancel",
@@ -10,6 +10,7 @@
   "generateNewLevel": "Generate new level",
   "generatingTheme": "Generating theme...",
   "helpAndCommands": "Help and commands",
+  "insertYourCamera": "Insert your camera",
   "language": "Language",
   "levelComplete": "LEVEL COMPLETE! Generating next...",
   "live": "Live",

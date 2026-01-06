@@ -38,6 +38,10 @@ export const CameraPlaceholder = ({
             </button>
           </h3>
         </div>
+        <div className={styles.text}>
+          <span />
+          {t('insertYourCamera')}
+        </div>
       </div>
     </div>
   );

@@ -11,24 +11,13 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const TopPlayers = ({ userScores }: { userScores: UserScores }) => {
-  // const mockUserScores: Record<string, number> = {
-  //   aliceasdasdasdasdasdasdasd: 999999,
-  //   aliceasdasdasdasdasdasdasb: 999999,
-  //   aliceasdasdasdasdasdasdasw: 999999,
-  //   aliceasdasdasdasdasdasdasq: 999999,
-  //   eve: 200,
-  //   frank: 100,
-  //   grace: 50,
-  //   hank: 25,
-  //   ivy: 10,
-  //   jack: 5,
-  //   jack1: 5,
-  //   jack2: 5,
-  //   jack3: 5,
-  //   jack4: 5,
-  //   jack5: 5,
-  // };
+export const TopPlayers = ({
+  userScores,
+  showCameraArea,
+}: {
+  userScores: UserScores;
+  showCameraArea: boolean;
+}) => {
   const { t } = useTranslation();
 
   const topScorers = Object.entries(userScores).sort(
@@ -43,7 +32,11 @@ export const TopPlayers = ({ userScores }: { userScores: UserScores }) => {
   };
 
   return (
-    <div className={classNames(styles.container, nunitoSans.className)}>
+    <div
+      className={classNames(styles.container, nunitoSans.className, {
+        [styles.fullHeight]: !showCameraArea,
+      })}
+    >
       <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />
@@ -51,7 +44,10 @@ export const TopPlayers = ({ userScores }: { userScores: UserScores }) => {
         </div>
         <div className={classNames(styles.list, 'custom-scrollbar')}>
           {topScorers.length === 0 ? (
-            <div className={styles.empty}>{t('beFirstToScore')}</div>
+            <div className={styles.empty}>
+              <span />
+              {t('beFirstToScore')}
+            </div>
           ) : (
             topScorers.map(([user, score], index) => (
               <div key={user} className={styles.playerRow}>

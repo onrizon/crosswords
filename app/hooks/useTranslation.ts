@@ -22,8 +22,10 @@ export function useTranslation() {
   // Function to change locale
   const changeLocale = useCallback(
     (newLocale: Locale) => {
+      if (router.locale === newLocale) return;
+
       const { pathname, asPath, query } = router;
-      router.push({ pathname, query }, asPath, { locale: newLocale });
+      router.replace({ pathname, query }, asPath, { locale: newLocale });
     },
     [router]
   );

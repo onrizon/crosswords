@@ -31,23 +31,25 @@ const Game: React.FC = () => {
   const [customDuration, setCustomDuration] =
     useState<number>(DEFAULT_DURATION);
   const [webhookUrl, setWebhookUrl] = useState<string>('');
+  const [showCameraArea, setShowCameraArea] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Load settings from localStorage after hydration (client-side only)
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('cruzadinha_settings');
+      const saved = localStorage.getItem('streamCross');
       if (saved) {
         const settings = JSON.parse(saved);
         if (settings.language) changeLocale(settings.language);
         if (settings.duration) setCustomDuration(settings.duration);
         if (settings.webhookUrl) setWebhookUrl(settings.webhookUrl);
+        if (settings.showCameraArea) setShowCameraArea(settings.showCameraArea);
       }
     } catch {
       // Ignore localStorage errors
     }
     setIsHydrated(true);
-  }, [changeLocale]);
+  }, []);
 
   // --- Game State ---
   const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
@@ -70,10 +72,12 @@ const Game: React.FC = () => {
     language: string;
     duration: number;
     webhookUrl: string;
+    showCameraArea: boolean;
   }>({
     language: 'pt',
     duration: customDuration,
     webhookUrl,
+    showCameraArea,
   });
 
   useEffect(() => {
@@ -136,7 +140,12 @@ const Game: React.FC = () => {
   // --- Settings Logic ---
   const handleOpenSettings = () => {
     setIsPaused(true); // Pause immediately
-    setTempSettings({ language: locale, duration: customDuration, webhookUrl });
+    setTempSettings({
+      language: locale,
+      duration: customDuration,
+      webhookUrl,
+      showCameraArea,
+    });
     setIsSettingsOpen(true);
   };
 
@@ -145,13 +154,13 @@ const Game: React.FC = () => {
     const hasDurationChanged = tempSettings.duration !== customDuration;
 
     // Save to LocalStorage
-    localStorage.setItem('cruzadinha_settings', JSON.stringify(tempSettings));
+    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
 
     // Save to State
     changeLocale(tempSettings.language as Locale);
     setCustomDuration(tempSettings.duration);
     setWebhookUrl(tempSettings.webhookUrl);
-
+    setShowCameraArea(tempSettings.showCameraArea);
     setIsSettingsOpen(false);
 
     // If critical settings changed, reload level immediately
@@ -350,8 +359,6 @@ const Game: React.FC = () => {
 
   useTwitch({ onMessage: handleTwitchMessage });
 
-  // --- Render Helpers ---
-
   return (
     // OUTER CONTAINER: Handles the Background and Centering
     <div className={styles.outerContainer}>
@@ -440,14 +447,19 @@ const Game: React.FC = () => {
           {/* RIGHT: Sidebar (Fixed Width) - Layout always assumes horizontal desktop view */}
           <div className={styles.sidebar}>
             {/* Streamer Camera Placeholder */}
-            <CameraPlaceholder
-              isLoading={isLoading}
-              isSettingsOpen={isSettingsOpen}
-              handleLogout={handleLogout}
-            />
+            {showCameraArea && (
+              <CameraPlaceholder
+                isLoading={isLoading}
+                isSettingsOpen={isSettingsOpen}
+                handleLogout={handleLogout}
+              />
+            )}
 
             {/* Leaderboard - Expanded to fill remaining space */}
-            <TopPlayers userScores={userScores} />
+            <TopPlayers
+              userScores={userScores}
+              showCameraArea={showCameraArea}
+            />
           </div>
         </main>
 
