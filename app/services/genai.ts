@@ -137,6 +137,15 @@ const LANGUAGE_NAMES: Record<Locale, string> = {
   de: 'German',
   it: 'Italian',
   es: 'Spanish',
+  ru: 'Russian',
+  tr: 'Turkish',
+  vi: 'Vietnamese',
+  pl: 'Polish',
+  ro: 'Romanian',
+  cs: 'Czech',
+  nl: 'Dutch',
+  hr: 'Croatian',
+  el: 'Greek',
 };
 
 // Robust fallback data with enough words to guarantee a valid grid

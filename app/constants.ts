@@ -1,9 +1,9 @@
 import { WordData } from './types';
 
 // Changed to a wider aspect ratio (approx 2:1) to fit desktop screens better
-// Increased to 14x24 as requested
+// Increased to 14x26 as requested
 export const GRID_ROWS = 14;
-export const GRID_COLS = 24;
+export const GRID_COLS = 26;
 
 // Fallback data in case API fails or for initial render before fetch
 export const FALLBACK_WORDS: WordData[] = [

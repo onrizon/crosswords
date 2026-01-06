@@ -63,7 +63,7 @@
   justify-content: center;
   height: 100%;
   position: relative;
-  width: 372px;
+  width: 335px;
 }
 
 .headerLogoSection:before {
@@ -78,9 +78,9 @@
   background: url('/images/logo.svg') no-repeat center center;
   background-size: contain;
   display: block;
-  height: 138px;
+  height: 124px;
   position: relative;
-  width: 302px;
+  width: 272px;
   z-index: 1;
 }
 

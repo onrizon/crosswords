@@ -47,4 +47,13 @@ export const localeNames: Record<Locale, string> = {
   fr: 'Français',
   de: 'Deutsch',
   it: 'Italiano',
+  ru: 'Русский',
+  tr: 'Türkçe',
+  vi: 'Tiếng Việt',
+  pl: 'Polski',
+  ro: 'Română',
+  cs: 'Čeština',
+  nl: 'Nederlands',
+  hr: 'Hrvatski',
+  el: 'Ελληνικά',
 };
