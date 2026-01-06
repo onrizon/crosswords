@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/CameraPlaceholder.module.css';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
@@ -19,7 +20,7 @@ export const CameraPlaceholder = ({
   handleLogout: () => void;
 }) => {
   const { data: session } = useSession();
-
+  const { t } = useTranslation();
   return (
     <div className={classNames(styles.container, nunitoSans.className)}>
       <div className={styles.containerEdge}>
@@ -31,7 +32,7 @@ export const CameraPlaceholder = ({
               onClick={handleLogout}
               disabled={isLoading || isSettingsOpen}
               className={styles.button}
-              title='Logout'
+              title={t('logout')}
             >
               <span />
             </button>

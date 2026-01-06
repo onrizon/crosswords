@@ -1,9 +1,8 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import { useState } from 'react';
-import { Switch } from '../Switch';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
@@ -22,12 +21,7 @@ export const InfoModal = ({
 }: {
   handleCloseInfo: () => void;
 }) => {
-  const [checked, setChecked] = useState(false);
-
-  const handleCheck = () => {
-    setChecked(!checked);
-  };
-
+  const { t } = useTranslation();
   return (
     <div className={classNames(styles.modalOverlay, asapCondensed.className)}>
       <motion.div
@@ -37,12 +31,12 @@ export const InfoModal = ({
         className={styles.modalContent}
       >
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>AJUDA E COMANDOS</h2>
+          <h2 className={styles.modalTitle}>{t('helpAndCommands')}</h2>
         </div>
 
         <div className={styles.body}>
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>COMANDOS DE CHAT (ADMIN)</h3>
+            <h3 className={styles.sectionTitle}>{t('chatCommands')}</h3>
             <div className={styles.grid}>
               <div className={styles.description}>
                 <span
@@ -53,7 +47,9 @@ export const InfoModal = ({
                 >
                   !refresh
                 </span>
-                <span className={nunitoSans.className}>Gerar novo nível</span>
+                <span className={nunitoSans.className}>
+                  {t('generateNewLevel')}
+                </span>
               </div>
 
               <div className={styles.description}>
@@ -65,7 +61,7 @@ export const InfoModal = ({
                 >
                   !reset
                 </span>
-                <span className={nunitoSans.className}>Zerar pontuação</span>
+                <span className={nunitoSans.className}>{t('resetScore')}</span>
               </div>
 
               <div className={styles.description}>
@@ -77,7 +73,7 @@ export const InfoModal = ({
                 >
                   !pause
                 </span>
-                <span className={nunitoSans.className}>Pausar tempo</span>
+                <span className={nunitoSans.className}>{t('pauseTime')}</span>
               </div>
 
               <div className={styles.description}>
@@ -89,23 +85,8 @@ export const InfoModal = ({
                 >
                   !play / !resume
                 </span>
-                <span className={nunitoSans.className}>Retomar tempo</span>
+                <span className={nunitoSans.className}>{t('resumeTime')}</span>
               </div>
-            </div>
-          </div>
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>ÁREA DE CÂMERA</h3>
-            <div
-              className={classNames(
-                styles.description,
-                styles.switchDescription
-              )}
-            >
-              <span className={nunitoSans.className}>
-                Ativa ou desativa a área da câmera, liberando mais espaço para o
-                ranking.
-              </span>
-              <Switch checked={checked} onChange={handleCheck} />
             </div>
           </div>
         </div>
@@ -118,7 +99,7 @@ export const InfoModal = ({
               asapCondensed.className
             )}
           >
-            Ok
+            {t('ok')}
           </button>
         </div>
       </motion.div>

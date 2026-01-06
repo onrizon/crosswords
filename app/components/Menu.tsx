@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Menu.module.css';
 import classNames from 'classnames';
 import { Nunito_Sans } from 'next/font/google';
@@ -27,6 +28,7 @@ export const Menu = ({
   handlePause: () => void;
   handleNextLevel: () => void;
 }) => {
+  const { t } = useTranslation();
   return (
     <div className={styles.container}>
       <button
@@ -37,7 +39,7 @@ export const Menu = ({
           [styles.btnPlay]: isPaused,
           [styles.btnPause]: !isPaused,
         })}
-        title={isPaused ? 'Retomar' : 'Pausar'}
+        title={isPaused ? t('resume') : t('pause')}
       >
         <span />
       </button>
@@ -45,7 +47,7 @@ export const Menu = ({
         onClick={handleNextLevel}
         disabled={isLoading || isSettingsOpen || isInfoOpen}
         className={classNames(styles.button, styles.btnRefresh)}
-        title='Gerar Novo Nível'
+        title={t('generateNewLevel')}
       >
         <span />
       </button>
@@ -53,7 +55,7 @@ export const Menu = ({
         onClick={handleOpenSettings}
         disabled={isLoading || isInfoOpen}
         className={classNames(styles.button, styles.btnSettings)}
-        title='Configurações'
+        title={t('settings')}
       >
         <span />
       </button>
@@ -61,11 +63,13 @@ export const Menu = ({
         onClick={handleOpenInfo}
         disabled={isLoading || isSettingsOpen}
         className={classNames(styles.button, styles.btnInfo)}
-        title='Ajuda / Comandos'
+        title={t('helpAndCommands')}
       >
         <span />
       </button>
-      <p className={classNames(styles.label, nunitoSans.className)}>live</p>
+      <p className={classNames(styles.label, nunitoSans.className)}>
+        {t('live')}
+      </p>
     </div>
   );
 };

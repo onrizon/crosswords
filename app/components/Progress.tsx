@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Progress.module.css';
 import { WordData } from '@/types';
 import classNames from 'classnames';
@@ -9,7 +10,8 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const Progress = ({ words, t }: { words: WordData[]; t: string }) => {
+export const Progress = ({ words }: { words: WordData[] }) => {
+  const { t } = useTranslation();
   const solvedCount = words.filter((w) => w.isRevealed).length;
   const totalCount = words.length;
   const progress =
@@ -24,7 +26,7 @@ export const Progress = ({ words, t }: { words: WordData[]; t: string }) => {
         </div>
       </div>
       <div className={styles.text}>
-        <span className={styles.label}>{t}</span>
+        <span className={styles.label}>{t('progress')}</span>
         <span className={styles.value}>
           {solvedCount}
           <span className={styles.divider}>/</span>

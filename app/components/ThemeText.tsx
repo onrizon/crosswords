@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/ThemeText.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
@@ -12,15 +13,12 @@ export const ThemeText = ({
   className,
   currentTheme,
   isLoading,
-  language,
-  t,
 }: {
   className: string;
   currentTheme: string;
   isLoading: boolean;
-  language: string;
-  t: string;
 }) => {
+  const { t } = useTranslation();
   const getThemeStyle = (text: string) => {
     const length = text.length;
     if (length > 20) return styles.textMedium;
@@ -38,18 +36,16 @@ export const ThemeText = ({
       <div className={styles.titleContainer}>
         <h2 className={classNames(styles.title, getThemeStyle(currentTheme))}>
           {isLoading ? (
-            <span className={styles.loading}>{t}</span>
+            <span className={styles.loading}>{t('generatingTheme')}</span>
           ) : (
             <>
-              <span className={styles.label}>
-                {language === 'pt' ? 'TEMA' : 'THEME'}
-              </span>
+              <span className={styles.label}>{t('theme')}</span>
               <span className={styles.theme}>{currentTheme}</span>
             </>
           )}
         </h2>
       </div>
-      <span className={styles.find}>ENCONTRE AS PALAVRAS</span>
+      <span className={styles.find}>{t('findTheWords')}</span>
     </div>
   );
 };

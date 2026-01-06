@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/TopPlayers.module.css';
 import { UserScores } from '@/types';
 import classNames from 'classnames';
@@ -10,13 +11,7 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const TopPlayers = ({
-  userScores,
-  t,
-}: {
-  userScores: UserScores;
-  t: { topPlayers: string; beFirst: string };
-}) => {
+export const TopPlayers = ({ userScores }: { userScores: UserScores }) => {
   // const mockUserScores: Record<string, number> = {
   //   aliceasdasdasdasdasdasdasd: 999999,
   //   aliceasdasdasdasdasdasdasb: 999999,
@@ -34,6 +29,7 @@ export const TopPlayers = ({
   //   jack4: 5,
   //   jack5: 5,
   // };
+  const { t } = useTranslation();
 
   const topScorers = Object.entries(userScores).sort(
     ([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number)
@@ -51,11 +47,11 @@ export const TopPlayers = ({
       <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />
-          <h3 className={styles.title}>{t.topPlayers}</h3>
+          <h3 className={styles.title}>{t('ranking')}</h3>
         </div>
         <div className={classNames(styles.list, 'custom-scrollbar')}>
           {topScorers.length === 0 ? (
-            <div className={styles.empty}>{t.beFirst}</div>
+            <div className={styles.empty}>{t('beFirstToScore')}</div>
           ) : (
             topScorers.map(([user, score], index) => (
               <div key={user} className={styles.playerRow}>

@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Timer.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
@@ -14,7 +15,6 @@ export const Timer = ({
   isSettingsOpen,
   isInfoOpen,
   tempSettings,
-  t,
 }: {
   timeLeft: number;
   isPaused: boolean;
@@ -23,8 +23,8 @@ export const Timer = ({
   tempSettings: {
     duration: number;
   };
-  t: string;
 }) => {
+  const { t } = useTranslation();
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
@@ -49,7 +49,7 @@ export const Timer = ({
         </div>
       </div>
       <div className={styles.content}>
-        <span className={styles.label}>{t}</span>
+        <span className={styles.label}>{t('time')}</span>
         <span className={styles.value}>{formatTime(timeLeft)}</span>
       </div>
     </div>

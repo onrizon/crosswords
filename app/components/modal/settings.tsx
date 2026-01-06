@@ -1,9 +1,18 @@
+import { localeNames, useTranslation } from '@/hooks/useTranslation';
+import { Locale } from '@/locales';
 import styles from '@/styles/Modal.module.css';
-import { SupportedLanguage } from '@/types';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
-import { Asap_Condensed } from 'next/font/google';
+import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
+import { useState } from 'react';
 import { Select } from '../Select';
+import { Switch } from '../Switch';
+
+const nunitoSans = Nunito_Sans({
+  subsets: ['latin'],
+  weight: ['600', '800'],
+  variable: '--font-nunito-sans',
+});
 
 const asapCondensed = Asap_Condensed({
   subsets: ['latin'],
@@ -20,16 +29,24 @@ export const SettingsModal = ({
   handleCloseSettingsWithoutSaving: () => void;
   handleSaveSettings: () => void;
   tempSettings: {
-    language: SupportedLanguage;
+    language: string;
     duration: number;
     webhookUrl: string;
   };
   setTempSettings: (settings: {
-    language: SupportedLanguage;
+    language: string;
     duration: number;
     webhookUrl: string;
   }) => void;
 }) => {
+  const { t, locales } = useTranslation();
+
+  const [checked, setChecked] = useState(false);
+
+  const handleCheck = () => {
+    setChecked(!checked);
+  };
+
   return (
     <div className={classNames(styles.modalOverlay, asapCondensed.className)}>
       <motion.div
@@ -39,35 +56,31 @@ export const SettingsModal = ({
         className={styles.modalContent}
       >
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>CONFIGURAÇÕES</h2>
+          <h2 className={styles.modalTitle}>{t('settings')}</h2>
         </div>
 
         <div className={styles.body}>
           {/* Language */}
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Idioma / Language</h3>
+            <h3 className={styles.sectionTitle}>{t('language')}</h3>
             <Select
               value={tempSettings.language}
               onChange={(e) =>
                 setTempSettings({
                   ...tempSettings,
-                  language: e.target.value as SupportedLanguage,
+                  language: e.target.value as Locale,
                 })
               }
-              options={[
-                { value: 'pt', label: 'Português (PT-BR)' },
-                { value: 'en', label: 'English (US)' },
-                { value: 'fr', label: 'Français' },
-                { value: 'de', label: 'Deutsch' },
-                { value: 'it', label: 'Italiano' },
-                { value: 'es', label: 'Español' },
-              ]}
+              options={locales.map((locale) => ({
+                value: locale,
+                label: localeNames[locale],
+              }))}
             />
           </div>
 
           {/* Duration */}
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Tempo da Rodada</h3>
+            <h3 className={styles.sectionTitle}>{t('roundTime')}</h3>
             <Select
               value={tempSettings.duration}
               onChange={(e) =>
@@ -77,18 +90,44 @@ export const SettingsModal = ({
                 })
               }
               options={[
-                { value: 30, label: '30 segundos' },
-                { value: 60, label: '1 minuto' },
-                { value: 90, label: '1 minuto e 30 segundos' },
-                { value: 120, label: '2 minutos' },
-                { value: 150, label: '2 minutos e 30 segundos' },
-                { value: 180, label: '3 minutos' },
-                { value: 210, label: '3 minutos e 30 segundos' },
-                { value: 240, label: '4 minutos' },
-                { value: 270, label: '4 minutos e 30 segundos' },
-                { value: 300, label: '5 minutos' },
+                { value: 30, label: `30 ${t('seconds')}` },
+                { value: 60, label: `1 ${t('minute')}` },
+                {
+                  value: 90,
+                  label: `1 ${t('minute')} ${t('and')} 30 ${t('seconds')}`,
+                },
+                { value: 120, label: `2 ${t('minutes')}` },
+                {
+                  value: 150,
+                  label: `2 ${t('minutes')} ${t('and')} 30 ${t('seconds')}`,
+                },
+                { value: 180, label: `3 ${t('minutes')}` },
+                {
+                  value: 210,
+                  label: `3 ${t('minutes')} ${t('and')} 30 ${t('seconds')}`,
+                },
+                { value: 240, label: `4 ${t('minutes')}` },
+                {
+                  value: 270,
+                  label: `4 ${t('minutes')} ${t('and')} 30 ${t('seconds')}`,
+                },
+                { value: 300, label: `5 ${t('minutes')}` },
               ]}
             />
+          </div>
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>{t('cameraArea')}</h3>
+            <div
+              className={classNames(
+                styles.description,
+                styles.switchDescription
+              )}
+            >
+              <span className={nunitoSans.className}>
+                {t('cameraAreaDesc')}
+              </span>
+              <Switch checked={checked} onChange={handleCheck} />
+            </div>
           </div>
         </div>
         <div className={styles.footer}>
@@ -96,7 +135,7 @@ export const SettingsModal = ({
             onClick={handleCloseSettingsWithoutSaving}
             className={classNames(styles.btn, asapCondensed.className)}
           >
-            Cancelar
+            {t('cancel')}
           </button>
           <button
             onClick={handleSaveSettings}
@@ -106,7 +145,7 @@ export const SettingsModal = ({
               asapCondensed.className
             )}
           >
-            Salvar
+            {t('save')}
           </button>
         </div>
       </motion.div>

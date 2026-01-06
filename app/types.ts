@@ -56,5 +56,3 @@ export interface Level {
     word: string;
   }[];
 }
-
-export type SupportedLanguage = 'pt' | 'en' | 'fr' | 'de' | 'it' | 'es';

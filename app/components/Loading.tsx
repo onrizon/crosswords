@@ -1,3 +1,4 @@
+import { useTranslation } from '@/hooks/useTranslation';
 import anim from '@/public/lotties/loading.json';
 import styles from '@/styles/Loading.module.css';
 import classNames from 'classnames';
@@ -10,11 +11,12 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const Loading = ({ t }: { t: string }) => {
+export const Loading = () => {
+  const { t } = useTranslation();
   return (
     <div className={classNames(styles.loadingOverlay, asapCondensed.className)}>
       <Lottie animationData={anim} loop={true} />
-      <h2 className={styles.loadingTitle}>{t}</h2>
+      <h2 className={styles.loadingTitle}>{t('connectingWords')}</h2>
     </div>
   );
 };

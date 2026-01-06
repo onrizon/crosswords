@@ -7,6 +7,8 @@ import { Progress } from '@/components/Progress';
 import { ThemeText } from '@/components/ThemeText';
 import { Timer } from '@/components/Timer';
 import { TopPlayers } from '@/components/TopPlayers';
+import { useTranslation } from '@/hooks/useTranslation';
+import { Locale } from '@/locales';
 import styles from '@/styles/Game.module.css';
 import confetti from 'canvas-confetti';
 import classNames from 'classnames';
@@ -15,18 +17,17 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '../components/Grid';
-import { FALLBACK_WORDS, UI_TEXT } from '../constants';
+import { FALLBACK_WORDS } from '../constants';
 import { useTwitch } from '../hooks/useTwitch';
 import { generateLayout } from '../services/layoutEngine';
-import { SupportedLanguage, UserScores, WordData } from '../types';
+import { UserScores, WordData } from '../types';
 
 const DEFAULT_DURATION = 120;
 const BASE_WIDTH = 1920;
 const BASE_HEIGHT = 1080;
 
 const Game: React.FC = () => {
-  // --- Settings State (Hydration-safe: defaults first, localStorage in useEffect) ---
-  const [language, setLanguage] = useState<SupportedLanguage>('pt');
+  const { changeLocale, locale } = useTranslation();
   const [customDuration, setCustomDuration] =
     useState<number>(DEFAULT_DURATION);
   const [webhookUrl, setWebhookUrl] = useState<string>('');
@@ -38,7 +39,7 @@ const Game: React.FC = () => {
       const saved = localStorage.getItem('cruzadinha_settings');
       if (saved) {
         const settings = JSON.parse(saved);
-        if (settings.language) setLanguage(settings.language);
+        if (settings.language) changeLocale(settings.language);
         if (settings.duration) setCustomDuration(settings.duration);
         if (settings.webhookUrl) setWebhookUrl(settings.webhookUrl);
       }
@@ -46,7 +47,7 @@ const Game: React.FC = () => {
       // Ignore localStorage errors
     }
     setIsHydrated(true);
-  }, []);
+  }, [changeLocale]);
 
   // --- Game State ---
   const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
@@ -66,16 +67,14 @@ const Game: React.FC = () => {
 
   // Settings Form State (Temporary state while modal is open)
   const [tempSettings, setTempSettings] = useState<{
-    language: SupportedLanguage;
+    language: string;
     duration: number;
     webhookUrl: string;
   }>({
-    language,
+    language: 'en',
     duration: customDuration,
     webhookUrl,
   });
-
-  const t = UI_TEXT[language];
 
   useEffect(() => {
     if (sessionStatus === 'unauthenticated') {
@@ -103,10 +102,10 @@ const Game: React.FC = () => {
   // --- Game Logic ---
 
   const loadNewLevel = useCallback(
-    async (targetLang?: SupportedLanguage, durationOverride?: number) => {
+    async (targetLang?: string, durationOverride?: number) => {
       setIsLoading(true);
       setIsPaused(false);
-      const langToUse = targetLang || language;
+      const langToUse = targetLang || locale;
       const durationToUse =
         durationOverride !== undefined ? durationOverride : customDuration;
 
@@ -131,25 +130,25 @@ const Game: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [language, customDuration]
+    [locale, customDuration]
   );
 
   // --- Settings Logic ---
   const handleOpenSettings = () => {
     setIsPaused(true); // Pause immediately
-    setTempSettings({ language, duration: customDuration, webhookUrl });
+    setTempSettings({ language: locale, duration: customDuration, webhookUrl });
     setIsSettingsOpen(true);
   };
 
   const handleSaveSettings = () => {
-    const hasLangChanged = tempSettings.language !== language;
+    const hasLangChanged = tempSettings.language !== locale;
     const hasDurationChanged = tempSettings.duration !== customDuration;
 
     // Save to LocalStorage
     localStorage.setItem('cruzadinha_settings', JSON.stringify(tempSettings));
 
     // Save to State
-    setLanguage(tempSettings.language);
+    changeLocale(tempSettings.language as Locale);
     setCustomDuration(tempSettings.duration);
     setWebhookUrl(tempSettings.webhookUrl);
 
@@ -251,7 +250,7 @@ const Game: React.FC = () => {
       }, 3000);
       return () => clearTimeout(timeout);
     }
-  }, [words, handleNextLevel, isLoading, t.levelComplete]);
+  }, [words, handleNextLevel, isLoading]);
 
   // --- Twitch Integration & Webhook ---
 
@@ -346,7 +345,7 @@ const Game: React.FC = () => {
         return newWords;
       });
     },
-    [isLoading, t.guessed, handleNextLevel, currentTheme, webhookUrl]
+    [isLoading, handleNextLevel, currentTheme, webhookUrl]
   );
 
   useTwitch({ onMessage: handleTwitchMessage });
@@ -380,8 +379,6 @@ const Game: React.FC = () => {
               })}
               currentTheme={currentTheme}
               isLoading={isLoading}
-              language={language}
-              t={t.generating}
             />
 
             {/* Timer */}
@@ -391,7 +388,6 @@ const Game: React.FC = () => {
               isSettingsOpen={isSettingsOpen}
               isInfoOpen={isInfoOpen}
               tempSettings={tempSettings}
-              t={t.time}
             />
 
             {/* Buttons Grid */}
@@ -407,7 +403,7 @@ const Game: React.FC = () => {
             />
 
             {/* SECTION 4: PROGRESS (Fixed Width ~240px) */}
-            <Progress words={words} t={t.progress} />
+            <Progress words={words} />
           </div>
         </header>
 
@@ -428,7 +424,7 @@ const Game: React.FC = () => {
               ></div>
 
               {/* Loading Overlay */}
-              {isLoading && <Loading t={t.loadingTitle} />}
+              {isLoading && <Loading />}
 
               <div
                 className={classNames(
@@ -451,7 +447,7 @@ const Game: React.FC = () => {
             />
 
             {/* Leaderboard - Expanded to fill remaining space */}
-            <TopPlayers userScores={userScores} t={t} />
+            <TopPlayers userScores={userScores} />
           </div>
         </main>
 
