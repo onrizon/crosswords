@@ -71,7 +71,7 @@ const Game: React.FC = () => {
     duration: number;
     webhookUrl: string;
   }>({
-    language: 'en',
+    language: 'pt',
     duration: customDuration,
     webhookUrl,
   });

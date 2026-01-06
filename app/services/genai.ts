@@ -1,5 +1,6 @@
+import { Locale } from '@/locales';
 import { GoogleGenAI, Type } from '@google/genai';
-import { Level, SupportedLanguage } from '../types';
+import { Level } from '../types';
 
 // Get API key from environment variable
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
@@ -129,7 +130,7 @@ const INSPIRATIONS = [
   "New Year's Eve",
 ];
 
-const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
+const LANGUAGE_NAMES: Record<Locale, string> = {
   pt: 'Portuguese (Brazil)',
   en: 'English',
   fr: 'French',
@@ -166,7 +167,7 @@ const FALLBACK_DATA: Level = {
 };
 
 export const generateTopicAndWords = async (
-  language: SupportedLanguage = 'pt'
+  language: Locale = 'pt'
 ): Promise<Level> => {
   // Return fallback data if no API key is configured
   if (!API_KEY) {

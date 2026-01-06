@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 
 export function useTranslation() {
   const router = useRouter();
-  const locale = (router.locale || 'en') as Locale;
+  const locale = (router.locale || 'pt') as Locale;
 
   // Get all translations for the current locale
   const translations: Translations = useMemo(() => {
