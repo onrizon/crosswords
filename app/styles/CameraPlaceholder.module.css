@@ -1,6 +1,6 @@
 .container {
   align-items: center;
-  background: #190b5e;
+  background: rgba(25, 11, 94, 0.6);
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
@@ -29,7 +29,7 @@
   padding: 0 14px 5px 21px;
   position: absolute;
   right: -4px;
-  top: -38px;
+  top: -36px;
   width: 342px;
 }
 
