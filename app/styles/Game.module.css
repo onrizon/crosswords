@@ -158,12 +158,11 @@
 .gridLightLeft:before,
 .gridLightRight:before {
   background-repeat: no-repeat;
-  background-size: contain;
   background-position: center center;
-  height: 800px;
+  height: 820px;
   position: absolute;
-  top: -13px;
-  width: 130px;
+  top: -24px;
+  width: 123px;
   z-index: 51;
 }
 
