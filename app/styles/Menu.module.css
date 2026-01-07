@@ -1,13 +1,13 @@
 .container {
   align-items: center;
-  bottom: 73px;
+  bottom: 72px;
   display: flex;
-  gap: 17px;
+  gap: 9.5px;
   height: 64px;
   justify-content: center;
   position: absolute;
-  right: 218px;
-  width: 243;
+  right: 203px;
+  width: 267px;
 }
 
 .button {
@@ -72,23 +72,9 @@
   width: 10px;
 }
 
-.label {
-  bottom: -43px;
-  color: #fff;
-  display: block;
-  font-size: 24px;
-  height: 38px;
-  left: 20px;
-  line-height: 32px;
-  padding-left: 50px;
-  position: absolute;
-  text-align: center;
-  text-shadow: rgb(139, 19, 145) 1px 0px 0px,
-    rgb(139, 19, 145) 0.540302px 0.841471px 0px,
-    rgb(139, 19, 145) -0.416147px 0.909297px 0px,
-    rgb(139, 19, 145) -0.989992px 0.14112px 0px,
-    rgb(139, 19, 145) -0.653644px -0.756802px 0px,
-    rgb(139, 19, 145) 0.283662px -0.958924px 0px,
-    rgb(139, 19, 145) 0.96017px -0.279415px 0px;
-  width: 208px;
+.btnLogout span {
+  background-image: url('/images/icoLogout.svg');
+  height: 26px;
+  margin-left: 5px;
+  width: 29px;
 }

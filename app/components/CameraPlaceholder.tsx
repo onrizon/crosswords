@@ -10,15 +10,7 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const CameraPlaceholder = ({
-  isLoading,
-  isSettingsOpen,
-  handleLogout,
-}: {
-  isLoading: boolean;
-  isSettingsOpen: boolean;
-  handleLogout: () => void;
-}) => {
+export const CameraPlaceholder = () => {
   const { data: session } = useSession();
   const { t } = useTranslation();
   return (
@@ -26,17 +18,7 @@ export const CameraPlaceholder = ({
       <div className={styles.containerEdge}>
         <div className={styles.header}>
           <div className={styles.icon} />
-          <h3 className={styles.title}>
-            {session?.user?.twitchLogin}
-            <button
-              onClick={handleLogout}
-              disabled={isLoading || isSettingsOpen}
-              className={styles.button}
-              title={t('logout')}
-            >
-              <span />
-            </button>
-          </h3>
+          <h3 className={styles.title}>{session?.user?.twitchLogin}</h3>
         </div>
         <div className={styles.text}>
           <span />

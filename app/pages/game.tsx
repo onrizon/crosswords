@@ -1,6 +1,7 @@
 import { CameraPlaceholder } from '@/components/CameraPlaceholder';
 import { Loading } from '@/components/Loading';
 import { Menu } from '@/components/Menu';
+import { AlertModal } from '@/components/modal/Alert';
 import { InfoModal } from '@/components/modal/info';
 import { SettingsModal } from '@/components/modal/settings';
 import { Progress } from '@/components/Progress';
@@ -59,6 +60,7 @@ const Game: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [userScores, setUserScores] = useState<UserScores>({});
   const { data: session, status: sessionStatus } = useSession();
   const [hit, setYouHit] = useState(false);
@@ -193,6 +195,16 @@ const Game: React.FC = () => {
 
   const handleLogout = () => {
     signOut({ callbackUrl: '/' });
+  };
+
+  const handleOpenAlert = () => {
+    setIsPaused(true);
+    setIsAlertOpen(true);
+  };
+
+  const handleCloseAlert = () => {
+    setIsAlertOpen(false);
+    if (!isSettingsOpen && !isInfoOpen) setIsPaused(false);
   };
 
   // Sound effect helper
@@ -407,6 +419,7 @@ const Game: React.FC = () => {
               handleOpenInfo={handleOpenInfo}
               handlePause={handlePause}
               handleNextLevel={handleNextLevel}
+              handleOpenAlert={handleOpenAlert}
             />
 
             {/* SECTION 4: PROGRESS (Fixed Width ~240px) */}
@@ -447,13 +460,7 @@ const Game: React.FC = () => {
           {/* RIGHT: Sidebar (Fixed Width) - Layout always assumes horizontal desktop view */}
           <div className={styles.sidebar}>
             {/* Streamer Camera Placeholder */}
-            {showCameraArea && (
-              <CameraPlaceholder
-                isLoading={isLoading}
-                isSettingsOpen={isSettingsOpen}
-                handleLogout={handleLogout}
-              />
-            )}
+            {showCameraArea && <CameraPlaceholder />}
 
             {/* Leaderboard - Expanded to fill remaining space */}
             <TopPlayers
@@ -480,6 +487,16 @@ const Game: React.FC = () => {
         {/* INFO MODAL */}
         <AnimatePresence>
           {isInfoOpen && <InfoModal handleCloseInfo={handleCloseInfo} />}
+        </AnimatePresence>
+
+        {/* ALERT MODAL */}
+        <AnimatePresence>
+          {isAlertOpen && (
+            <AlertModal
+              handleLogout={handleLogout}
+              handleCloseAlert={handleCloseAlert}
+            />
+          )}
         </AnimatePresence>
       </div>
     </div>

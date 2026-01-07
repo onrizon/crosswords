@@ -18,6 +18,7 @@ export const Menu = ({
   handleOpenInfo,
   handlePause,
   handleNextLevel,
+  handleOpenAlert,
 }: {
   isLoading: boolean;
   isPaused: boolean;
@@ -27,6 +28,7 @@ export const Menu = ({
   handleOpenInfo: () => void;
   handlePause: () => void;
   handleNextLevel: () => void;
+  handleOpenAlert: () => void;
 }) => {
   const { t } = useTranslation();
   return (
@@ -67,9 +69,14 @@ export const Menu = ({
       >
         <span />
       </button>
-      <p className={classNames(styles.label, nunitoSans.className)}>
-        {t('live')}
-      </p>
+      <button
+        onClick={handleOpenAlert}
+        disabled={isLoading || isSettingsOpen}
+        className={classNames(styles.button, styles.btnLogout)}
+        title={t('logout')}
+      >
+        <span />
+      </button>
     </div>
   );
 };
