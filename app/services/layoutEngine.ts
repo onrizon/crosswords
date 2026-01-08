@@ -17,14 +17,16 @@ export const generateLayout = (rawWords: RawWord[]): WordData[] => {
     const layout = attemptLayout(pool);
     // Increased requirement to try and fit more words if possible
     if (layout.length >= 20) {
-      return layout.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+      const result = layout.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+      return centerLayout(result);
     }
   }
 
   // If we really fail to place 20 words, return whatever max we found or fallback
   const bestEffort = attemptLayout(pool);
   // Cap at 20 words
-  return bestEffort.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+  const result = bestEffort.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+  return centerLayout(result);
 };
 
 const attemptLayout = (pool: RawWord[]): WordData[] => {
@@ -172,4 +174,44 @@ const placeWord = (
     grid[r][c] = word[i];
   }
   return true;
+};
+
+const centerLayout = (words: WordData[]): WordData[] => {
+  if (words.length === 0) return words;
+
+  // Calculate bounding box of all placed words
+  let minRow = GRID_ROWS;
+  let maxRow = 0;
+  let minCol = GRID_COLS;
+  let maxCol = 0;
+
+  for (const word of words) {
+    const { row, col } = word.start;
+    const endRow = word.direction === 'V' ? row + word.word.length - 1 : row;
+    const endCol = word.direction === 'H' ? col + word.word.length - 1 : col;
+
+    minRow = Math.min(minRow, row);
+    maxRow = Math.max(maxRow, endRow);
+    minCol = Math.min(minCol, col);
+    maxCol = Math.max(maxCol, endCol);
+  }
+
+  // Calculate current dimensions and center offset
+  const currentHeight = maxRow - minRow + 1;
+  const currentWidth = maxCol - minCol + 1;
+
+  const targetStartRow = Math.floor((GRID_ROWS - currentHeight) / 2);
+  const targetStartCol = Math.floor((GRID_COLS - currentWidth) / 2);
+
+  const rowOffset = targetStartRow - minRow;
+  const colOffset = targetStartCol - minCol;
+
+  // Apply offset to all words
+  return words.map((word) => ({
+    ...word,
+    start: {
+      row: word.start.row + rowOffset,
+      col: word.start.col + colOffset,
+    },
+  }));
 };
