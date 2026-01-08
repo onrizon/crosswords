@@ -9,7 +9,7 @@
   margin: 18px 0 0 10px;
   min-width: 795px;
   position: relative;
-  width: 795px;
+  width: 911px;
 }
 
 .hitTheme:before,
@@ -44,7 +44,7 @@
   height: 146px;
   justify-content: center;
   padding: 12px;
-  width: 665px;
+  width: 780px;
   z-index: 10;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .textLarge {
-  font-size: 62px;
+  font-size: 76px;
 }
 
 .loading {

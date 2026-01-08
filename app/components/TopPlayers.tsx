@@ -8,7 +8,7 @@ import { Nunito_Sans } from 'next/font/google';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
-  weight: ['700'],
+  weight: ['700', '900'],
   variable: '--font-nunito-sans',
 });
 
@@ -25,7 +25,8 @@ const TopPlayers: React.FC<{
   const { t } = useTranslation();
 
   const topScorers = Object.entries(userScores).sort(
-    ([, scoreA], [, scoreB]) => (scoreB as number) - (scoreA as number)
+    ([, scoreA], [, scoreB]) =>
+      (scoreB.total as number) - (scoreA.total as number)
   );
 
   const getRankClass = (index: number) => {
@@ -64,7 +65,7 @@ const TopPlayers: React.FC<{
                   >
                     {user}
                   </span>
-                  <span className={styles.playerScore}>{score}</span>
+                  <span className={styles.playerScore}>{score.total}</span>
                 </div>
               </div>
             ))

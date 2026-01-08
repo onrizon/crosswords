@@ -5,6 +5,7 @@ import { Locale } from '@/locales';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
+import { useEffect } from 'react';
 import { Select } from '../Select';
 import { Switch } from '../Switch';
 
@@ -25,6 +26,9 @@ const SettingsModal = ({
   tempSettings,
   setTempSettings,
   handleModal,
+  locale,
+  customDuration,
+  showCameraArea,
 }: {
   handleSaveSettings: () => void;
   tempSettings: {
@@ -38,6 +42,9 @@ const SettingsModal = ({
     showCameraArea: boolean;
   }) => void;
   handleModal: (type: number, data: React.FC) => void;
+  locale: string;
+  customDuration: number;
+  showCameraArea: boolean;
 }) => {
   const { t, locales } = useTranslation();
 
@@ -45,6 +52,14 @@ const SettingsModal = ({
     handleSaveSettings();
     handleModal(C.CLOSED_MODAL, () => null);
   };
+
+  useEffect(() => {
+    setTempSettings({
+      language: locale,
+      duration: customDuration,
+      showCameraArea,
+    });
+  }, [locale, customDuration, showCameraArea, setTempSettings]);
 
   return (
     <>
@@ -161,6 +176,9 @@ function mapStateToProps(state: {
     duration: number;
     showCameraArea: boolean;
   }) => void;
+  locale: string;
+  customDuration: number;
+  showCameraArea: boolean;
 }): {
   handleModal: (type: number, data: React.FC) => void;
   handleSaveSettings: () => void;
@@ -174,12 +192,18 @@ function mapStateToProps(state: {
     duration: number;
     showCameraArea: boolean;
   }) => void;
+  locale: string;
+  customDuration: number;
+  showCameraArea: boolean;
 } {
   return {
     handleModal: state.handleModal,
     handleSaveSettings: state.handleSaveSettings,
     tempSettings: state.tempSettings,
     setTempSettings: state.setTempSettings,
+    locale: state.locale,
+    customDuration: state.customDuration,
+    showCameraArea: state.showCameraArea,
   };
 }
 

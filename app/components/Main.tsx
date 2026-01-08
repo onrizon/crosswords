@@ -102,7 +102,11 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
         setWords(validLayout);
         setCurrentTheme(data.theme);
-        setTimeLeft(durationToUse); // Reset time to the configured duration
+        setTimeLeft(durationToUse);
+
+        // setUserScores((users) =>
+        //   users.map((user: UserScores) => ({ total: user.total, round: 0 }))
+        // );
       } catch (err) {
         console.error(err);
         setTimeout(() => loadNewLevel(langToUse, durationToUse), 2000);
@@ -112,15 +116,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
     },
     [locale, customDuration]
   );
-
-  const handleOpenSettings = () => {
-    setIsPaused(true); // Pause immediately
-    setTempSettings({
-      language: locale,
-      duration: customDuration,
-      showCameraArea,
-    });
-  };
 
   const handleSaveSettings = () => {
     const hasLangChanged = tempSettings.language !== locale;
@@ -269,7 +264,12 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
           setUserScores((prev) => ({
             ...prev,
-            [username]: (prev[username] || 0) + 100,
+            [username]: !prev[username]
+              ? { round: 1, total: 1 }
+              : {
+                  round: prev[username].round + 1,
+                  total: prev[username].total + 1,
+                },
           }));
 
           playSuccessSound();
@@ -312,6 +312,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         customDuration,
         setCustomDuration,
         handleNextLevel,
+        locale,
       }}
     >
       <div className={styles.main}>
