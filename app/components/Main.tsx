@@ -2,7 +2,6 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
 import { Locale } from '@/locales';
-import { generateLayout } from '@/services/layoutEngine';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
 import confetti from 'canvas-confetti';
@@ -90,17 +89,13 @@ export default function Main({ children }: { children: React.ReactNode }) {
         durationOverride !== undefined ? durationOverride : customDuration;
 
       try {
-        const data = await fetch(`/api/level?language=${langToUse}`).then(
-          (res) => res.json()
-        );
-        const validLayout = generateLayout(data.words);
-        if (validLayout.length < 5) {
-          throw new Error(
-            'Could not generate a valid grid structure. Try again.'
-          );
+        const response = await fetch(`/api/level?language=${langToUse}`);
+        if (!response.ok) {
+          throw new Error('Failed to generate level');
         }
+        const data = await response.json();
 
-        setWords(validLayout);
+        setWords(data.words);
         setCurrentTheme(data.theme);
         setTimeLeft(durationToUse);
         setUserScores((users) =>

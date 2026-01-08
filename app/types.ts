@@ -52,7 +52,14 @@ export interface LevelData {
   words: WordData[];
 }
 
-export interface Level {
+// Raw AI response (words without positions)
+export interface RawLevel {
   theme: string;
   words: string[];
+}
+
+// API response (words with positions)
+export interface Level {
+  theme: string;
+  words: WordData[];
 }

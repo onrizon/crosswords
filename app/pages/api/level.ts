@@ -1,5 +1,6 @@
 import { Locale } from '@/locales';
 import { generateTopicAndWords } from '@/services/genai';
+import { generateLayout } from '@/services/layoutEngine';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function getLevel(
@@ -8,5 +9,15 @@ export default async function getLevel(
 ) {
   const language = (req.query.language as Locale) || 'pt';
   const level = await generateTopicAndWords(language);
-  res.status(200).json(level);
+  const words = generateLayout(level.words);
+
+  if (words.length < 5) {
+    res.status(500).json({ error: 'Could not generate a valid grid structure' });
+    return;
+  }
+
+  res.status(200).json({
+    theme: level.theme,
+    words,
+  });
 }

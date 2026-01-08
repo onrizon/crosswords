@@ -4,36 +4,51 @@ import { WordData } from '../types';
 // Represents the grid state during generation
 type GridChar = string | null;
 
+interface Placement {
+  row: number;
+  col: number;
+  dir: 'H' | 'V';
+  intersections: number; // Number of letter intersections with existing words
+}
+
+const MAX_WORDS = 40;
+
 export const generateLayout = (rawWords: string[]): WordData[] => {
-  // Sort by length descending to place big words first (anchors)
+  // Sort by length descending - longer words are better anchors
   const pool = [...rawWords].sort((a, b) => b.length - a.length);
 
-  // Try multiple times to generate a valid layout if the first attempt gets stuck
-  for (let attempt = 0; attempt < 50; attempt++) {
-    const layout = attemptLayout(pool);
-    // Increased requirement to try and fit more words if possible
-    if (layout.length >= 20) {
-      const result = layout.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
-      return centerLayout(result);
+  let bestLayout: WordData[] = [];
+
+  // Try multiple times and keep the best result
+  for (let attempt = 0; attempt < 100; attempt++) {
+    const layout = attemptLayout(pool, attempt);
+
+    // Keep track of the best layout found
+    if (layout.length > bestLayout.length) {
+      bestLayout = layout;
+    }
+
+    // If we reached our target, we're done
+    if (bestLayout.length >= MAX_WORDS) {
+      break;
     }
   }
 
-  // If we really fail to place 20 words, return whatever max we found or fallback
-  const bestEffort = attemptLayout(pool);
-  // Cap at 20 words
-  const result = bestEffort.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+  // Cap at MAX_WORDS and assign IDs
+  const result = bestLayout.slice(0, MAX_WORDS).map((w, i) => ({ ...w, id: i + 1 }));
   return centerLayout(result);
 };
 
-const attemptLayout = (pool: string[]): WordData[] => {
+const attemptLayout = (pool: string[], attemptNum: number): WordData[] => {
   const grid: GridChar[][] = Array(C.GRID_ROWS)
     .fill(null)
     .map(() => Array(C.GRID_COLS).fill(null));
   const placedWords: WordData[] = [];
+  const unplacedWords: string[] = [];
 
-  // Place the first (longest) word horizontally in the center
   if (pool.length === 0) return [];
 
+  // Place the first (longest) word horizontally in the center
   const first = pool[0];
   const startRow = Math.floor(C.GRID_ROWS / 2);
   const startCol = Math.floor((C.GRID_COLS - first.length) / 2);
@@ -48,59 +63,153 @@ const attemptLayout = (pool: string[]): WordData[] => {
     });
   }
 
-  // Try to place remaining words
+  // Prepare remaining words with slight randomization but keeping longer words earlier
   const remaining = pool.slice(1);
 
-  // Shuffle remaining to randomize structure
-  remaining.sort(() => Math.random() - 0.5);
+  // Group words by length ranges and shuffle within groups for variety
+  const shuffled = shuffleByLengthGroups(remaining, attemptNum);
 
-  for (const candidate of remaining) {
-    if (placedWords.length >= 20) break; // Limit increased to 20
+  // First pass: try to place all words
+  for (const candidate of shuffled) {
+    if (placedWords.length >= MAX_WORDS) break;
 
-    // Find all intersections with currently placed words
-    const possiblePlacements: { r: number; c: number; dir: 'H' | 'V' }[] = [];
+    const placed = tryPlaceWord(grid, candidate, placedWords);
+    if (!placed) {
+      unplacedWords.push(candidate);
+    }
+  }
 
-    for (let i = 0; i < candidate.length; i++) {
-      const char = candidate[i];
+  // Multiple additional passes: retry unplaced words as grid fills up
+  // More letters on grid = more intersection opportunities
+  for (let pass = 0; pass < 5 && unplacedWords.length > 0; pass++) {
+    const stillUnplaced: string[] = [];
 
-      // Scan grid for this char
-      for (let r = 0; r < C.GRID_ROWS; r++) {
-        for (let c = 0; c < C.GRID_COLS; c++) {
-          if (grid[r][c] === char) {
-            // Found a matching letter. Can we place crosswise?
+    for (const candidate of unplacedWords) {
+      if (placedWords.length >= MAX_WORDS) break;
 
-            // Try Horizontal
-            if (canPlaceWord(grid, candidate, r, c - i, 'H')) {
-              possiblePlacements.push({ r: r, c: c - i, dir: 'H' });
-            }
-            // Try Vertical
-            if (canPlaceWord(grid, candidate, r - i, c, 'V')) {
-              possiblePlacements.push({ r: r - i, c: c, dir: 'V' });
-            }
+      const placed = tryPlaceWord(grid, candidate, placedWords);
+      if (!placed) {
+        stillUnplaced.push(candidate);
+      }
+    }
+
+    unplacedWords.length = 0;
+    unplacedWords.push(...stillUnplaced);
+
+    // If no progress was made in this pass, stop retrying
+    if (stillUnplaced.length === unplacedWords.length) break;
+  }
+
+  return placedWords;
+};
+
+// Shuffle words while keeping longer words generally earlier
+const shuffleByLengthGroups = (words: string[], seed: number): string[] => {
+  // Group by length ranges: 10-8, 7-6, 5-4, 3
+  const groups: string[][] = [[], [], [], []];
+
+  for (const word of words) {
+    if (word.length >= 8) groups[0].push(word);
+    else if (word.length >= 6) groups[1].push(word);
+    else if (word.length >= 4) groups[2].push(word);
+    else groups[3].push(word);
+  }
+
+  // Shuffle each group
+  for (const group of groups) {
+    shuffleArray(group, seed);
+  }
+
+  return groups.flat();
+};
+
+const shuffleArray = (arr: string[], seed: number): void => {
+  // Simple seeded shuffle for variety between attempts
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor((Math.random() + seed * 0.0001) * (i + 1)) % (i + 1);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+};
+
+const tryPlaceWord = (
+  grid: GridChar[][],
+  candidate: string,
+  placedWords: WordData[]
+): boolean => {
+  // Find all valid placements for this word
+  const placements = findAllPlacements(grid, candidate);
+
+  if (placements.length === 0) return false;
+
+  // Sort placements by number of intersections (more is better)
+  // This creates denser, more connected crosswords
+  placements.sort((a, b) => b.intersections - a.intersections);
+
+  // Pick from top placements with some randomness for variety
+  const topCount = Math.min(3, placements.length);
+  const pick = placements[Math.floor(Math.random() * topCount)];
+
+  if (placeWord(grid, candidate, pick.row, pick.col, pick.dir)) {
+    placedWords.push({
+      id: 0,
+      word: candidate,
+      direction: pick.dir,
+      start: { row: pick.row, col: pick.col },
+      isRevealed: false,
+    });
+    return true;
+  }
+
+  return false;
+};
+
+const findAllPlacements = (grid: GridChar[][], word: string): Placement[] => {
+  const placements: Placement[] = [];
+
+  // For each letter in the word, find matching letters on the grid
+  for (let i = 0; i < word.length; i++) {
+    const char = word[i];
+
+    for (let r = 0; r < C.GRID_ROWS; r++) {
+      for (let c = 0; c < C.GRID_COLS; c++) {
+        if (grid[r][c] === char) {
+          // Try horizontal placement (word crosses this point at position i)
+          const hCol = c - i;
+          if (canPlaceWord(grid, word, r, hCol, 'H')) {
+            const intersections = countIntersections(grid, word, r, hCol, 'H');
+            placements.push({ row: r, col: hCol, dir: 'H', intersections });
+          }
+
+          // Try vertical placement
+          const vRow = r - i;
+          if (canPlaceWord(grid, word, vRow, c, 'V')) {
+            const intersections = countIntersections(grid, word, vRow, c, 'V');
+            placements.push({ row: vRow, col: c, dir: 'V', intersections });
           }
         }
       }
     }
-
-    if (possiblePlacements.length > 0) {
-      // Pick a random valid placement
-      const pick =
-        possiblePlacements[
-          Math.floor(Math.random() * possiblePlacements.length)
-        ];
-      if (placeWord(grid, candidate, pick.r, pick.c, pick.dir)) {
-        placedWords.push({
-          id: 0, // id assigned later
-          word: candidate,
-          direction: pick.dir,
-          start: { row: pick.r, col: pick.c },
-          isRevealed: false,
-        });
-      }
-    }
   }
 
-  return placedWords;
+  return placements;
+};
+
+const countIntersections = (
+  grid: GridChar[][],
+  word: string,
+  row: number,
+  col: number,
+  dir: 'H' | 'V'
+): number => {
+  let count = 0;
+  for (let i = 0; i < word.length; i++) {
+    const r = dir === 'V' ? row + i : row;
+    const c = dir === 'H' ? col + i : col;
+    if (grid[r][c] === word[i]) {
+      count++;
+    }
+  }
+  return count;
 };
 
 const canPlaceWord = (
@@ -114,21 +223,18 @@ const canPlaceWord = (
   if (dir === 'H' && col + word.length > C.GRID_COLS) return false;
   if (dir === 'V' && row + word.length > C.GRID_ROWS) return false;
 
-  // Check Immediate Borders (Start - 1) and (End + 1)
+  // Must have at least one intersection with existing letters
+  let hasIntersection = false;
+
+  // Check immediate borders (before start and after end)
   if (dir === 'H') {
-    if (col > 0 && grid[row][col - 1] !== null) return false; // Left block
-    if (
-      col + word.length < C.GRID_COLS &&
-      grid[row][col + word.length] !== null
-    )
-      return false; // Right block
+    if (col > 0 && grid[row][col - 1] !== null) return false;
+    if (col + word.length < C.GRID_COLS && grid[row][col + word.length] !== null)
+      return false;
   } else {
-    if (row > 0 && grid[row - 1][col] !== null) return false; // Top block
-    if (
-      row + word.length < C.GRID_ROWS &&
-      grid[row + word.length][col] !== null
-    )
-      return false; // Bottom block
+    if (row > 0 && grid[row - 1][col] !== null) return false;
+    if (row + word.length < C.GRID_ROWS && grid[row + word.length][col] !== null)
+      return false;
   }
 
   for (let i = 0; i < word.length; i++) {
@@ -137,24 +243,28 @@ const canPlaceWord = (
     const char = word[i];
     const existing = grid[r][c];
 
-    // Conflict check
+    // Conflict check - different letter already there
     if (existing !== null && existing !== char) return false;
 
-    // Adjacency Check (The Strict Scrabble Rule)
+    // Track if we have at least one intersection
+    if (existing === char) {
+      hasIntersection = true;
+    }
+
+    // Adjacency check - no parallel words allowed (Scrabble rule)
     if (existing === null) {
       if (dir === 'H') {
-        // Check Top and Bottom neighbors
         if (r > 0 && grid[r - 1][c] !== null) return false;
         if (r < C.GRID_ROWS - 1 && grid[r + 1][c] !== null) return false;
       } else {
-        // Check Left and Right neighbors
         if (c > 0 && grid[r][c - 1] !== null) return false;
         if (c < C.GRID_COLS - 1 && grid[r][c + 1] !== null) return false;
       }
     }
   }
 
-  return true;
+  // Word must intersect with at least one existing letter (except first word)
+  return hasIntersection;
 };
 
 const placeWord = (
@@ -175,7 +285,7 @@ const placeWord = (
 const centerLayout = (words: WordData[]): WordData[] => {
   if (words.length === 0) return words;
 
-  // Calculate bounding box of all placed words
+  // Calculate bounding box
   let minRow = C.GRID_ROWS;
   let maxRow = 0;
   let minCol = C.GRID_COLS;
@@ -192,7 +302,6 @@ const centerLayout = (words: WordData[]): WordData[] => {
     maxCol = Math.max(maxCol, endCol);
   }
 
-  // Calculate current dimensions and center offset
   const currentHeight = maxRow - minRow + 1;
   const currentWidth = maxCol - minCol + 1;
 
@@ -202,7 +311,6 @@ const centerLayout = (words: WordData[]): WordData[] => {
   const rowOffset = targetStartRow - minRow;
   const colOffset = targetStartCol - minCol;
 
-  // Apply offset to all words
   return words.map((word) => ({
     ...word,
     start: {

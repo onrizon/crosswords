@@ -1,9 +1,9 @@
 import { Locale } from '@/locales';
 import { GoogleGenAI, Type } from '@google/genai';
-import { Level } from '../types';
+import { RawLevel } from '../types';
 
 // Get API key from environment variable
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
+const API_KEY = process.env.GEMINI_API_KEY || '';
 
 if (!API_KEY) {
   console.warn(
@@ -487,7 +487,7 @@ const LANGUAGE_NAMES: Record<Locale, string> = {
 };
 
 // Robust fallback data with enough words to guarantee a valid grid
-const FALLBACK_DATA: Level = {
+const FALLBACK_DATA: RawLevel = {
   theme: 'TECNOLOGIA (OFFLINE)',
   words: [
     'INTERNET',
@@ -510,12 +510,32 @@ const FALLBACK_DATA: Level = {
     'CLIQUE',
     'ICONE',
     'PASTA',
+    'SERVIDOR',
+    'REDE',
+    'SISTEMA',
+    'ARQUIVO',
+    'DIGITAL',
+    'CODIGO',
+    'PIXEL',
+    'TELA',
+    'DISCO',
+    'NUVEM',
+    'LINK',
+    'SITE',
+    'BLOG',
+    'EMAIL',
+    'SENHA',
+    'LOGIN',
+    'PERFIL',
+    'VIDEO',
+    'AUDIO',
+    'TECLA',
   ],
 };
 
 export const generateTopicAndWords = async (
   language: Locale = 'pt'
-): Promise<Level> => {
+): Promise<RawLevel> => {
   // Return fallback data if no API key is configured
   if (!API_KEY) {
     console.warn('No API key configured, using fallback data');
@@ -561,7 +581,7 @@ export const generateTopicAndWords = async (
            - Create a specific, catchy category name in ${targetLanguage} that is INSPIRED BY but DIFFERENT from the prompt.
            - Examples: "creatures that live underwater" could become "Peixes Tropicais", "Vida Marinha", "Animais do Oceano", "Habitantes do Mar", etc.
            - Be creative! Each theme should feel fresh and unique.
-        2. Generate exactly 20 common words related to YOUR CREATED theme in ${targetLanguage}.
+        2. Generate exactly 40 common words related to YOUR CREATED theme in ${targetLanguage}.
 
         RULES:
         - Theme name must be in ${targetLanguage}, creative, and specific.
@@ -570,14 +590,14 @@ export const generateTopicAndWords = async (
         - Words must be between 3 and 10 letters long.
         - Words must be single words (NO spaces, NO hyphens).
         - Normalize words: Remove accents/diacritics (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
-        - Generate only 20 words.
+        - Generate up to 40 words, but not less than 15.
         - Return strictly JSON.`,
       },
       contents: `Generate a new crossword theme and word list in ${targetLanguage}. Random seed: ${randomSeed}`,
     });
 
     if (response.text) {
-      return JSON.parse(response.text) as Level;
+      return JSON.parse(response.text) as RawLevel;
     }
     throw new Error('Empty response from AI');
   } catch (error) {
