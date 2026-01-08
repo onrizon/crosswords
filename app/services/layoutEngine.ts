@@ -196,8 +196,8 @@ const centerLayout = (words: WordData[]): WordData[] => {
   const currentHeight = maxRow - minRow + 1;
   const currentWidth = maxCol - minCol + 1;
 
-  const targetStartRow = Math.floor((C.GRID_ROWS - currentHeight) / 2);
-  const targetStartCol = Math.floor((C.GRID_COLS - currentWidth) / 2);
+  const targetStartRow = Math.ceil((C.GRID_ROWS - currentHeight) / 2);
+  const targetStartCol = Math.ceil((C.GRID_COLS - currentWidth) / 2);
 
   const rowOffset = targetStartRow - minRow;
   const colOffset = targetStartCol - minCol;
