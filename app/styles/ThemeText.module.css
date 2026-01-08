@@ -4,12 +4,12 @@
   background-size: contain;
   display: flex;
   flex-direction: column;
-  height: 203px;
+  height: 214px;
   justify-content: flex-start;
   margin: 18px 0 0 10px;
   min-width: 795px;
   position: relative;
-  width: 911px;
+  width: 1016px;
 }
 
 .hitTheme:before,
@@ -21,9 +21,9 @@
   content: '';
   display: block;
   height: 307px;
-  left: -71px;
+  left: -64px;
   position: absolute;
-  top: -71px;
+  top: -65px;
   width: 222px;
 }
 
@@ -34,17 +34,17 @@
 .hitTheme:after {
   background-image: url('/images/headerHitRight.svg');
   left: auto;
-  right: -78px;
+  right: -65px;
 }
 
 .titleContainer {
   align-items: center;
   display: flex;
   position: relative;
-  height: 146px;
+  height: 156px;
   justify-content: center;
   padding: 12px;
-  width: 780px;
+  width: 896px;
   z-index: 10;
 }
 

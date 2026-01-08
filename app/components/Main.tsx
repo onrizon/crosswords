@@ -103,13 +103,14 @@ export default function Main({ children }: { children: React.ReactNode }) {
         setWords(validLayout);
         setCurrentTheme(data.theme);
         setTimeLeft(durationToUse);
-        setUserScores((users) =>
-          Object.fromEntries(
-            Object.entries(users).map(([username, scores]) => [
-              username,
-              { total: scores.total, round: 0 },
-            ])
-          ) as UserScores
+        setUserScores(
+          (users) =>
+            Object.fromEntries(
+              Object.entries(users).map(([username, scores]) => [
+                username,
+                { total: scores.total, round: 0 },
+              ])
+            ) as UserScores
         );
       } catch (err) {
         console.error(err);

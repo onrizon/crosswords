@@ -1,12 +1,12 @@
 .container {
   align-items: center;
-  bottom: 72px;
+  bottom: 65px;
   display: flex;
-  gap: 9.5px;
+  gap: 12.5px;
   height: 64px;
   justify-content: center;
   position: absolute;
-  right: 203px;
+  right: 222px;
   width: 267px;
 }
 

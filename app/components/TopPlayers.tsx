@@ -58,14 +58,15 @@ const TopPlayers: React.FC<{
               <div key={user} className={styles.playerRow}>
                 <div className={styles.playerInfo}>
                   <div className={getRankClass(index)}>{index + 1}</div>
+                  <span className={styles.playerName}>{user}</span>
                   <span
-                    className={classNames(styles.playerName, {
-                      [styles.playerNameGold]: index === 0,
+                    className={classNames(styles.playerRound, {
+                      [styles.playerRoundHidden]: !score.round,
                     })}
                   >
-                    {user}
+                    {score.round}
                   </span>
-                  <span className={styles.playerScore}>{score.total}</span>
+                  <span className={styles.playerTotal}>{score.total}</span>
                 </div>
               </div>
             ))
