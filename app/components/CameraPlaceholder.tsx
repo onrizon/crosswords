@@ -1,4 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/CameraPlaceholder.module.css';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
@@ -10,9 +11,14 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const CameraPlaceholder = () => {
+const CameraPlaceholder: React.FC<{ showCameraArea: boolean }> = ({
+  showCameraArea,
+}) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
+
+  if (!showCameraArea) return null;
+
   return (
     <div className={classNames(styles.container, nunitoSans.className)}>
       <div className={styles.containerEdge}>
@@ -28,3 +34,13 @@ export const CameraPlaceholder = () => {
     </div>
   );
 };
+
+function mapStateToProps(state: { showCameraArea: boolean }): {
+  showCameraArea: boolean;
+} {
+  return {
+    showCameraArea: state.showCameraArea,
+  };
+}
+
+export default withData(CameraPlaceholder, mapStateToProps);

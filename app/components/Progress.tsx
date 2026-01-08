@@ -1,4 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/Progress.module.css';
 import { WordData } from '@/types';
 import classNames from 'classnames';
@@ -10,7 +11,7 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const Progress = ({ words }: { words: WordData[] }) => {
+const Progress: React.FC<{ words: WordData[] }> = ({ words }) => {
   const { t } = useTranslation();
   const solvedCount = words.filter((w) => w.isRevealed).length;
   const totalCount = words.length;
@@ -36,3 +37,13 @@ export const Progress = ({ words }: { words: WordData[] }) => {
     </div>
   );
 };
+
+function mapStateToProps(state: { words: WordData[] }): {
+  words: WordData[];
+} {
+  return {
+    words: state.words,
+  };
+}
+
+export default withData(Progress, mapStateToProps);

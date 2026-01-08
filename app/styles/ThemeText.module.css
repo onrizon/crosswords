@@ -12,6 +12,31 @@
   width: 795px;
 }
 
+.hitTheme:before,
+.hitTheme:after {
+  animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: contain;
+  content: '';
+  display: block;
+  height: 307px;
+  left: -71px;
+  position: absolute;
+  top: -71px;
+  width: 222px;
+}
+
+.hitTheme:before {
+  background-image: url('/images/headerHitLeft.svg');
+}
+
+.hitTheme:after {
+  background-image: url('/images/headerHitRight.svg');
+  left: auto;
+  right: -78px;
+}
+
 .titleContainer {
   align-items: center;
   display: flex;

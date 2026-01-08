@@ -1,4 +1,6 @@
+import * as C from '@/constants';
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
@@ -16,10 +18,10 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const InfoModal = ({
-  handleCloseInfo,
+const InfoModal = ({
+  handleModal,
 }: {
-  handleCloseInfo: () => void;
+  handleModal: (type: number, data: React.FC) => void;
 }) => {
   const { t } = useTranslation();
   return (
@@ -92,7 +94,7 @@ export const InfoModal = ({
         </div>
         <div className={styles.footer}>
           <button
-            onClick={handleCloseInfo}
+            onClick={() => handleModal(C.CLOSED_MODAL, () => null)}
             className={classNames(
               styles.btn,
               styles.btnPrimary,
@@ -106,3 +108,15 @@ export const InfoModal = ({
     </div>
   );
 };
+
+function mapStateToProps(state: {
+  handleModal: (type: number, data: React.FC) => void;
+}): {
+  handleModal: (type: number, data: React.FC) => void;
+} {
+  return {
+    handleModal: state.handleModal,
+  };
+}
+
+export default withData(InfoModal, mapStateToProps);

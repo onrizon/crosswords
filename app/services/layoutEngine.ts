@@ -1,4 +1,4 @@
-import { GRID_COLS, GRID_ROWS } from '../constants';
+import * as C from '@/constants';
 import { WordData } from '../types';
 
 interface RawWord {
@@ -28,17 +28,17 @@ export const generateLayout = (rawWords: RawWord[]): WordData[] => {
 };
 
 const attemptLayout = (pool: RawWord[]): WordData[] => {
-  const grid: GridChar[][] = Array(GRID_ROWS)
+  const grid: GridChar[][] = Array(C.GRID_ROWS)
     .fill(null)
-    .map(() => Array(GRID_COLS).fill(null));
+    .map(() => Array(C.GRID_COLS).fill(null));
   const placedWords: WordData[] = [];
 
   // Place the first (longest) word horizontally in the center
   if (pool.length === 0) return [];
 
   const first = pool[0];
-  const startRow = Math.floor(GRID_ROWS / 2);
-  const startCol = Math.floor((GRID_COLS - first.word.length) / 2);
+  const startRow = Math.floor(C.GRID_ROWS / 2);
+  const startCol = Math.floor((C.GRID_COLS - first.word.length) / 2);
 
   if (placeWord(grid, first.word, startRow, startCol, 'H')) {
     placedWords.push({
@@ -66,8 +66,8 @@ const attemptLayout = (pool: RawWord[]): WordData[] => {
       const char = candidate.word[i];
 
       // Scan grid for this char
-      for (let r = 0; r < GRID_ROWS; r++) {
-        for (let c = 0; c < GRID_COLS; c++) {
+      for (let r = 0; r < C.GRID_ROWS; r++) {
+        for (let c = 0; c < C.GRID_COLS; c++) {
           if (grid[r][c] === char) {
             // Found a matching letter. Can we place crosswise?
 
@@ -113,17 +113,23 @@ const canPlaceWord = (
   dir: 'H' | 'V'
 ): boolean => {
   if (row < 0 || col < 0) return false;
-  if (dir === 'H' && col + word.length > GRID_COLS) return false;
-  if (dir === 'V' && row + word.length > GRID_ROWS) return false;
+  if (dir === 'H' && col + word.length > C.GRID_COLS) return false;
+  if (dir === 'V' && row + word.length > C.GRID_ROWS) return false;
 
   // Check Immediate Borders (Start - 1) and (End + 1)
   if (dir === 'H') {
     if (col > 0 && grid[row][col - 1] !== null) return false; // Left block
-    if (col + word.length < GRID_COLS && grid[row][col + word.length] !== null)
+    if (
+      col + word.length < C.GRID_COLS &&
+      grid[row][col + word.length] !== null
+    )
       return false; // Right block
   } else {
     if (row > 0 && grid[row - 1][col] !== null) return false; // Top block
-    if (row + word.length < GRID_ROWS && grid[row + word.length][col] !== null)
+    if (
+      row + word.length < C.GRID_ROWS &&
+      grid[row + word.length][col] !== null
+    )
       return false; // Bottom block
   }
 
@@ -141,11 +147,11 @@ const canPlaceWord = (
       if (dir === 'H') {
         // Check Top and Bottom neighbors
         if (r > 0 && grid[r - 1][c] !== null) return false;
-        if (r < GRID_ROWS - 1 && grid[r + 1][c] !== null) return false;
+        if (r < C.GRID_ROWS - 1 && grid[r + 1][c] !== null) return false;
       } else {
         // Check Left and Right neighbors
         if (c > 0 && grid[r][c - 1] !== null) return false;
-        if (c < GRID_COLS - 1 && grid[r][c + 1] !== null) return false;
+        if (c < C.GRID_COLS - 1 && grid[r][c + 1] !== null) return false;
       }
     }
   }

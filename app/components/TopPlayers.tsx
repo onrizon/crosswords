@@ -1,4 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/TopPlayers.module.css';
 import { UserScores } from '@/types';
 import classNames from 'classnames';
@@ -11,7 +12,10 @@ const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
 });
 
-export const TopPlayers = ({
+const TopPlayers: React.FC<{
+  userScores: UserScores;
+  showCameraArea: boolean;
+}> = ({
   userScores,
   showCameraArea,
 }: {
@@ -70,3 +74,18 @@ export const TopPlayers = ({
     </div>
   );
 };
+
+function mapStateToProps(state: {
+  userScores: UserScores;
+  showCameraArea: boolean;
+}): {
+  userScores: UserScores;
+  showCameraArea: boolean;
+} {
+  return {
+    userScores: state.userScores,
+    showCameraArea: state.showCameraArea,
+  };
+}
+
+export default withData(TopPlayers, mapStateToProps);

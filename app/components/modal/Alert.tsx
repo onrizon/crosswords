@@ -1,7 +1,8 @@
+import * as C from '@/constants';
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
-import { motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
 
 const nunitoSans = Nunito_Sans({
@@ -16,52 +17,65 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const AlertModal = ({
+const AlertModal = ({
   handleLogout,
-  handleCloseAlert,
+  handleModal,
 }: {
   handleLogout: () => void;
-  handleCloseAlert: () => void;
+  handleModal: (type: number, data: React.FC) => void;
 }) => {
   const { t } = useTranslation();
 
-  return (
-    <div className={classNames(styles.modalOverlay, asapCondensed.className)}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className={styles.modalContent}
-      >
-        <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>{t('disconnetAccout')}</h2>
-        </div>
+  const handleConfirm = () => {
+    handleLogout();
+    handleModal(C.CLOSED_MODAL, () => null);
+  };
 
-        <div className={styles.body}>
-          <span className={styles.alertIco}></span>
-          <p className={classNames(styles.text, nunitoSans.className)}>
-            {t('confirmDisconnect')}
-          </p>
-        </div>
-        <div className={styles.footer}>
-          <button
-            onClick={handleCloseAlert}
-            className={classNames(styles.btn, asapCondensed.className)}
-          >
-            {t('cancel')}
-          </button>
-          <button
-            onClick={handleLogout}
-            className={classNames(
-              styles.btn,
-              styles.btnPrimary,
-              asapCondensed.className
-            )}
-          >
-            {t('confirm')}
-          </button>
-        </div>
-      </motion.div>
-    </div>
+  return (
+    <>
+      <div className={styles.modalHeader}>
+        <h2 className={styles.modalTitle}>{t('disconnetAccout')}</h2>
+      </div>
+
+      <div className={styles.body}>
+        <span className={styles.alertIco}></span>
+        <p className={classNames(styles.text, nunitoSans.className)}>
+          {t('confirmDisconnect')}
+        </p>
+      </div>
+      <div className={styles.footer}>
+        <button
+          onClick={() => handleModal(C.CLOSED_MODAL, () => null)}
+          className={classNames(styles.btn, asapCondensed.className)}
+        >
+          {t('cancel')}
+        </button>
+        <button
+          onClick={handleConfirm}
+          className={classNames(
+            styles.btn,
+            styles.btnPrimary,
+            asapCondensed.className
+          )}
+        >
+          {t('confirm')}
+        </button>
+      </div>
+    </>
   );
 };
+
+function mapStateToProps(state: {
+  handleLogout: () => void;
+  handleModal: (type: number, data: React.FC) => void;
+}): {
+  handleLogout: () => void;
+  handleModal: (type: number, data: React.FC) => void;
+} {
+  return {
+    handleLogout: state.handleLogout,
+    handleModal: state.handleModal,
+  };
+}
+
+export default withData(AlertModal, mapStateToProps);

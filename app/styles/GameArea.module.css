@@ -1,0 +1,101 @@
+.gameArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 794px;
+}
+
+.gridContainer {
+  background: rgba(25, 11, 94, 0.5);
+  border: 2px solid #7976ff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 776px;
+  justify-content: center;
+  margin: 5px 26px;
+  position: relative;
+}
+
+.gridLightLeft,
+.gridLightRight,
+.gridLightLeft:before,
+.gridLightRight:before {
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 820px;
+  position: absolute;
+  top: -24px;
+  width: 123px;
+  z-index: 51;
+}
+
+.gridLightLeft:before,
+.gridLightRight:before {
+  animation: show 3s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes show {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+}
+
+.gridLightLeft {
+  background-image: url('/images/gridLightLeft.svg');
+  left: -28px;
+}
+
+.gridLightLeftActive:before {
+  background-image: url('/images/gridLightLeftActive.svg');
+  content: '';
+  left: 0px;
+  top: 0px;
+}
+
+.gridLightRight {
+  background-image: url('/images/gridLightRight.svg');
+  right: -28px;
+}
+
+.gridLightRightActive:before {
+  background-image: url('/images/gridLightRightActive.svg');
+  content: '';
+  right: 0;
+  top: 0;
+}
+
+.gridLightLeftActive:after,
+.gridLightRightActive:after {
+  animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: url('/images/gridLightActive.svg') 0 0 no-repeat;
+  content: '';
+  display: block;
+  height: 800px;
+  left: -52px;
+  position: absolute;
+  top: 13px;
+  width: 120px;
+}
+
+.gridLightRightActive:after {
+  left: auto;
+  right: -52px;
+}
+
+/* Grid Scroll Container */
+.gridScrollContainer {
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  overflow: hidden;
+  padding: 25px;
+  position: absolute;
+}

@@ -5,6 +5,15 @@ import { WordData } from './types';
 export const GRID_ROWS = 14;
 export const GRID_COLS = 26;
 
+export const DEFAULT_DURATION = 120;
+export const BASE_WIDTH = 1920;
+export const BASE_HEIGHT = 1080;
+
+export const CLOSED_MODAL = 1;
+export const ALERT_MODAL = 2;
+export const INFO_MODAL = 3;
+export const SETTINGS_MODAL = 4;
+
 // Fallback data in case API fails or for initial render before fetch
 export const FALLBACK_WORDS: WordData[] = [
   {
