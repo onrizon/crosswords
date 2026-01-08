@@ -18,7 +18,7 @@
   justify-content: center;
   height: 100%;
   position: relative;
-  width: 372px;
+  width: 300px;
 }
 
 .headerLogoSection:before {
@@ -47,7 +47,7 @@
   height: 216px;
   justify-content: flex-start;
   position: relative;
-  width: 1446px;
+  width: 1565px;
 }
 
 /* Main Content */

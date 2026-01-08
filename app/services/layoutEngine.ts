@@ -1,33 +1,31 @@
 import * as C from '@/constants';
 import { WordData } from '../types';
 
-interface RawWord {
-  word: string;
-}
-
 // Represents the grid state during generation
 type GridChar = string | null;
 
-export const generateLayout = (rawWords: RawWord[]): WordData[] => {
+export const generateLayout = (rawWords: string[]): WordData[] => {
   // Sort by length descending to place big words first (anchors)
-  const pool = [...rawWords].sort((a, b) => b.word.length - a.word.length);
+  const pool = [...rawWords].sort((a, b) => b.length - a.length);
 
   // Try multiple times to generate a valid layout if the first attempt gets stuck
   for (let attempt = 0; attempt < 50; attempt++) {
     const layout = attemptLayout(pool);
     // Increased requirement to try and fit more words if possible
     if (layout.length >= 20) {
-      return layout.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+      const result = layout.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+      return centerLayout(result);
     }
   }
 
   // If we really fail to place 20 words, return whatever max we found or fallback
   const bestEffort = attemptLayout(pool);
   // Cap at 20 words
-  return bestEffort.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+  const result = bestEffort.slice(0, 20).map((w, i) => ({ ...w, id: i + 1 }));
+  return centerLayout(result);
 };
 
-const attemptLayout = (pool: RawWord[]): WordData[] => {
+const attemptLayout = (pool: string[]): WordData[] => {
   const grid: GridChar[][] = Array(C.GRID_ROWS)
     .fill(null)
     .map(() => Array(C.GRID_COLS).fill(null));
@@ -38,12 +36,12 @@ const attemptLayout = (pool: RawWord[]): WordData[] => {
 
   const first = pool[0];
   const startRow = Math.floor(C.GRID_ROWS / 2);
-  const startCol = Math.floor((C.GRID_COLS - first.word.length) / 2);
+  const startCol = Math.floor((C.GRID_COLS - first.length) / 2);
 
-  if (placeWord(grid, first.word, startRow, startCol, 'H')) {
+  if (placeWord(grid, first, startRow, startCol, 'H')) {
     placedWords.push({
       id: 0,
-      word: first.word,
+      word: first,
       direction: 'H',
       start: { row: startRow, col: startCol },
       isRevealed: false,
@@ -62,8 +60,8 @@ const attemptLayout = (pool: RawWord[]): WordData[] => {
     // Find all intersections with currently placed words
     const possiblePlacements: { r: number; c: number; dir: 'H' | 'V' }[] = [];
 
-    for (let i = 0; i < candidate.word.length; i++) {
-      const char = candidate.word[i];
+    for (let i = 0; i < candidate.length; i++) {
+      const char = candidate[i];
 
       // Scan grid for this char
       for (let r = 0; r < C.GRID_ROWS; r++) {
@@ -72,11 +70,11 @@ const attemptLayout = (pool: RawWord[]): WordData[] => {
             // Found a matching letter. Can we place crosswise?
 
             // Try Horizontal
-            if (canPlaceWord(grid, candidate.word, r, c - i, 'H')) {
+            if (canPlaceWord(grid, candidate, r, c - i, 'H')) {
               possiblePlacements.push({ r: r, c: c - i, dir: 'H' });
             }
             // Try Vertical
-            if (canPlaceWord(grid, candidate.word, r - i, c, 'V')) {
+            if (canPlaceWord(grid, candidate, r - i, c, 'V')) {
               possiblePlacements.push({ r: r - i, c: c, dir: 'V' });
             }
           }
@@ -90,10 +88,10 @@ const attemptLayout = (pool: RawWord[]): WordData[] => {
         possiblePlacements[
           Math.floor(Math.random() * possiblePlacements.length)
         ];
-      if (placeWord(grid, candidate.word, pick.r, pick.c, pick.dir)) {
+      if (placeWord(grid, candidate, pick.r, pick.c, pick.dir)) {
         placedWords.push({
           id: 0, // id assigned later
-          word: candidate.word,
+          word: candidate,
           direction: pick.dir,
           start: { row: pick.r, col: pick.c },
           isRevealed: false,
@@ -172,4 +170,44 @@ const placeWord = (
     grid[r][c] = word[i];
   }
   return true;
+};
+
+const centerLayout = (words: WordData[]): WordData[] => {
+  if (words.length === 0) return words;
+
+  // Calculate bounding box of all placed words
+  let minRow = C.GRID_ROWS;
+  let maxRow = 0;
+  let minCol = C.GRID_COLS;
+  let maxCol = 0;
+
+  for (const word of words) {
+    const { row, col } = word.start;
+    const endRow = word.direction === 'V' ? row + word.word.length - 1 : row;
+    const endCol = word.direction === 'H' ? col + word.word.length - 1 : col;
+
+    minRow = Math.min(minRow, row);
+    maxRow = Math.max(maxRow, endRow);
+    minCol = Math.min(minCol, col);
+    maxCol = Math.max(maxCol, endCol);
+  }
+
+  // Calculate current dimensions and center offset
+  const currentHeight = maxRow - minRow + 1;
+  const currentWidth = maxCol - minCol + 1;
+
+  const targetStartRow = Math.ceil((C.GRID_ROWS - currentHeight) / 2);
+  const targetStartCol = Math.ceil((C.GRID_COLS - currentWidth) / 2);
+
+  const rowOffset = targetStartRow - minRow;
+  const colOffset = targetStartCol - minCol;
+
+  // Apply offset to all words
+  return words.map((word) => ({
+    ...word,
+    start: {
+      row: word.start.row + rowOffset,
+      col: word.start.col + colOffset,
+    },
+  }));
 };

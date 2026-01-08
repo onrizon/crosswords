@@ -32,7 +32,7 @@ export interface GameState {
   latestWinner: string | null;
 }
 
-export type UserScores = Record<string, number>;
+export type UserScores = Record<string, { round: number; total: number }>;
 
 export type LevelKey =
   | 'ESCRITORIO'
@@ -54,7 +54,5 @@ export interface LevelData {
 
 export interface Level {
   theme: string;
-  words: {
-    word: string;
-  }[];
+  words: string[];
 }

@@ -200,6 +200,7 @@
   color: #ffffff;
   display: block;
   font-size: 26px;
+  font-weight: 700;
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -222,7 +223,7 @@
     rgb(44, 14, 127) 1.74541px -2.43999px 0px,
     rgb(44, 14, 127) 2.44769px -1.73459px 0px,
     rgb(44, 14, 127) 2.88051px -0.838247px 0px;
-  width: 165px;
+  width: 188px;
   white-space: nowrap;
 }
 
@@ -230,6 +231,7 @@
   color: #f1ff66;
   display: block;
   font-size: 30px;
+  font-weight: 900;
   margin-left: auto;
   text-shadow: rgb(21, 11, 96) 3px 0px 0px,
     rgb(21, 11, 96) 2.83487px 0.981584px 0px,
