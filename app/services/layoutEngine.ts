@@ -180,9 +180,9 @@ const centerLayout = (words: WordData[]): WordData[] => {
   if (words.length === 0) return words;
 
   // Calculate bounding box of all placed words
-  let minRow = GRID_ROWS;
+  let minRow = C.GRID_ROWS;
   let maxRow = 0;
-  let minCol = GRID_COLS;
+  let minCol = C.GRID_COLS;
   let maxCol = 0;
 
   for (const word of words) {
@@ -200,8 +200,8 @@ const centerLayout = (words: WordData[]): WordData[] => {
   const currentHeight = maxRow - minRow + 1;
   const currentWidth = maxCol - minCol + 1;
 
-  const targetStartRow = Math.floor((GRID_ROWS - currentHeight) / 2);
-  const targetStartCol = Math.floor((GRID_COLS - currentWidth) / 2);
+  const targetStartRow = Math.floor((C.GRID_ROWS - currentHeight) / 2);
+  const targetStartCol = Math.floor((C.GRID_COLS - currentWidth) / 2);
 
   const rowOffset = targetStartRow - minRow;
   const colOffset = targetStartCol - minCol;
