@@ -54,7 +54,5 @@ export interface LevelData {
 
 export interface Level {
   theme: string;
-  words: {
-    word: string;
-  }[];
+  words: string[];
 }
