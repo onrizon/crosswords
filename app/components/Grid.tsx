@@ -1,9 +1,10 @@
+import * as C from '@/constants';
 import styles from '@/styles/Grid.module.css';
 import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
-import { GRID_COLS, GRID_ROWS } from '../constants';
 import { CellData, WordData } from '../types';
 
+import { withData } from '@/lib/Context';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
 
@@ -20,16 +21,16 @@ interface GridProps {
 const Grid: React.FC<GridProps> = ({ words }) => {
   // Compute the grid cells based on words
   const cells = useMemo(() => {
-    const grid: (CellData | null)[][] = Array(GRID_ROWS)
+    const grid: (CellData | null)[][] = Array(C.GRID_ROWS)
       .fill(null)
-      .map(() => Array(GRID_COLS).fill(null));
+      .map(() => Array(C.GRID_COLS).fill(null));
 
     words.forEach((w) => {
       for (let i = 0; i < w.word.length; i++) {
         const r = w.direction === 'V' ? w.start.row + i : w.start.row;
         const c = w.direction === 'H' ? w.start.col + i : w.start.col;
 
-        if (r >= GRID_ROWS || c >= GRID_COLS) continue;
+        if (r >= C.GRID_ROWS || c >= C.GRID_COLS) continue;
 
         const existing = grid[r][c];
         const isStart = i === 0;
@@ -79,7 +80,7 @@ const Grid: React.FC<GridProps> = ({ words }) => {
       <div
         className={styles.container}
         style={{
-          gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))`,
+          gridTemplateColumns: `repeat(${C.GRID_COLS}, minmax(0, 1fr))`,
           width: 'fit-content',
           margin: '0 auto',
         }}
@@ -157,4 +158,12 @@ const Grid: React.FC<GridProps> = ({ words }) => {
   );
 };
 
-export default Grid;
+function mapStateToProps(state: { words: WordData[] }): {
+  words: WordData[];
+} {
+  return {
+    words: state.words,
+  };
+}
+
+export default withData(Grid, mapStateToProps);

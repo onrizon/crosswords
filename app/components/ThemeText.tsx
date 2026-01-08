@@ -1,4 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/ThemeText.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
@@ -9,15 +10,11 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const ThemeText = ({
-  className,
-  currentTheme,
-  isLoading,
-}: {
-  className: string;
+const ThemeText: React.FC<{
   currentTheme: string;
+  hit: boolean;
   isLoading: boolean;
-}) => {
+}> = ({ currentTheme, hit, isLoading }) => {
   const { t } = useTranslation();
   const getThemeStyle = (text: string) => {
     const length = text.length;
@@ -27,11 +24,9 @@ export const ThemeText = ({
 
   return (
     <div
-      className={classNames(
-        styles.container,
-        asapCondensed.className,
-        className
-      )}
+      className={classNames(styles.container, asapCondensed.className, {
+        [styles.hitTheme]: hit,
+      })}
     >
       <div className={styles.titleContainer}>
         <h2 className={classNames(styles.title, getThemeStyle(currentTheme))}>
@@ -49,3 +44,21 @@ export const ThemeText = ({
     </div>
   );
 };
+
+function mapStateToProps(state: {
+  currentTheme: string;
+  hit: boolean;
+  isLoading: boolean;
+}): {
+  currentTheme: string;
+  hit: boolean;
+  isLoading: boolean;
+} {
+  return {
+    currentTheme: state.currentTheme,
+    hit: state.hit,
+    isLoading: state.isLoading,
+  };
+}
+
+export default withData(ThemeText, mapStateToProps);

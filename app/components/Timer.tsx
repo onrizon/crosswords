@@ -1,4 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/Timer.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
@@ -9,21 +10,13 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-export const Timer = ({
-  timeLeft,
-  isPaused,
-  isSettingsOpen,
-  isInfoOpen,
-  tempSettings,
-}: {
+const Timer: React.FC<{
   timeLeft: number;
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
-  tempSettings: {
-    duration: number;
-  };
-}) => {
+  tempSettings: { duration: number };
+}> = ({ timeLeft, isPaused, isSettingsOpen, isInfoOpen, tempSettings }) => {
   const { t } = useTranslation();
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -55,3 +48,31 @@ export const Timer = ({
     </div>
   );
 };
+
+function mapStateToProps(state: {
+  timeLeft: number;
+  isPaused: boolean;
+  isSettingsOpen: boolean;
+  isInfoOpen: boolean;
+  tempSettings: {
+    duration: number;
+  };
+}): {
+  timeLeft: number;
+  isPaused: boolean;
+  isSettingsOpen: boolean;
+  isInfoOpen: boolean;
+  tempSettings: {
+    duration: number;
+  };
+} {
+  return {
+    timeLeft: state.timeLeft,
+    isPaused: state.isPaused,
+    isSettingsOpen: state.isSettingsOpen,
+    isInfoOpen: state.isInfoOpen,
+    tempSettings: state.tempSettings,
+  };
+}
+
+export default withData(Timer, mapStateToProps);

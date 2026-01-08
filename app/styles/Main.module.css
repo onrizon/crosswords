@@ -1,0 +1,26 @@
+.main {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  inset: 0;
+  justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+.mainContainer {
+  align-items: center;
+  background: radial-gradient(circle at center, #714afe 18%, #1301b8 100%);
+  border: 1.5px solid #a8f9ff;
+  border-radius: 19px;
+  box-shadow: 0 0 0 1.5px #00eeff, inset 0 0 0 1.5px #00eeff, 0 0 0 3px #00b2ff,
+    inset 0 0 0 3px #00b2ff;
+  color: rgb(241, 245, 249);
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+  transform-origin: center;
+}
