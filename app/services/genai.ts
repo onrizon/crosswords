@@ -15,120 +15,458 @@ const ai = new GoogleGenAI({
   apiKey: API_KEY,
 });
 
-// Broad, common knowledge categories suitable for a general audience
+// Creative inspirations to spark unique category ideas (not the categories themselves)
 const INSPIRATIONS = [
-  // Animals & Nature
-  'Animals',
-  'Birds',
-  'Insects',
-  'Sea Creatures',
-  'Dog Breeds',
-  'Farm Animals',
-  'Flowers',
-  'Trees',
-  'Fruits',
-  'Vegetables',
-  'Weather',
-  'The Solar System',
-  'Gemstones',
-  'Metals',
-  'Jungle Animals',
-  'Pets',
+  // Nature & Living Things
+  'creatures that live underwater',
+  'animals with fur',
+  'things that grow in gardens',
+  'life in the rainforest',
+  'creatures of the night',
+  'things with wings',
+  'life in the desert',
+  'things that bloom',
+  'animals people keep at home',
+  'life in cold places',
+  'things found in forests',
+  'creatures with shells',
+  'things that crawl',
+  'life on a farm',
+  'things in the sky',
+  'microscopic life',
+  'endangered wildlife',
+  'prehistoric creatures',
+  'venomous animals',
+  'migratory species',
 
-  // Geography & Places
-  'Countries',
-  'Capitals',
-  'Cities',
-  'Continents',
-  'Rivers & Oceans',
-  'Mountains',
-  'Things in Japan',
-  'Things in Brazil',
-  'Things in Italy',
-  'Things in USA',
-  'Things in France',
-  'At the Beach',
-  'At the Farm',
-  'At the Airport',
-  'At the Hospital',
-  'At the Supermarket',
-  'In the Kitchen',
-  'In the Bathroom',
-  'In the Bedroom',
-  'In the Living Room',
-  'In the Office',
-  'At School',
-  'In a Library',
-  'At the Cinema',
-  'At a Restaurant',
-  'At the Gym',
+  // Places & Locations
+  'a busy city street',
+  'tropical paradise',
+  'mountain adventures',
+  'underground places',
+  'places people work',
+  'where children play',
+  'places to relax',
+  'historic locations',
+  'places that serve food',
+  'where people learn',
+  'places for entertainment',
+  'outdoor destinations',
+  'places in a home',
+  'sacred places',
+  'places that move (vehicles)',
+  'imaginary places',
+  'abandoned locations',
+  'extreme environments',
+  'tourist attractions',
+  'secret hideaways',
 
-  // Objects & Daily Life
-  'Clothing',
-  'Footwear',
-  'Furniture',
-  'Tools',
-  'Electronics',
-  'Kitchen Utensils',
-  'School Supplies',
-  'Transportation',
-  'Cars',
-  'Musical Instruments',
-  'Toys',
-  'Makeup & Beauty',
-  'Jewelry',
-  'Colors',
-  'Shapes',
-  'Jobs & Professions',
+  // Food & Cooking
+  'things in a kitchen',
+  'breakfast time',
+  'sweet treats',
+  'spicy flavors',
+  'food from the sea',
+  'things you bake',
+  'summer refreshments',
+  'comfort on a cold day',
+  'street food culture',
+  'things you grill',
+  'food that is raw',
+  'fermented delicacies',
+  'childhood favorites',
+  'gourmet cuisine',
+  'quick meals',
+  'food that is wrapped',
+  'things you dip',
+  'celebratory foods',
+  'food from plants',
+  'aged and cured',
 
-  // Food & Drink
-  'Breakfast Foods',
-  'Desserts',
-  'Drinks',
-  'Pizza Toppings',
-  'Ice Cream Flavors',
-  'Candy',
-  'Bakery Items',
-  'BBQ',
-  'Pasta',
-  'Spices',
-  'Cheeses',
-  'Fast Food',
+  // Human Activities
+  'morning routines',
+  'ways to exercise',
+  'creative pursuits',
+  'things people collect',
+  'weekend activities',
+  'ways to relax',
+  'competitive activities',
+  'things done in teams',
+  'solo adventures',
+  'nighttime activities',
+  'seasonal traditions',
+  'childhood games',
+  'adult responsibilities',
+  'romantic gestures',
+  'ways to celebrate',
+  'acts of kindness',
+  'risky activities',
+  'meditation and mindfulness',
+  'learning something new',
+  'expressions of art',
 
-  // People & Culture
-  'Male Names',
-  'Female Names',
-  'Family Members',
-  'Emotions',
-  'Zodiac Signs',
-  'Superheroes',
-  'Sports',
-  'Olympic Sports',
-  'Football/Soccer',
-  'Martial Arts',
-  'Board Games',
-  'Card Games',
-  'Video Game Genres',
-  'Movie Genres',
-  'Music Genres',
-  'Fairy Tales',
-  'Villains',
-  'Famous Brands',
-  'Currencies',
-  'Languages',
+  // Objects & Things
+  'things with buttons',
+  'things that make noise',
+  'things that shine',
+  'things in pockets',
+  'things that spin',
+  'things you wear on your head',
+  'things made of glass',
+  'things that fold',
+  'things with wheels',
+  'things that float',
+  'things that are sharp',
+  'things that keep time',
+  'things that store information',
+  'things that connect',
+  'things that protect',
+  'things that measure',
+  'things that heat',
+  'things that cool',
+  'vintage objects',
+  'futuristic gadgets',
 
-  // Holidays & Events
-  'Christmas',
-  'Halloween',
-  'Easter',
-  "Valentine's Day",
-  'Birthday Party',
-  'Wedding',
-  'Camping',
-  'Circus',
-  'Carnival',
-  "New Year's Eve",
+  // Emotions & Feelings
+  'moments of joy',
+  'things that scare',
+  'feelings of love',
+  'sources of stress',
+  'peaceful moments',
+  'exciting experiences',
+  'nostalgic memories',
+  'proud achievements',
+  'embarrassing moments',
+  'sources of inspiration',
+  'things that comfort',
+  'feelings of freedom',
+  'moments of surprise',
+  'things that frustrate',
+  'sources of hope',
+  'feelings of belonging',
+  'moments of courage',
+  'things that relax',
+  'expressions of gratitude',
+  'feelings of wonder',
+
+  // Time & Seasons
+  'spring awakening',
+  'summer vibes',
+  'autumn harvest',
+  'winter wonderland',
+  'things from the past',
+  'modern innovations',
+  'future predictions',
+  'ancient wisdom',
+  'teenage years',
+  'golden age memories',
+  'new beginnings',
+  'endings and farewells',
+  'daily routines',
+  'weekly traditions',
+  'annual events',
+  'once in a lifetime',
+  'fleeting moments',
+  'timeless classics',
+  'trends that come and go',
+  'things that last forever',
+
+  // Culture & Society
+  'wedding traditions',
+  'birthday celebrations',
+  'holiday spirit',
+  'funeral customs',
+  'coming of age',
+  'family gatherings',
+  'friendship bonds',
+  'workplace dynamics',
+  'school memories',
+  'community events',
+  'religious practices',
+  'superstitions and beliefs',
+  'fashion through decades',
+  'music movements',
+  'art revolutions',
+  'literary worlds',
+  'film magic',
+  'theater drama',
+  'dance expressions',
+  'culinary traditions',
+
+  // Science & Discovery
+  'space exploration',
+  'ocean depths',
+  'human anatomy',
+  'chemical reactions',
+  'physical forces',
+  'mathematical patterns',
+  'technological breakthroughs',
+  'medical advances',
+  'natural phenomena',
+  'scientific tools',
+  'experiments gone wrong',
+  'discoveries by accident',
+  'theories and hypotheses',
+  'inventions that changed the world',
+  'mysteries of the universe',
+  'evolution of species',
+  'climate and weather',
+  'geological formations',
+  'quantum mysteries',
+  'genetic wonders',
+
+  // Fantasy & Imagination
+  'mythical creatures',
+  'magical powers',
+  'enchanted objects',
+  'legendary heroes',
+  'villains and monsters',
+  'fairy tale settings',
+  'dream worlds',
+  'nightmare fuel',
+  'supernatural beings',
+  'parallel universes',
+  'time travel scenarios',
+  'alien encounters',
+  'robot uprising',
+  'post-apocalyptic survival',
+  'medieval fantasy',
+  'steampunk aesthetics',
+  'cyberpunk futures',
+  'underwater kingdoms',
+  'floating cities',
+  'hidden realms',
+
+  // Sports & Competition
+  'olympic glory',
+  'team spirit',
+  'individual excellence',
+  'extreme challenges',
+  'water competitions',
+  'winter athletics',
+  'combat and fighting',
+  'racing speed',
+  'precision sports',
+  'strength and power',
+  'endurance tests',
+  'ball games',
+  'racket sports',
+  'target practice',
+  'gymnastics grace',
+  'dance competitions',
+  'e-sports battles',
+  'traditional games',
+  'backyard fun',
+  'playground classics',
+
+  // Professions & Work
+  'healing professions',
+  'creative careers',
+  'dangerous jobs',
+  'helping others',
+  'building things',
+  'teaching and mentoring',
+  'protecting people',
+  'entertaining audiences',
+  'solving problems',
+  'leading organizations',
+  'creating art',
+  'growing food',
+  'moving things',
+  'fixing broken things',
+  'discovering new things',
+  'cooking for others',
+  'designing spaces',
+  'writing stories',
+  'coding the future',
+  'caring for animals',
+
+  // Abstract Concepts
+  'things that are red',
+  'things that are round',
+  'things that come in pairs',
+  'things that are tiny',
+  'things that are massive',
+  'things that are fast',
+  'things that are slow',
+  'things that are loud',
+  'things that are silent',
+  'things that are smooth',
+  'things that are rough',
+  'things that are transparent',
+  'things that are heavy',
+  'things that are light',
+  'things that are old',
+  'things that are new',
+  'things that are rare',
+  'things that are common',
+  'things that are expensive',
+  'things that are free',
+
+  // Sensory Experiences
+  'delicious aromas',
+  'beautiful sounds',
+  'soft textures',
+  'bright colors',
+  'bitter tastes',
+  'sweet scents',
+  'harsh noises',
+  'gentle touches',
+  'vibrant visuals',
+  'sour flavors',
+  'smooth surfaces',
+  'loud environments',
+  'quiet spaces',
+  'warm sensations',
+  'cold feelings',
+  'spicy experiences',
+  'refreshing moments',
+  'overwhelming senses',
+  'subtle details',
+  'intense experiences',
+
+  // Relationships & Connections
+  'family bonds',
+  'childhood friends',
+  'romantic partners',
+  'work colleagues',
+  'neighbors and community',
+  'teachers and students',
+  'doctors and patients',
+  'strangers who helped',
+  'rivals and competitors',
+  'mentors and guides',
+  'pets and owners',
+  'leaders and followers',
+  'artists and fans',
+  'buyers and sellers',
+  'hosts and guests',
+  'players and coaches',
+  'authors and readers',
+  'performers and audiences',
+  'creators and critics',
+  'friends turned family',
+
+  // Technology & Innovation
+  'things that connect us',
+  'devices we carry',
+  'screens everywhere',
+  'smart home living',
+  'social media world',
+  'gaming universes',
+  'streaming entertainment',
+  'digital communication',
+  'online shopping',
+  'virtual reality',
+  'artificial intelligence',
+  'cloud computing',
+  'mobile apps',
+  'wearable technology',
+  'electric vehicles',
+  'renewable energy',
+  'space technology',
+  'medical devices',
+  'security systems',
+  'automation everywhere',
+
+  // Life Events & Milestones
+  'first day of school',
+  'graduation day',
+  'first job',
+  'moving out',
+  'falling in love',
+  'getting married',
+  'becoming a parent',
+  'career changes',
+  'buying a home',
+  'retirement dreams',
+  'overcoming illness',
+  'achieving goals',
+  'traveling the world',
+  'learning to drive',
+  'first heartbreak',
+  'making amends',
+  'starting over',
+  'finding purpose',
+  'facing fears',
+  'saying goodbye',
+
+  // World Cultures
+  'Japanese traditions',
+  'Italian lifestyle',
+  'Brazilian energy',
+  'Indian spirituality',
+  'French elegance',
+  'Mexican fiesta',
+  'Chinese heritage',
+  'African rhythms',
+  'Australian outback',
+  'Russian soul',
+  'Greek philosophy',
+  'Egyptian mysteries',
+  'Nordic resilience',
+  'Caribbean vibes',
+  'Middle Eastern hospitality',
+  'Korean innovation',
+  'Spanish passion',
+  'German precision',
+  'British customs',
+  'American dreams',
+
+  // Random & Quirky
+  'things grandparents love',
+  'things that annoy people',
+  'guilty pleasures',
+  'things people pretend to like',
+  'overrated things',
+  'underrated treasures',
+  'things that smell weird',
+  'things that taste better cold',
+  'things people argue about',
+  'things that always break',
+  'things people forget',
+  'things people lose',
+  'things that stick',
+  'things that bounce',
+  'things that melt',
+  'things that grow',
+  'things that shrink',
+  'things that change color',
+  'things that make people laugh',
+  'things that make people cry',
 ];
+
+// Track used inspirations to avoid repetition within a session
+let usedInspirations: Set<string> = new Set();
+
+// Function to get a random unused inspiration
+const getRandomInspiration = (): string => {
+  // If all inspirations have been used, reset the list
+  if (usedInspirations.size >= INSPIRATIONS.length) {
+    usedInspirations.clear();
+  }
+
+  // Filter out used inspirations
+  const availableInspirations = INSPIRATIONS.filter(
+    (i) => !usedInspirations.has(i)
+  );
+
+  // Select a random one
+  const inspiration =
+    availableInspirations[
+      Math.floor(Math.random() * availableInspirations.length)
+    ];
+
+  // Mark it as used
+  usedInspirations.add(inspiration);
+
+  return inspiration;
+};
+
+// Function to reset used inspirations (can be called when starting a new session)
+export const resetUsedInspirations = () => {
+  usedInspirations.clear();
+};
 
 const LANGUAGE_NAMES: Record<Locale, string> = {
   pt: 'Portuguese (Brazil)',
@@ -186,9 +524,8 @@ export const generateTopicAndWords = async (
 
   const model = 'gemini-2.5-flash';
 
-  // Select a random inspiration from the expanded list
-  const inspiration =
-    INSPIRATIONS[Math.floor(Math.random() * INSPIRATIONS.length)];
+  // Select a random unused inspiration
+  const inspiration = getRandomInspiration();
   const randomSeed = Math.floor(Math.random() * 1000000);
   const targetLanguage = LANGUAGE_NAMES[language];
 
@@ -223,19 +560,22 @@ export const generateTopicAndWords = async (
           required: ['theme', 'words'],
         },
         systemInstruction: `You are a crossword puzzle generator for a casual livestream game.
-        
+
         TASK:
-        1. Create a BROAD, COMMON KNOWLEDGE theme based on the inspiration: "${inspiration}".
-           - The theme should be simple and recognizable (e.g., if inspiration is "Kitchen", theme is "Objetos de Cozinha").
-        2. Generate exactly 20 common words related to that theme in the language: ${targetLanguage}.
-        
+        1. Use this creative inspiration to come up with a FRESH, UNIQUE theme: "${inspiration}"
+           - DO NOT use the inspiration text directly as the theme name.
+           - Create a specific, catchy category name in ${targetLanguage} that is INSPIRED BY but DIFFERENT from the prompt.
+           - Examples: "creatures that live underwater" could become "Peixes Tropicais", "Vida Marinha", "Animais do Oceano", "Habitantes do Mar", etc.
+           - Be creative! Each theme should feel fresh and unique.
+        2. Generate exactly 20 common words related to YOUR CREATED theme in ${targetLanguage}.
+
         RULES:
+        - Theme name must be in ${targetLanguage}, creative, and specific.
         - Words must be in ${targetLanguage}.
         - Words must be common vocabulary that an average person knows.
         - Words must be between 3 and 10 letters long.
         - Words must be single words (NO spaces, NO hyphens).
         - Normalize words: Remove accents/diacritics (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
-        - Do NOT repeat words from the example prompt.
         - Generate only 20 words.
         - Return strictly JSON.`,
       },
