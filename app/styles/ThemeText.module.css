@@ -9,7 +9,7 @@
   margin: 18px 0 0 10px;
   min-width: 795px;
   position: relative;
-  width: 1016px;
+  width: 995px;
 }
 
 .hitTheme:before,
@@ -20,11 +20,11 @@
   background-size: contain;
   content: '';
   display: block;
-  height: 307px;
-  left: -64px;
+  height: 320px;
+  left: -82px;
   position: absolute;
-  top: -65px;
-  width: 222px;
+  top: -59px;
+  width: 240px;
 }
 
 .hitTheme:before {
@@ -34,7 +34,8 @@
 .hitTheme:after {
   background-image: url('/images/headerHitRight.svg');
   left: auto;
-  right: -65px;
+  right: -85px;
+  top: -67px;
 }
 
 .titleContainer {

@@ -234,7 +234,8 @@
   border-radius: 0.5rem;
   color: #ffffff;
   display: flex;
-  font-size: 32px;
+  font-size: 28px;
+  font-weight: 900;
   height: 40px;
   justify-content: center;
   position: relative;
