@@ -247,7 +247,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
         .replace(/[ÓÔÕÖ]/g, 'O')
         .replace(/[ÚÜ]/g, 'U')
         .replace(/Ñ/g, 'N')
-        .replace(/ß/g, 'SS');
+        .replace(/ß/g, 'SS')
+        .replace(/(\s|-)+/g, '');
 
       setWords((currentWords) => {
         let wordFound = false;

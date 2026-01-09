@@ -587,8 +587,8 @@ export const generateTopicAndWords = async (
         - Theme name must be in ${targetLanguage}, creative, and specific.
         - Words must be in ${targetLanguage}.
         - Words must be common vocabulary that an average person knows.
-        - Words must be between 3 and 10 letters long.
-        - Words must be single words (NO spaces, NO hyphens).
+        - Remove spaces and hyphens from words.
+        - Words must be between 3 and 12 letters long.
         - Normalize words: Remove accents/diacritics (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
         - Generate up to 40 words, but not less than 15.
         - Return strictly JSON.`,
