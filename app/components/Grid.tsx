@@ -15,10 +15,12 @@ const asapCondensed = Asap_Condensed({
 });
 
 interface GridProps {
+  hit: boolean;
+  lastHitInfo: { username: string; word: string; index: number };
   words: WordData[];
 }
 
-const Grid: React.FC<GridProps> = ({ words }) => {
+const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
   // Compute the grid cells based on words
   const cells = useMemo(() => {
     const grid: (CellData | null)[][] = Array(C.GRID_ROWS)
@@ -35,12 +37,10 @@ const Grid: React.FC<GridProps> = ({ words }) => {
         const existing = grid[r][c];
         const isStart = i === 0;
 
-        // Check if this specific cell is revealed via hint
-
         // Merge data if intersection
         grid[r][c] = {
           char: w.word[i],
-          wordId: existing ? existing.wordId : w.id, // Keep primary existing or set new
+          // wordId: existing ? existing.wordId : w.id, // Keep primary existing or set new
           wordIds: existing ? [...existing.wordIds, w.id] : [w.id],
           // Cell is revealed if the word is revealed, OR if it was previously revealed (intersection), OR if it is a hint
           isRevealed: w.isRevealed || (existing ? existing.isRevealed : false),
@@ -49,7 +49,9 @@ const Grid: React.FC<GridProps> = ({ words }) => {
           isStartOfWord: existing?.isStartOfWord || isStart,
           startWordId: existing?.startWordId || (isStart ? w.id : undefined),
           startWordDirection:
-            existing?.startWordDirection || (isStart ? w.direction : undefined),
+            (existing && existing.isStartOfWord
+              ? existing.startWordDirection
+              : '') + (w.direction && isStart ? w.direction : ''),
         };
       }
     });
@@ -75,6 +77,8 @@ const Grid: React.FC<GridProps> = ({ words }) => {
     return grid;
   }, [words]);
 
+  console.log(cells);
+
   return (
     <div className={styles.wrapper}>
       <div
@@ -93,10 +97,6 @@ const Grid: React.FC<GridProps> = ({ words }) => {
               ); // Subtle spacer
             }
 
-            const isHintOnly = !cell.wordIds.some(
-              (id) => words.find((w) => w.id === id)?.isRevealed
-            );
-
             return (
               <div
                 key={`${rIndex}-${cIndex}`}
@@ -113,40 +113,46 @@ const Grid: React.FC<GridProps> = ({ words }) => {
                       damping: 25,
                     }}
                     className={classNames(styles.cellRevealed, {
-                      [styles.cellRevealedHint]: isHintOnly,
-                      [styles.cellRevealedWord]: !isHintOnly,
+                      [styles.cellHit]:
+                        hit && cell.wordIds.includes(lastHitInfo?.index),
                     })}
                   >
                     <span className={styles.cellChar}>{cell.char}</span>
-                    {cell.isStartOfWord && cell.startWordId !== undefined && (
-                      <div
-                        className={classNames(styles.cellClue, {
-                          [styles.cellClueH]: cell.startWordDirection === 'H',
-                          [styles.cellClueV]: cell.startWordDirection === 'V',
-                        })}
-                      >
-                        <span className={styles.cellClueArrow} />
-                        <span className={styles.cellClueNumber}>
-                          {cell.startWordId}
-                        </span>
-                      </div>
-                    )}
+                    {cell.isStartOfWord &&
+                      cell.startWordId !== undefined &&
+                      cell.startWordDirection!.split('').map((direction) => (
+                        <div
+                          key={direction}
+                          className={classNames(styles.cellClue, {
+                            [styles.cellClueH]: direction.includes('H'),
+                            [styles.cellClueV]: direction.includes('V'),
+                          })}
+                        >
+                          <span className={styles.cellClueArrow} />
+                          <span className={styles.cellClueNumber}>
+                            {cell.startWordId}
+                          </span>
+                        </div>
+                      ))}
                   </motion.div>
                 ) : (
                   <div className={styles.cellHidden}>
-                    {cell.isStartOfWord && cell.startWordId !== undefined && (
-                      <div
-                        className={classNames(styles.cellClue, {
-                          [styles.cellClueH]: cell.startWordDirection === 'H',
-                          [styles.cellClueV]: cell.startWordDirection === 'V',
-                        })}
-                      >
-                        <span className={styles.cellClueArrow} />
-                        <span className={styles.cellClueNumber}>
-                          {cell.startWordId}
-                        </span>
-                      </div>
-                    )}
+                    {cell.isStartOfWord &&
+                      cell.startWordId !== undefined &&
+                      cell.startWordDirection!.split('').map((direction) => (
+                        <div
+                          key={direction}
+                          className={classNames(styles.cellClue, {
+                            [styles.cellClueH]: direction.includes('H'),
+                            [styles.cellClueV]: direction.includes('V'),
+                          })}
+                        >
+                          <span className={styles.cellClueArrow} />
+                          <span className={styles.cellClueNumber}>
+                            {cell.startWordId}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 )}
               </div>
@@ -158,10 +164,18 @@ const Grid: React.FC<GridProps> = ({ words }) => {
   );
 };
 
-function mapStateToProps(state: { words: WordData[] }): {
+function mapStateToProps(state: {
+  lastHitInfo: { username: string; word: string; index: number };
+  hit: boolean;
+  words: WordData[];
+}): {
+  lastHitInfo: { username: string; word: string; index: number };
+  hit: boolean;
   words: WordData[];
 } {
   return {
+    lastHitInfo: state.lastHitInfo,
+    hit: state.hit,
     words: state.words,
   };
 }

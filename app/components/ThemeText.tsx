@@ -3,6 +3,8 @@ import { withData } from '@/lib/Context';
 import styles from '@/styles/ThemeText.module.css';
 import classNames from 'classnames';
 import { Asap_Condensed } from 'next/font/google';
+import { createRef, useMemo } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const asapCondensed = Asap_Condensed({
   subsets: ['latin'],
@@ -14,7 +16,14 @@ const ThemeText: React.FC<{
   currentTheme: string;
   hit: boolean;
   isLoading: boolean;
-}> = ({ currentTheme, hit, isLoading }) => {
+  lastHitInfo: { username: string; word: string; index: number } | null;
+}> = ({ currentTheme, hit, isLoading, lastHitInfo }) => {
+  const transitionKey = isLoading
+    ? 'loading'
+    : lastHitInfo
+    ? `hit-${lastHitInfo.username}-${lastHitInfo.word}`
+    : `theme-${currentTheme}`;
+  const nodeRef = useMemo(() => createRef<HTMLDivElement>(), [transitionKey]);
   const { t } = useTranslation();
   const getThemeStyle = (text: string) => {
     const length = text.length;
@@ -29,16 +38,49 @@ const ThemeText: React.FC<{
       })}
     >
       <div className={styles.titleContainer}>
-        <h2 className={classNames(styles.title, getThemeStyle(currentTheme))}>
-          {isLoading ? (
-            <span className={styles.loading}>{t('generatingTheme')}</span>
-          ) : (
-            <>
-              <span className={styles.label}>{t('theme')}</span>
-              <span className={styles.theme}>{currentTheme}</span>
-            </>
-          )}
-        </h2>
+        <div className={classNames(styles.title, getThemeStyle(currentTheme))}>
+          <TransitionGroup component={null}>
+            <CSSTransition
+              key={transitionKey}
+              nodeRef={nodeRef}
+              classNames={{
+                enter: styles['fade-enter'],
+                enterActive: styles['fade-enter-active'],
+                exit: styles['fade-exit'],
+                exitActive: styles['fade-exit-active'],
+              }}
+              timeout={250}
+            >
+              <div ref={nodeRef} className={styles.transitionWrapper}>
+                {isLoading && (
+                  <div className={styles.text}>
+                    <span className={styles.loading}>
+                      {t('generatingTheme')}
+                    </span>
+                  </div>
+                )}
+
+                {!isLoading && !lastHitInfo?.word && (
+                  <div className={styles.text}>
+                    <span className={styles.label}>{t('theme')}</span>
+                    <span className={styles.theme}>{currentTheme}</span>
+                  </div>
+                )}
+
+                {lastHitInfo?.word && (
+                  <div className={styles.text}>
+                    <span className={styles.who}>
+                      <b>{lastHitInfo.username}</b> ACERTOU
+                    </span>
+                    <span className={styles.word}>
+                      {lastHitInfo.index}.<b>{lastHitInfo.word}</b>
+                    </span>
+                  </div>
+                )}
+              </div>
+            </CSSTransition>
+          </TransitionGroup>
+        </div>
       </div>
       <span className={styles.find}>{t('findTheWords')}</span>
     </div>
@@ -49,15 +91,18 @@ function mapStateToProps(state: {
   currentTheme: string;
   hit: boolean;
   isLoading: boolean;
+  lastHitInfo: { username: string; word: string; index: number } | null;
 }): {
   currentTheme: string;
   hit: boolean;
   isLoading: boolean;
+  lastHitInfo: { username: string; word: string; index: number } | null;
 } {
   return {
     currentTheme: state.currentTheme,
     hit: state.hit,
     isLoading: state.isLoading,
+    lastHitInfo: state.lastHitInfo || null,
   };
 }
 

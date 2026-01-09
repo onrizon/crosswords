@@ -23,6 +23,11 @@ export default function Main({ children }: { children: React.ReactNode }) {
   const [userScores, setUserScores] = useState<UserScores>({});
   const { data: session, status: sessionStatus } = useSession();
   const [hit, setYouHit] = useState(false);
+  const [lastHitInfo, setLastHitInfo] = useState<{
+    username: string;
+    word: string;
+    index: number;
+  } | null>(null);
   const { changeLocale, locale } = useTranslation();
   const [showCameraArea, setShowCameraArea] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -251,16 +256,23 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
       setWords((currentWords) => {
         let wordFound = false;
-        const newWords = currentWords.map((w) => {
+        let foundWordIndex = -1;
+        const newWords = currentWords.map((w, index) => {
           if (!w.isRevealed && w.word === cleanMessage) {
             wordFound = true;
+            foundWordIndex = index;
             return { ...w, isRevealed: true, revealedBy: username };
           }
           return w;
         });
 
-        if (wordFound) {
+        if (wordFound && foundWordIndex >= 0) {
           setYouHit(true);
+          setLastHitInfo({
+            username: username.toUpperCase(),
+            word: cleanMessage,
+            index: foundWordIndex + 1,
+          });
 
           setUserScores((prev) => ({
             ...prev,
@@ -275,6 +287,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
           playSuccessSound();
           setTimeout(() => {
             setYouHit(false);
+            setLastHitInfo(null);
           }, 3000);
         }
 
@@ -296,6 +309,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         isPaused,
         userScores,
         hit,
+        lastHitInfo,
         setYouHit,
         loadNewLevel,
         handleSaveSettings,

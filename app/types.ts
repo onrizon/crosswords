@@ -14,7 +14,7 @@ export interface WordData {
 
 export interface CellData {
   char: string;
-  wordId: number; // The primary word this cell belongs to (for coloring/logic)
+  // wordId: number; // The primary word this cell belongs to (for coloring/logic)
   wordIds: number[]; // All words this cell belongs to (intersections)
   isRevealed: boolean;
   row: number;
@@ -22,7 +22,7 @@ export interface CellData {
   isStartOfWord?: boolean;
   delay?: number; // Animation delay in seconds
   startWordId?: number; // ID of the word that starts at this cell
-  startWordDirection?: 'H' | 'V'; // Direction of the word that starts at this cell
+  startWordDirection?: string; // Direction of the word that starts at this cell
 }
 
 export interface GameState {

@@ -28,7 +28,7 @@
   position: absolute;
   top: -24px;
   width: 123px;
-  z-index: 51;
+  z-index: 6;
 }
 
 .gridLightLeft:before,

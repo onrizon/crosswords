@@ -6,6 +6,7 @@
   justify-content: flex-start;
   margin: 22px 0 0 20px;
   width: 310px;
+  z-index: 6;
 }
 
 .top {

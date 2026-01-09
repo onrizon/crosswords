@@ -1,3 +1,48 @@
+.hitOverlay {
+  background: radial-gradient(
+    circle,
+    rgba(6, 0, 42, 0.4) 12%,
+    rgba(6, 0, 42, 0.8) 100%
+  );
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+.hitOverlay-enter {
+  opacity: 0;
+}
+.hitOverlay-enter-active {
+  animation-delay: 0ms;
+  animation-name: opacity-game;
+  animation-duration: 300ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.hitOverlay-exit-active {
+  animation-delay: 0ms;
+  animation-direction: reverse;
+  animation-duration: 200ms;
+  animation-name: opacity-game;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes opacity-game {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Header */
 .header {
   align-items: center;
@@ -8,7 +53,6 @@
   padding: 0;
   position: relative;
   width: 100%;
-  z-index: 20;
 }
 
 /* Logo Section */
@@ -37,7 +81,6 @@
   position: relative;
   object-fit: contain;
   width: 100%;
-  z-index: 1;
 }
 
 .headerContentSection {
@@ -47,7 +90,6 @@
   display: flex;
   height: 216px;
   justify-content: flex-start;
-  position: relative;
   width: 1672px;
 }
 
