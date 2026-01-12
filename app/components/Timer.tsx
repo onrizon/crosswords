@@ -4,6 +4,7 @@ import styles from '@/styles/Timer.module.css';
 import classNames from 'classnames';
 
 interface TimerProps {
+  hit: boolean;
   timeLeft: number;
   isPaused: boolean;
   isSettingsOpen: boolean;
@@ -12,6 +13,7 @@ interface TimerProps {
 }
 
 const Timer: React.FC<TimerProps> = ({
+  hit,
   timeLeft,
   isPaused,
   isSettingsOpen,
@@ -32,6 +34,7 @@ const Timer: React.FC<TimerProps> = ({
     <div
       className={classNames(styles.container, {
         [styles.warning]: isWarning,
+        [styles.hit]: hit,
       })}
     >
       <div className={styles.top}>
@@ -52,6 +55,7 @@ const Timer: React.FC<TimerProps> = ({
 
 function mapStateToProps(state: TimerProps): TimerProps {
   return {
+    hit: state.hit,
     timeLeft: state.timeLeft,
     isPaused: state.isPaused,
     isSettingsOpen: state.isSettingsOpen,
