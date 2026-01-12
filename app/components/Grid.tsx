@@ -84,7 +84,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
 
             const wordHit = hit ? cell.words.find((w) => w.id === lastHitInfo?.index) : undefined;
             return <>
-              { wordHit && 
+              { (wordHit && wordHit.start) && 
                 <>
                   { wordHit.direction.includes('H') 
                     ?
