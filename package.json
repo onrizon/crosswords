@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@prisma/client": "^7.2.0",
+    "micro": "^10.0.1",
+    "stripe": "^20.1.2"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3",
+    "prisma": "^7.2.0"
+  }
+}

@@ -1,5 +1,6 @@
 import 'next-auth';
 import 'next-auth/jwt';
+import { PlanTier } from '@/lib/stripe';
 
 declare module 'next-auth' {
   interface Session {
@@ -10,6 +11,8 @@ declare module 'next-auth' {
       image?: string | null;
       twitchId?: string;
       twitchLogin?: string;
+      subscriptionTier?: PlanTier;
+      maxPlayers?: number;
     };
   }
 }
@@ -20,5 +23,7 @@ declare module 'next-auth/jwt' {
     refreshToken?: string;
     twitchId?: string;
     twitchLogin?: string;
+    subscriptionTier?: PlanTier;
+    maxPlayers?: number;
   }
 }

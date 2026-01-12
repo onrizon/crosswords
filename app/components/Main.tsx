@@ -1,6 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
+import { PlanTier } from '@/lib/stripe';
 import { Locale } from '@/locales';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
@@ -36,6 +37,30 @@ export default function Main({ children }: { children: React.ReactNode }) {
     data: {},
   });
   const router = useRouter();
+
+  // Subscription state
+  const [subscriptionTier, setSubscriptionTier] = useState<PlanTier>('free');
+  const [maxPlayers, setMaxPlayers] = useState(6);
+
+  // Fetch subscription status on mount
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const res = await fetch('/api/stripe/status');
+        if (res.ok) {
+          const data = await res.json();
+          setSubscriptionTier(data.tier);
+          setMaxPlayers(data.maxPlayers);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+      }
+    };
+
+    if (sessionStatus === 'authenticated') {
+      fetchSubscription();
+    }
+  }, [sessionStatus]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -215,6 +240,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   const handleTwitchMessage = useCallback(
     (username: string, message: string) => {
+      console.log('handleTwitchMessage', username, message);
       const msgLower = message.trim().toLowerCase();
       const userLower = username.toLowerCase();
       const adminUser = session?.user?.twitchLogin || ''.toLowerCase();
@@ -256,6 +282,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         .replace(/(\s|-)+/g, '');
 
       setWords((currentWords) => {
+        console.log('ok');
         let wordFound = false;
         let foundWordIndex = -1;
         const newWords = currentWords.map((w, index) => {
@@ -275,15 +302,26 @@ export default function Main({ children }: { children: React.ReactNode }) {
             index: foundWordIndex + 1,
           });
 
-          setUserScores((prev) => ({
-            ...prev,
-            [username]: !prev[username]
-              ? { round: 1, total: 1 }
-              : {
-                  round: prev[username].round + 1,
-                  total: prev[username].total + 1,
-                },
-          }));
+          setUserScores((prev) => {
+            const isNewPlayer = !prev[username];
+            const currentPlayerCount = Object.keys(prev).length;
+
+            // Check if we've reached the player limit for new players
+            if (isNewPlayer && currentPlayerCount >= maxPlayers) {
+              // Don't add new player if limit reached
+              return prev;
+            }
+
+            return {
+              ...prev,
+              [username]: isNewPlayer
+                ? { round: 1, total: 1 }
+                : {
+                    round: prev[username].round + 1,
+                    total: prev[username].total + 1,
+                  },
+            };
+          });
 
           playSuccessSound();
           setTimeout(() => {
@@ -295,7 +333,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         return newWords;
       });
     },
-    [isLoading, handleNextLevel, currentTheme]
+    [isLoading, handleNextLevel, currentTheme, maxPlayers]
   );
 
   useTwitch({ onMessage: handleTwitchMessage });
@@ -328,6 +366,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
         setCustomDuration,
         handleNextLevel,
         locale,
+        subscriptionTier,
+        maxPlayers,
       }}
     >
       <div className={styles.main}>

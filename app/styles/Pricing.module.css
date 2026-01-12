@@ -1,0 +1,244 @@
+.container {
+  min-height: 100vh;
+  background-color: rgb(17, 24, 39);
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: rgb(156, 163, 175);
+  font-size: 1.125rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: rgb(31, 41, 55);
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.cardActive {
+  border-color: rgb(147, 51, 234);
+}
+
+.cardPopular {
+  border-color: rgb(236, 72, 153);
+  position: relative;
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(236, 72, 153);
+  color: white;
+  padding: 0.25rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.planName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.planPrice {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.planPrice span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgb(156, 163, 175);
+}
+
+.playerLimit {
+  color: rgb(168, 85, 247);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgb(209, 213, 219);
+  margin-bottom: 0.75rem;
+}
+
+.featureIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(34, 197, 94);
+  flex-shrink: 0;
+}
+
+.button {
+  width: 100%;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+  border: none;
+}
+
+.buttonPrimary {
+  background-color: rgb(147, 51, 234);
+  color: white;
+}
+
+.buttonPrimary:hover {
+  background-color: rgb(126, 34, 206);
+}
+
+.buttonSecondary {
+  background-color: rgb(55, 65, 81);
+  color: white;
+}
+
+.buttonSecondary:hover {
+  background-color: rgb(75, 85, 101);
+}
+
+.buttonDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.currentPlan {
+  background-color: rgb(34, 197, 94);
+  color: white;
+}
+
+.currentPlan:hover {
+  background-color: rgb(34, 197, 94);
+  cursor: default;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(156, 163, 175);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: white;
+}
+
+.manageSection {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgb(55, 65, 81);
+}
+
+.manageButton {
+  background-color: transparent;
+  border: 1px solid rgb(107, 114, 128);
+  color: rgb(156, 163, 175);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.manageButton:hover {
+  border-color: white;
+  color: white;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: rgb(17, 24, 39);
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border-top: 2px solid rgb(168, 85, 247);
+  border-bottom: 2px solid rgb(168, 85, 247);
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alert {
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.alertSuccess {
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgb(34, 197, 94);
+  color: rgb(134, 239, 172);
+}
+
+.alertError {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgb(239, 68, 68);
+  color: rgb(252, 165, 165);
+}

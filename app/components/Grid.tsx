@@ -77,7 +77,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
     return grid;
   }, [words]);
 
-  console.log(cells);
+  // console.log(cells);
 
   return (
     <div className={styles.wrapper}>
