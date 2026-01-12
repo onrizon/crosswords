@@ -15,14 +15,11 @@ export interface WordData {
 export interface CellData {
   char: string;
   // wordId: number; // The primary word this cell belongs to (for coloring/logic)
-  wordIds: number[]; // All words this cell belongs to (intersections)
+  words: { id: number; start: boolean; direction: 'H' | 'V' }[]; // All words this cell belongs to (intersections)
   isRevealed: boolean;
   row: number;
   col: number;
-  isStartOfWord?: boolean;
   delay?: number; // Animation delay in seconds
-  startWordId?: number; // ID of the word that starts at this cell
-  startWordDirection?: string; // Direction of the word that starts at this cell
 }
 
 export interface GameState {

@@ -34,17 +34,11 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
         grid[r][c] = {
           char: w.word[i],
           // wordId: existing ? existing.wordId : w.id, // Keep primary existing or set new
-          wordIds: existing ? [...existing.wordIds, w.id] : [w.id],
+          words: [...(existing ? existing.words : []), { id: w.id, start: isStart, direction: w.direction }],
           // Cell is revealed if the word is revealed, OR if it was previously revealed (intersection), OR if it is a hint
           isRevealed: w.isRevealed || (existing ? existing.isRevealed : false),
           row: r,
           col: c,
-          isStartOfWord: existing?.isStartOfWord || isStart,
-          startWordId: existing?.startWordId || (isStart ? w.id : undefined),
-          startWordDirection:
-            (existing && existing.isStartOfWord
-              ? existing.startWordDirection
-              : '') + (w.direction && isStart ? w.direction : ''),
         };
       }
     });
@@ -102,45 +96,41 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                     }}
                     className={classNames(styles.cellRevealed, {
                       [styles.cellHit]:
-                        hit && cell.wordIds.includes(lastHitInfo?.index),
+                        hit && cell.words.some((w) => w.id === lastHitInfo?.index),
                     })}
                   >
                     <span className={styles.cellChar}>{cell.char}</span>
-                    {cell.isStartOfWord &&
-                      cell.startWordId !== undefined &&
-                      cell.startWordDirection!.split('').map((direction) => (
-                        <div
-                          key={direction}
-                          className={classNames(styles.cellClue, {
-                            [styles.cellClueH]: direction.includes('H'),
-                            [styles.cellClueV]: direction.includes('V'),
-                          })}
-                        >
-                          <span className={styles.cellClueArrow} />
-                          <span className={styles.cellClueNumber}>
-                            {cell.startWordId}
-                          </span>
-                        </div>
-                      ))}
+                    {cell.words.filter((w) => w.start).map((w) => (
+                      <div
+                        key={w.direction}
+                        className={classNames(styles.cellClue, {
+                          [styles.cellClueH]: w.direction.includes('H'),
+                          [styles.cellClueV]: w.direction.includes('V'),
+                        })}
+                      >
+                        <span className={styles.cellClueArrow} />
+                        <span className={styles.cellClueNumber}>
+                          {w.id}
+                        </span>
+                      </div>
+                    ))}
                   </motion.div>
                 ) : (
                   <div className={styles.cellHidden}>
-                    {cell.isStartOfWord &&
-                      cell.startWordId !== undefined &&
-                      cell.startWordDirection!.split('').map((direction) => (
-                        <div
-                          key={direction}
-                          className={classNames(styles.cellClue, {
-                            [styles.cellClueH]: direction.includes('H'),
-                            [styles.cellClueV]: direction.includes('V'),
-                          })}
-                        >
-                          <span className={styles.cellClueArrow} />
-                          <span className={styles.cellClueNumber}>
-                            {cell.startWordId}
-                          </span>
-                        </div>
-                      ))}
+                    {cell.words.filter((w) => w.start).map((w) => (
+                      <div
+                        key={w.direction}
+                        className={classNames(styles.cellClue, {
+                          [styles.cellClueH]: w.direction.includes('H'),
+                          [styles.cellClueV]: w.direction.includes('V'),
+                        })}
+                      >
+                        <span className={styles.cellClueArrow} />
+                        <span className={styles.cellClueNumber}>
+                          {w.id}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
