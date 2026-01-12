@@ -5,6 +5,8 @@
   border-radius: 5px;
   box-shadow: 0 0 0 2px #2d0b92;
   display: flex;
+  font-family: var(--font-nunito-sans);
+  font-weight: 700;
   height: 76px;
   justify-content: space-between;
   position: relative;
@@ -36,7 +38,9 @@
   border: none;
   color: #fff;
   cursor: pointer;
+  font-family: var(--font-nunito-sans);
   font-size: 28px;
+  font-weight: 700;
   height: 100%;
   line-height: 1;
   padding: 0 20px;

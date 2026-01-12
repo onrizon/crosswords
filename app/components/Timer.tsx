@@ -2,21 +2,22 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/Timer.module.css';
 import classNames from 'classnames';
-import { Asap_Condensed } from 'next/font/google';
 
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
-
-const Timer: React.FC<{
+interface TimerProps {
   timeLeft: number;
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
   tempSettings: { duration: number };
-}> = ({ timeLeft, isPaused, isSettingsOpen, isInfoOpen, tempSettings }) => {
+}
+
+const Timer: React.FC<TimerProps> = ({
+  timeLeft,
+  isPaused,
+  isSettingsOpen,
+  isInfoOpen,
+  tempSettings,
+}) => {
   const { t } = useTranslation();
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -29,7 +30,7 @@ const Timer: React.FC<{
 
   return (
     <div
-      className={classNames(styles.container, asapCondensed.className, {
+      className={classNames(styles.container, {
         [styles.warning]: isWarning,
       })}
     >
@@ -49,23 +50,7 @@ const Timer: React.FC<{
   );
 };
 
-function mapStateToProps(state: {
-  timeLeft: number;
-  isPaused: boolean;
-  isSettingsOpen: boolean;
-  isInfoOpen: boolean;
-  tempSettings: {
-    duration: number;
-  };
-}): {
-  timeLeft: number;
-  isPaused: boolean;
-  isSettingsOpen: boolean;
-  isInfoOpen: boolean;
-  tempSettings: {
-    duration: number;
-  };
-} {
+function mapStateToProps(state: TimerProps): TimerProps {
   return {
     timeLeft: state.timeLeft,
     isPaused: state.isPaused,

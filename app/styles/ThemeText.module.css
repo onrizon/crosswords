@@ -4,6 +4,8 @@
   background-size: contain;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-asap-condensed);
+  font-weight: 700;
   height: 214px;
   justify-content: flex-start;
   margin: 18px 0 0 10px;
@@ -282,18 +284,3 @@
   transform: scale(0.2);
   transition: opacity 250ms, transform 250ms;
 }
-
-/* @keyframes scale {
-  0% {
-    transform: scale3d(0.2, 0.2, 0.2);
-    opacity: 0;
-  }
-  70% {
-    transform: scale3d(1.05, 1.05, 1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale3d(1, 1, 1);
-    opacity: 1;
-  }
-} */

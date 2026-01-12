@@ -4,16 +4,25 @@ import { withData } from '@/lib/Context';
 import styles from '@/styles/Menu.module.css';
 import classNames from 'classnames';
 
-const Menu: React.FC<{
+interface MenuProps {
+  hit: boolean;
   isLoading: boolean;
   isPaused: boolean;
   handlePause: () => void;
   handleNextLevel: () => void;
   handleModal: (type: number, data: React.FC) => void;
-}> = ({ isPaused, isLoading, handlePause, handleNextLevel, handleModal }) => {
+}
+const Menu: React.FC<MenuProps> = ({
+  hit,
+  isPaused,
+  isLoading,
+  handlePause,
+  handleNextLevel,
+  handleModal,
+}) => {
   const { t } = useTranslation();
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, { [styles.hit]: hit })}>
       <button
         onClick={handlePause}
         className={classNames(styles.button, {
@@ -58,20 +67,9 @@ const Menu: React.FC<{
   );
 };
 
-function mapStateToProps(state: {
-  isLoading: boolean;
-  isPaused: boolean;
-  handlePause: () => void;
-  handleNextLevel: () => void;
-  handleModal: (type: number, data: React.FC) => void;
-}): {
-  isLoading: boolean;
-  isPaused: boolean;
-  handlePause: () => void;
-  handleNextLevel: () => void;
-  handleModal: (type: number, data: React.FC) => void;
-} {
+function mapStateToProps(state: MenuProps): MenuProps {
   return {
+    hit: state.hit,
     isLoading: state.isLoading,
     isPaused: state.isPaused,
     handlePause: state.handlePause,

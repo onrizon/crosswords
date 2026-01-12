@@ -1,6 +1,8 @@
 :root {
   --background: #200486;
   --foreground: #171717;
+  --font-nunito-sans: 'Nunito Sans', Arial, Helvetica, sans-serif;
+  --font-asap-condensed: 'Asap Condensed', Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

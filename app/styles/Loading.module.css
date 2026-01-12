@@ -1,13 +1,15 @@
 .loadingOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
+  align-items: center;
   background-color: rgba(2, 6, 23, 0.6);
   backdrop-filter: blur(12px);
   display: flex;
+  font-family: var(--font-asap-condensed);
+  font-weight: 700;
   flex-direction: column;
-  align-items: center;
+  inset: 0;
   justify-content: center;
+  position: absolute;
+  z-index: 50;
 }
 
 .loadingTitle {

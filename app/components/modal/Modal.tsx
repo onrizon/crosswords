@@ -1,22 +1,16 @@
 import * as C from '@/constants';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/Modal.module.css';
-import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Asap_Condensed } from 'next/font/google';
 import AlertModal from './Alert';
 import InfoModal from './info';
 import SettingsModal from './settings';
 
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
+interface ModalProps {
+  modal: { type: number; data: React.FC };
+}
 
-const Modal: React.FC<{ modal: { type: number; data: React.FC } }> = ({
-  modal,
-}) => {
+const Modal: React.FC<ModalProps> = ({ modal }) => {
   let Content = null;
   switch (modal.type) {
     case C.SETTINGS_MODAL:
@@ -34,9 +28,7 @@ const Modal: React.FC<{ modal: { type: number; data: React.FC } }> = ({
     <>
       <AnimatePresence>
         {Content && (
-          <div
-            className={classNames(styles.modalOverlay, asapCondensed.className)}
-          >
+          <div className={styles.modalOverlay}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -52,12 +44,7 @@ const Modal: React.FC<{ modal: { type: number; data: React.FC } }> = ({
   );
 };
 
-function mapStateToProps(state: { modal: { type: number; data: React.FC } }): {
-  modal: {
-    type: number;
-    data: React.FC;
-  };
-} {
+function mapStateToProps(state: ModalProps): ModalProps {
   return {
     modal: state.modal,
   };

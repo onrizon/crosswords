@@ -4,32 +4,11 @@ import { withData } from '@/lib/Context';
 import { Locale } from '@/locales';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
-import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
 import { useEffect } from 'react';
 import { Select } from '../Select';
 import { Switch } from '../Switch';
 
-const nunitoSans = Nunito_Sans({
-  subsets: ['latin'],
-  weight: ['600', '800'],
-  variable: '--font-nunito-sans',
-});
-
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
-
-const SettingsModal = ({
-  handleSaveSettings,
-  tempSettings,
-  setTempSettings,
-  handleModal,
-  locale,
-  customDuration,
-  showCameraArea,
-}: {
+interface SettingsModalProps {
   handleSaveSettings: () => void;
   tempSettings: {
     language: string;
@@ -45,6 +24,16 @@ const SettingsModal = ({
   locale: string;
   customDuration: number;
   showCameraArea: boolean;
+}
+
+const SettingsModal: React.FC<SettingsModalProps> = ({
+  handleSaveSettings,
+  tempSettings,
+  setTempSettings,
+  handleModal,
+  locale,
+  customDuration,
+  showCameraArea,
 }) => {
   const { t, locales } = useTranslation();
 
@@ -128,7 +117,7 @@ const SettingsModal = ({
           <div
             className={classNames(styles.description, styles.switchDescription)}
           >
-            <span className={nunitoSans.className}>{t('cameraAreaDesc')}</span>
+            <span>{t('cameraAreaDesc')}</span>
             <Switch
               checked={tempSettings.showCameraArea}
               onChange={() =>
@@ -144,17 +133,13 @@ const SettingsModal = ({
       <div className={styles.footer}>
         <button
           onClick={() => handleModal(C.CLOSED_MODAL, () => null)}
-          className={classNames(styles.btn, asapCondensed.className)}
+          className={styles.btn}
         >
           {t('cancel')}
         </button>
         <button
           onClick={handleSave}
-          className={classNames(
-            styles.btn,
-            styles.btnPrimary,
-            asapCondensed.className
-          )}
+          className={classNames(styles.btn, styles.btnPrimary)}
         >
           {t('save')}
         </button>
@@ -163,39 +148,7 @@ const SettingsModal = ({
   );
 };
 
-function mapStateToProps(state: {
-  handleModal: (type: number, data: React.FC) => void;
-  handleSaveSettings: () => void;
-  tempSettings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  };
-  setTempSettings: (settings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  }) => void;
-  locale: string;
-  customDuration: number;
-  showCameraArea: boolean;
-}): {
-  handleModal: (type: number, data: React.FC) => void;
-  handleSaveSettings: () => void;
-  tempSettings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  };
-  setTempSettings: (settings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  }) => void;
-  locale: string;
-  customDuration: number;
-  showCameraArea: boolean;
-} {
+function mapStateToProps(state: SettingsModalProps): SettingsModalProps {
   return {
     handleModal: state.handleModal,
     handleSaveSettings: state.handleSaveSettings,

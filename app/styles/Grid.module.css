@@ -21,12 +21,18 @@
 
 .cellEmpty {
   height: 46px;
+  min-height: 46px;
+  min-width: 46px;
   width: 46px;
 }
 
 .cell {
+  font-family: var(--font-asap-condensed);
+  font-weight: 700;
   position: relative;
   width: 46px;
+  min-height: 46px;
+  min-width: 46px;
   height: 46px;
 }
 

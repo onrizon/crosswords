@@ -1,23 +1,15 @@
 import styles from '@/styles/Switch.module.css';
 import classNames from 'classnames';
-import { Asap_Condensed } from 'next/font/google';
 
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
-
-export const Switch = ({
-  checked,
-  onChange,
-}: {
+interface SwitchProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
-}) => {
+}
+
+export const Switch: React.FC<SwitchProps> = ({ checked, onChange }) => {
   return (
     <div
-      className={classNames(styles.switch, asapCondensed.className, {
+      className={classNames(styles.switch, {
         [styles.checked]: checked,
       })}
     >

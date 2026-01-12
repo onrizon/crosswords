@@ -4,6 +4,8 @@
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
+  font-family: var(--font-nunito-sans);
+  font-weight: 700;
   height: 493px;
   justify-content: center;
   padding: 5px;
@@ -200,7 +202,6 @@
   color: #ffffff;
   display: block;
   font-size: 26px;
-  font-weight: 700;
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
@@ -234,6 +235,7 @@
   border-radius: 0.5rem;
   color: #ffffff;
   display: flex;
+  font-family: var(--font-nunito-sans);
   font-size: 28px;
   font-weight: 900;
   height: 40px;

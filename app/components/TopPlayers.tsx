@@ -4,23 +4,14 @@ import styles from '@/styles/TopPlayers.module.css';
 import { UserScores } from '@/types';
 import classNames from 'classnames';
 
-import { Nunito_Sans } from 'next/font/google';
-
-const nunitoSans = Nunito_Sans({
-  subsets: ['latin'],
-  weight: ['700', '900'],
-  variable: '--font-nunito-sans',
-});
-
-const TopPlayers: React.FC<{
+interface TopPlayersProps {
   userScores: UserScores;
   showCameraArea: boolean;
-}> = ({
+}
+
+const TopPlayers: React.FC<TopPlayersProps> = ({
   userScores,
   showCameraArea,
-}: {
-  userScores: UserScores;
-  showCameraArea: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -38,7 +29,7 @@ const TopPlayers: React.FC<{
 
   return (
     <div
-      className={classNames(styles.container, nunitoSans.className, {
+      className={classNames(styles.container, {
         [styles.fullHeight]: !showCameraArea,
       })}
     >
@@ -77,13 +68,7 @@ const TopPlayers: React.FC<{
   );
 };
 
-function mapStateToProps(state: {
-  userScores: UserScores;
-  showCameraArea: boolean;
-}): {
-  userScores: UserScores;
-  showCameraArea: boolean;
-} {
+function mapStateToProps(state: TopPlayersProps): TopPlayersProps {
   return {
     userScores: state.userScores,
     showCameraArea: state.showCameraArea,

@@ -4,10 +4,12 @@ import classNames from 'classnames';
 import Grid from './Grid';
 import { Loading } from './Loading';
 
-const GameArea: React.FC<{ hit: boolean; isLoading: boolean }> = ({
-  hit,
-  isLoading,
-}) => {
+interface GameAreaProps {
+  hit: boolean;
+  isLoading: boolean;
+}
+
+const GameArea: React.FC<GameAreaProps> = ({ hit, isLoading }) => {
   return (
     <div className={styles.gameArea}>
       <div className={styles.gridContainer}>
@@ -34,10 +36,7 @@ const GameArea: React.FC<{ hit: boolean; isLoading: boolean }> = ({
   );
 };
 
-function mapStateToProps(state: { hit: boolean; isLoading: boolean }): {
-  hit: boolean;
-  isLoading: boolean;
-} {
+function mapStateToProps(state: GameAreaProps): GameAreaProps {
   return {
     hit: state.hit,
     isLoading: state.isLoading,

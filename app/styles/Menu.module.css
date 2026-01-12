@@ -8,6 +8,11 @@
   position: absolute;
   right: 222px;
   width: 267px;
+  z-index: 7;
+}
+
+.hit {
+  z-index: 1;
 }
 
 .button {

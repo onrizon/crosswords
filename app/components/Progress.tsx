@@ -2,16 +2,12 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/Progress.module.css';
 import { WordData } from '@/types';
-import classNames from 'classnames';
-import { Asap_Condensed } from 'next/font/google';
 
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
+interface ProgressProps {
+  words: WordData[];
+}
 
-const Progress: React.FC<{ words: WordData[] }> = ({ words }) => {
+const Progress: React.FC<ProgressProps> = ({ words }) => {
   const { t } = useTranslation();
   const solvedCount = words.filter((w) => w.isRevealed).length;
   const totalCount = words.length;
@@ -19,7 +15,7 @@ const Progress: React.FC<{ words: WordData[] }> = ({ words }) => {
     totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
 
   return (
-    <div className={classNames(styles.container, asapCondensed.className)}>
+    <div className={styles.container}>
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>
@@ -38,9 +34,7 @@ const Progress: React.FC<{ words: WordData[] }> = ({ words }) => {
   );
 };
 
-function mapStateToProps(state: { words: WordData[] }): {
-  words: WordData[];
-} {
+function mapStateToProps(state: ProgressProps): ProgressProps {
   return {
     words: state.words,
   };

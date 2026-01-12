@@ -1,5 +1,7 @@
 .switch {
   display: block;
+  font-family: var(--font-asap-condensed);
+  font-weight: 700;
   height: 55px;
   position: relative;
   width: 132px;

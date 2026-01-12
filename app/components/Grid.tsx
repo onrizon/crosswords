@@ -6,13 +6,6 @@ import { CellData, WordData } from '../types';
 
 import { withData } from '@/lib/Context';
 import classNames from 'classnames';
-import { Asap_Condensed } from 'next/font/google';
-
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
 
 interface GridProps {
   hit: boolean;
@@ -77,7 +70,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
     return grid;
   }, [words]);
 
-  console.log(cells);
+  console.log(words);
 
   return (
     <div className={styles.wrapper}>
@@ -98,10 +91,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
             }
 
             return (
-              <div
-                key={`${rIndex}-${cIndex}`}
-                className={classNames(styles.cell, asapCondensed.className)}
-              >
+              <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
                 {cell.isRevealed ? (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}

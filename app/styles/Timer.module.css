@@ -2,6 +2,8 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-asap-condensed);
+  font-weight: 700;
   height: 122px;
   justify-content: flex-start;
   margin: 22px 0 0 5px;

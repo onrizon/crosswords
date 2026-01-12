@@ -2,22 +2,22 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/ThemeText.module.css';
 import classNames from 'classnames';
-import { Asap_Condensed } from 'next/font/google';
 import { createRef, useMemo } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-const asapCondensed = Asap_Condensed({
-  subsets: ['latin'],
-  weight: ['700'],
-  variable: '--font-asap-condensed',
-});
-
-const ThemeText: React.FC<{
+interface ThemeTextProps {
   currentTheme: string;
   hit: boolean;
   isLoading: boolean;
   lastHitInfo: { username: string; word: string; index: number } | null;
-}> = ({ currentTheme, hit, isLoading, lastHitInfo }) => {
+}
+
+const ThemeText: React.FC<ThemeTextProps> = ({
+  currentTheme,
+  hit,
+  isLoading,
+  lastHitInfo,
+}) => {
   const transitionKey = isLoading
     ? 'loading'
     : lastHitInfo
@@ -33,7 +33,7 @@ const ThemeText: React.FC<{
 
   return (
     <div
-      className={classNames(styles.container, asapCondensed.className, {
+      className={classNames(styles.container, {
         [styles.hitTheme]: hit,
       })}
     >
@@ -87,17 +87,7 @@ const ThemeText: React.FC<{
   );
 };
 
-function mapStateToProps(state: {
-  currentTheme: string;
-  hit: boolean;
-  isLoading: boolean;
-  lastHitInfo: { username: string; word: string; index: number } | null;
-}): {
-  currentTheme: string;
-  hit: boolean;
-  isLoading: boolean;
-  lastHitInfo: { username: string; word: string; index: number } | null;
-} {
+function mapStateToProps(state: ThemeTextProps): ThemeTextProps {
   return {
     currentTheme: state.currentTheme,
     hit: state.hit,
