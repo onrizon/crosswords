@@ -82,7 +82,27 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
               ); // Subtle spacer
             }
 
-            return (
+            const wordHit = hit ? cell.words.find((w) => w.id === lastHitInfo?.index) : undefined;
+            return <>
+              { wordHit && 
+                <>
+                  { wordHit.direction.includes('H') 
+                    ?
+                    <div 
+                      className={classNames(styles.wordGlow, styles.wordGlowH)} 
+                      style={{ width: lastHitInfo.word.length * 10 + 'px' }} 
+                    />
+                    :
+                    <div 
+                      className={classNames(styles.wordGlow, styles.wordGlowV)} 
+                      style={{ height: lastHitInfo.word.length * 10 + 'px' }} 
+                    />
+                  }
+                  <div 
+                    className={styles.wordEffect} 
+                  />
+                </>
+              }
               <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
                 {cell.isRevealed ? (
                   <motion.div
@@ -95,8 +115,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                       damping: 25,
                     }}
                     className={classNames(styles.cellRevealed, {
-                      [styles.cellHit]:
-                        hit && cell.words.some((w) => w.id === lastHitInfo?.index),
+                      [styles.cellHit]: !!wordHit,
                     })}
                   >
                     <span className={styles.cellChar}>{cell.char}</span>
@@ -134,7 +153,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                   </div>
                 )}
               </div>
-            );
+            </>;
           })
         )}
       </div>
