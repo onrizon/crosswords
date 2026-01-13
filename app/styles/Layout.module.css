@@ -17,34 +17,22 @@
   z-index: 5;
 }
 
-.hitOverlay-enter {
+.fade-enter {
   opacity: 0;
 }
-.hitOverlay-enter-active {
-  animation-delay: 0ms;
-  animation-name: opacity-game;
-  animation-duration: 300ms;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-}
-.hitOverlay-exit-active {
-  animation-delay: 0ms;
-  animation-direction: reverse;
-  animation-duration: 200ms;
-  animation-name: opacity-game;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 250ms;
 }
 
-@keyframes opacity-game {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 250ms;
 }
 
 /* Header */

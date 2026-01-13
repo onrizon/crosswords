@@ -102,8 +102,8 @@
 }
 
 .cellHidden:hover {
-  background-color: rgba(51, 65, 85, 0.6);
-  border-color: rgba(168, 85, 247, 0.3);
+  background-color: #9548f5;
+  border-color: #ac6bff;
 }
 
 .cellClue {

@@ -45,11 +45,13 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
           <CSSTransition
             key={'hit'}
             nodeRef={nodeRef}
-            classNames='borderHit'
-            timeout={{
-              enter: 900,
-              exit: 300,
+            classNames={{
+              enter: styles['fade-enter'],
+              enterActive: styles['fade-enter-active'],
+              exit: styles['fade-exit'],
+              exitActive: styles['fade-exit-active'],
             }}
+            timeout={250}
           >
             <div ref={nodeRef} className={styles.hitOverlay} />
           </CSSTransition>

@@ -32,26 +32,38 @@ const ThemeText: React.FC<ThemeTextProps> = ({
   };
 
   return (
-    <div
-      className={classNames(styles.container, {
-        [styles.hitTheme]: hit,
-      })}
-    >
-      <div className={styles.titleContainer}>
-        <div className={classNames(styles.title, getThemeStyle(currentTheme))}>
-          <TransitionGroup component={null}>
-            <CSSTransition
-              key={transitionKey}
-              nodeRef={nodeRef}
-              classNames={{
-                enter: styles['fade-enter'],
-                enterActive: styles['fade-enter-active'],
-                exit: styles['fade-exit'],
-                exitActive: styles['fade-exit-active'],
-              }}
-              timeout={250}
-            >
-              <div ref={nodeRef} className={styles.transitionWrapper}>
+    <div className={styles.container}>
+      <TransitionGroup component={null}>
+        <CSSTransition
+          key={transitionKey}
+          nodeRef={nodeRef}
+          classNames={{
+            enter: styles['fade-enter'],
+            enterActive: styles['fade-enter-active'],
+            exit: styles['fade-exit'],
+            exitActive: styles['fade-exit-active'],
+          }}
+          timeout={250}
+        >
+          <div ref={nodeRef}>
+            {hit && (
+              <>
+                <div
+                  className={classNames(styles.hitTheme, styles.hitThemeLeft)}
+                />
+                <div
+                  className={classNames(styles.hitTheme, styles.hitThemeRight)}
+                />
+              </>
+            )}
+
+            <div className={styles.titleContainer}>
+              <div
+                className={classNames(
+                  styles.title,
+                  getThemeStyle(currentTheme)
+                )}
+              >
                 {isLoading && (
                   <div className={styles.text}>
                     <span className={styles.loading}>
@@ -78,11 +90,11 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                   </div>
                 )}
               </div>
-            </CSSTransition>
-          </TransitionGroup>
-        </div>
-      </div>
-      <span className={styles.find}>{t('findTheWords')}</span>
+            </div>
+            <span className={styles.find}>{t('findTheWords')}</span>
+          </div>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 };
