@@ -150,22 +150,6 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                       })}
                     >
                       <span className={styles.cellChar}>{cell.char}</span>
-                      {cell.words
-                        .filter((w) => w.start)
-                        .map((w) => (
-                          <div
-                            key={`${rIndex}-${cIndex}-${w.direction}`}
-                            className={classNames(styles.cellClue, {
-                              [styles.cellClueH]: w.direction.includes('H'),
-                              [styles.cellClueV]: w.direction.includes('V'),
-                            })}
-                          >
-                            <span className={styles.cellClueArrow} />
-                            <span className={styles.cellClueNumber}>
-                              {w.id}
-                            </span>
-                          </div>
-                        ))}
                     </motion.div>
                   )}
                 </div>
