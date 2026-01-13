@@ -68,15 +68,17 @@
   position: relative;
   height: 156px;
   justify-content: center;
+  left: 60px;
   padding: 12px;
-  position: relative;
-  width: 896px;
+  position: absolute;
+  width: 872px;
 }
 
 .title {
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: center;
   letter-spacing: 2px;
   line-height: 1;
@@ -241,6 +243,7 @@
 }
 
 .find {
+  bottom: 5px;
   color: #065c91;
   display: block;
   font-size: 24px;
@@ -249,7 +252,7 @@
   letter-spacing: 3px;
   line-height: 52px;
   margin-top: 3px;
-  position: relative;
+  position: absolute;
   text-align: center;
   text-shadow: rgb(204, 254, 255) 2px 0px 0px,
     rgb(204, 254, 255) 1.75517px 0.958851px 0px,

@@ -91,10 +91,10 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                 )}
               </div>
             </div>
-            <span className={styles.find}>{t('findTheWords')}</span>
           </div>
         </CSSTransition>
       </TransitionGroup>
+      <span className={styles.find}>{t('findTheWords')}</span>
     </div>
   );
 };
