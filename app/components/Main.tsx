@@ -7,7 +7,7 @@ import { UserScores, WordData } from '@/types';
 import confetti from 'canvas-confetti';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as C from '../constants';
 
 export default function Main({ children }: { children: React.ReactNode }) {
@@ -28,6 +28,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
     word: string;
     index: number;
   } | null>(null);
+  const hitTimeout = useRef<NodeJS.Timeout | null>(null);
   const { changeLocale, locale } = useTranslation();
   const [showCameraArea, setShowCameraArea] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -87,6 +88,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   // --- Game Logic ---
   const loadNewLevel = useCallback(
     async (targetLang?: string, durationOverride?: number) => {
+      if (hitTimeout.current) clearTimeout(hitTimeout.current);
       setIsLoading(true);
       setIsPaused(false);
       const langToUse = targetLang || locale;
@@ -286,7 +288,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
           }));
 
           playSuccessSound();
-          setTimeout(() => {
+          if (hitTimeout.current) clearTimeout(hitTimeout.current);
+          hitTimeout.current = setTimeout(() => {
             setYouHit(false);
             setLastHitInfo(null);
           }, 3000);
