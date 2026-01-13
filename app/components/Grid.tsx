@@ -89,86 +89,87 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
               ? cell.words.find((w) => w.id === lastHitInfo?.index)
               : undefined;
             return (
-              <>
-                <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
-                  {cell.words
-                    .filter((w) => w.start)
-                    .map((w) => (
-                      <div
-                        key={w.direction}
-                        className={classNames(styles.cellClue, {
-                          [styles.cellClueH]: w.direction.includes('H'),
-                          [styles.cellClueV]: w.direction.includes('V'),
-                        })}
-                      >
-                        <span className={styles.cellClueArrow} />
-                        <span className={styles.cellClueNumber}>{w.id}</span>
-                      </div>
-                    ))}
-                  <div className={styles.cellHidden}>
-                    {wordHit && wordHit.start && (
-                      <>
-                        {wordHit.direction.includes('H') ? (
-                          <div
-                            className={classNames(
-                              styles.wordGlow,
-                              styles.wordGlowH
-                            )}
-                            style={{
-                              width: lastHitInfo.word.length * 10 + 'px',
-                            }}
-                          />
-                        ) : (
-                          <div
-                            className={classNames(
-                              styles.wordGlow,
-                              styles.wordGlowV
-                            )}
-                            style={{
-                              height: lastHitInfo.word.length * 10 + 'px',
-                            }}
-                          />
-                        )}
-                        <div className={styles.wordEffect} />
-                      </>
-                    )}
+              <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
+                {cell.words
+                  .filter((w) => w.start)
+                  .map((w) => (
+                    <div
+                      key={`${rIndex}-${cIndex}-${w.direction}`}
+                      className={classNames(styles.cellClue, {
+                        [styles.cellClueH]: w.direction.includes('H'),
+                        [styles.cellClueV]: w.direction.includes('V'),
+                      })}
+                    >
+                      <span className={styles.cellClueArrow} />
+                      <span className={styles.cellClueNumber}>{w.id}</span>
+                    </div>
+                  ))}
+                <div
+                  key={`${rIndex}-${cIndex}-hidden`}
+                  className={styles.cellHidden}
+                >
+                  {wordHit && wordHit.start && (
+                    <>
+                      {wordHit.direction.includes('H') ? (
+                        <div
+                          className={classNames(
+                            styles.wordGlow,
+                            styles.wordGlowH
+                          )}
+                          style={{
+                            width: lastHitInfo.word.length * 50 + 'px',
+                          }}
+                        />
+                      ) : (
+                        <div
+                          className={classNames(
+                            styles.wordGlow,
+                            styles.wordGlowV
+                          )}
+                          style={{
+                            height: lastHitInfo.word.length * 50 + 'px',
+                          }}
+                        />
+                      )}
+                      <div className={styles.wordEffect} />
+                    </>
+                  )}
 
-                    {cell.isRevealed && (
-                      <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1.05, opacity: 1 }}
-                        transition={{
-                          delay: cell.delay || 0,
-                          type: 'spring',
-                          stiffness: 400,
-                          damping: 25,
-                        }}
-                        className={classNames(styles.cellRevealed, {
-                          [styles.cellHit]: !!wordHit,
-                        })}
-                      >
-                        <span className={styles.cellChar}>{cell.char}</span>
-                        {cell.words
-                          .filter((w) => w.start)
-                          .map((w) => (
-                            <div
-                              key={w.direction}
-                              className={classNames(styles.cellClue, {
-                                [styles.cellClueH]: w.direction.includes('H'),
-                                [styles.cellClueV]: w.direction.includes('V'),
-                              })}
-                            >
-                              <span className={styles.cellClueArrow} />
-                              <span className={styles.cellClueNumber}>
-                                {w.id}
-                              </span>
-                            </div>
-                          ))}
-                      </motion.div>
-                    )}
-                  </div>
+                  {cell.isRevealed && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1.05, opacity: 1 }}
+                      transition={{
+                        delay: cell.delay || 0,
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 25,
+                      }}
+                      className={classNames(styles.cellRevealed, {
+                        [styles.cellHit]: !!wordHit,
+                      })}
+                    >
+                      <span className={styles.cellChar}>{cell.char}</span>
+                      {cell.words
+                        .filter((w) => w.start)
+                        .map((w) => (
+                          <div
+                            key={`${rIndex}-${cIndex}-${w.direction}`}
+                            className={classNames(styles.cellClue, {
+                              [styles.cellClueH]: w.direction.includes('H'),
+                              [styles.cellClueV]: w.direction.includes('V'),
+                            })}
+                          >
+                            <span className={styles.cellClueArrow} />
+                            <span className={styles.cellClueNumber}>
+                              {w.id}
+                            </span>
+                          </div>
+                        ))}
+                    </motion.div>
+                  )}
                 </div>
-              </>
+              </div>
             );
           })
         )}
