@@ -33,7 +33,13 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className={classNames(nunitoSans.className, asapCondensed.className)}>
+    <div
+      className={classNames(
+        styles.layout,
+        nunitoSans.className,
+        asapCondensed.className
+      )}
+    >
       <TransitionGroup component={null}>
         {hit && (
           <CSSTransition

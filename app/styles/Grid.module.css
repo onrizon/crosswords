@@ -12,6 +12,7 @@
   padding: 3px;
   position: relative;
   user-select: none;
+  width: 100%;
 }
 
 .container {
@@ -157,7 +158,16 @@
 }
 
 .wordGlow {
+  border-radius: 50%;
+  box-shadow: 0 0 50px rgba(221, 0, 255, 0.35);
+  display: block;
+  height: 46px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
   position: absolute;
+  z-index: 6;
 }
 
 .wordEffect {
