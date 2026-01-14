@@ -1,7 +1,6 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
-import { Locale } from '@/locales';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
 import confetti from 'canvas-confetti';
@@ -68,17 +67,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
     setIsHydrated(true);
   }, []);
 
-  // Settings Form State (Temporary state while modal is open)
-  const [tempSettings, setTempSettings] = useState<{
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  }>({
-    language: 'pt',
-    duration: customDuration,
-    showCameraArea,
-  });
-
   useEffect(() => {
     if (sessionStatus === 'unauthenticated') {
       router.push('/');
@@ -123,26 +111,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
     },
     [locale, customDuration]
   );
-
-  const handleSaveSettings = () => {
-    const hasLangChanged = tempSettings.language !== locale;
-    const hasDurationChanged = tempSettings.duration !== customDuration;
-
-    // Save to LocalStorage
-    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
-
-    // Save to State
-    changeLocale(tempSettings.language as Locale);
-    setCustomDuration(tempSettings.duration);
-    setShowCameraArea(tempSettings.showCameraArea);
-
-    // If critical settings changed, reload level immediately
-    if (hasLangChanged || hasDurationChanged) {
-      loadNewLevel(tempSettings.language, tempSettings.duration);
-    } else {
-      setIsPaused(false);
-    }
-  };
 
   const handlePause = () => {
     setIsPaused(!isPaused);
@@ -316,7 +284,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
         lastHitInfo,
         setYouHit,
         loadNewLevel,
-        handleSaveSettings,
         handlePause,
         handleLogout,
         handleModal,
@@ -325,8 +292,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
         showCameraArea,
         setShowCameraArea,
         handleTwitchMessage,
-        tempSettings,
-        setTempSettings,
         customDuration,
         setCustomDuration,
         handleNextLevel,

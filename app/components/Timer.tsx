@@ -9,7 +9,7 @@ interface TimerProps {
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
-  tempSettings: { duration: number };
+  customDuration: number;
 }
 
 const Timer: React.FC<TimerProps> = ({
@@ -18,7 +18,7 @@ const Timer: React.FC<TimerProps> = ({
   isPaused,
   isSettingsOpen,
   isInfoOpen,
-  tempSettings,
+  customDuration,
 }) => {
   const { t } = useTranslation();
   const formatTime = (seconds: number) => {
@@ -40,9 +40,7 @@ const Timer: React.FC<TimerProps> = ({
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>
-          <span
-            style={{ width: `${(timeLeft / tempSettings.duration) * 100}%` }}
-          />
+          <span style={{ width: `${(timeLeft / customDuration) * 100}%` }} />
         </div>
       </div>
       <div className={styles.content}>
@@ -60,7 +58,7 @@ function mapStateToProps(state: TimerProps): TimerProps {
     isPaused: state.isPaused,
     isSettingsOpen: state.isSettingsOpen,
     isInfoOpen: state.isInfoOpen,
-    tempSettings: state.tempSettings,
+    customDuration: state.customDuration,
   };
 }
 
