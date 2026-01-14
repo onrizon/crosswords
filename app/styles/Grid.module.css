@@ -1,12 +1,13 @@
 .wrapper {
   background-color: #251475;
   background-image: linear-gradient(
+      to right,
       rgba(212, 139, 255, 0.15) 1px,
       transparent 1px
     ),
-    linear-gradient(90deg, rgba(212, 139, 255, 0.15) 1px, transparent 1px);
+    linear-gradient(to bottom, rgba(212, 139, 255, 0.15) 1px, transparent 1px);
+  background-position: 3px 0;
   background-size: 51px 51px;
-  background-position: 0px 0px;
   border-radius: 15px;
   border: 5px solid #251475;
   padding: 3px;
