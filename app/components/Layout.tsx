@@ -73,8 +73,8 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
         <GameArea />
 
         <div className={styles.sidebar}>
-          <CameraPlaceholder />
           <TopPlayers />
+          <CameraPlaceholder />
         </div>
       </main>
       <Modal />
