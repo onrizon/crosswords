@@ -185,10 +185,6 @@
   width: 46px;
 }
 
-.wordEffect {
-  position: absolute;
-}
-
 @keyframes wordGlow {
   0% {
     opacity: 0;
@@ -196,4 +192,48 @@
   100% {
     opacity: 1;
   }
+}
+
+.wordEffect {
+  animation-delay: 0.5s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-name: wordGlow;
+  animation-timing-function: ease-in-out;
+  display: block;
+  opacity: 0;
+  position: absolute;
+  z-index: 6;
+}
+
+.wordEffectH {
+  left: 0px;
+  top: -42px;
+  height: 46px;
+}
+
+.wordEffectH svg {
+  left: 50%;
+  position: relative;
+  transform: translate3d(-50%, 0px, 0px) !important;
+  width: 50% !important;
+}
+
+.wordEffectV {
+  left: -38px;
+  top: 0px;
+  width: 120px;
+}
+
+.wordEffectV > div {
+  height: 100%;
+  width: 100%;
+}
+
+.wordEffectV svg {
+  top: 50%;
+  position: relative;
+  transform: translate3d(0px, -50%, 0px) !important;
+  width: 100% !important;
 }
