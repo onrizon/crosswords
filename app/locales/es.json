@@ -11,7 +11,7 @@
   "disconnetAccout": "Desconectar cuenta",
   "findTheWords": "ENCUENTRA LAS PALABRAS",
   "generateNewLevel": "Generar nuevo nivel",
-  "generatingTheme": "Generando tema...",
+  "generatingClue": "Generando pista...",
   "helpAndCommands": "Ayuda y comandos",
   "insertYourCamera": "Inserta tu cámara",
   "language": "Idioma",
@@ -31,6 +31,6 @@
   "save": "Guardar",
   "seconds": "segundos",
   "settings": "Configuración",
-  "theme": "Tema",
+  "clue": "Pista",
   "time": "Tiempo"
 }

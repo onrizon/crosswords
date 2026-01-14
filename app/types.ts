@@ -51,12 +51,12 @@ export interface LevelData {
 
 // Raw AI response (words without positions)
 export interface RawLevel {
-  theme: string;
+  clues: string[];
   words: string[];
 }
 
 // API response (words with positions)
 export interface Level {
-  theme: string;
+  clues: string[];
   words: WordData[];
 }

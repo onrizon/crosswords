@@ -11,7 +11,7 @@
   "disconnetAccout": "Hesabınızı sonlandır",
   "findTheWords": "KELİMELERİ BUL",
   "generateNewLevel": "Yeni seviye oluştur",
-  "generatingTheme": "Tema oluşturuluyor...",
+  "generatingClue": "İpucu oluşturuluyor...",
   "helpAndCommands": "Yardım ve komutlar",
   "insertYourCamera": "Kameranızı yerleştirin",
   "language": "Dil",
@@ -31,6 +31,6 @@
   "save": "Kaydet",
   "seconds": "saniye",
   "settings": "Ayarlar",
-  "theme": "Tema",
+  "clue": "İpucu",
   "time": "Zaman"
 }

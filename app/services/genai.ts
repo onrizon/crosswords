@@ -488,7 +488,7 @@ const LANGUAGE_NAMES: Record<Locale, string> = {
 
 // Robust fallback data with enough words to guarantee a valid grid
 const FALLBACK_DATA: RawLevel = {
-  theme: 'TECNOLOGIA (OFFLINE)',
+  clues: ['TECNOLOGIA', 'COMPUTADORES', 'MUNDO DIGITAL'],
   words: [
     'INTERNET',
     'COMPUTADOR',
@@ -558,9 +558,13 @@ export const generateTopicAndWords = async (
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            theme: {
-              type: Type.STRING,
-              description: `The theme title in ${targetLanguage} (e.g., 'Frutas', 'Países', 'Cores').`,
+            clues: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.STRING,
+                description: `A clue hint in ${targetLanguage} (e.g., 'Frutas', 'Países', 'Cores').`,
+              },
+              description: `Exactly 3 clue hints that help players guess the words.`,
             },
             words: {
               type: Type.ARRAY,
@@ -571,29 +575,36 @@ export const generateTopicAndWords = async (
               },
             },
           },
-          required: ['theme', 'words'],
+          required: ['clues', 'words'],
         },
         systemInstruction: `You are a crossword puzzle generator for a casual livestream game.
 
         TASK:
-        1. Use this creative inspiration to come up with a FRESH, UNIQUE theme: "${inspiration}"
-           - DO NOT use the inspiration text directly as the theme name.
-           - Create a specific, catchy category name in ${targetLanguage} that is INSPIRED BY but DIFFERENT from the prompt.
-           - Examples: "creatures that live underwater" could become "Peixes Tropicais", "Vida Marinha", "Animais do Oceano", "Habitantes do Mar", etc.
-           - Be creative! Each theme should feel fresh and unique.
-        2. Generate exactly 40 common words related to YOUR CREATED theme in ${targetLanguage}.
+        1. Use this creative inspiration to come up with a FRESH, UNIQUE category: "${inspiration}"
+           - DO NOT use the inspiration text directly as a clue.
+           - Create specific, catchy clue hints in ${targetLanguage} that are INSPIRED BY but DIFFERENT from the prompt.
+           - Be creative! Each clue should feel fresh and unique.
+        2. Generate exactly 3 CLUE HINTS from DIFFERENT PERSPECTIVES. The clues must be:
+           - NOT SYNONYMS: Each clue must offer a unique angle or viewpoint on the category.
+           - Different perspectives, not different ways to say the same thing.
+           - Example for "Ocean Animals": "Vida Marinha", "Fundo do Mar", "Natureza Aquática" (good - different perspectives)
+           - NOT like: "Animais do Mar", "Animais Marinhos", "Criaturas do Oceano" (bad - synonyms)
+           - Short (1-3 words each).
+        3. Generate exactly 40 common words related to YOUR CREATED category in ${targetLanguage}.
 
         RULES:
-        - Theme name must be in ${targetLanguage}, creative, and specific.
+        - CRITICAL: Clues must NEVER contain any of the answer words. The clue hints must be different from all 40 words in the list.
+        - All 3 clues must be in ${targetLanguage}, creative, and related to the same category.
+        - IMPORTANT: Clues should KEEP their natural accents/diacritics (e.g., "Países", "Música", "Café"). Only answer words are normalized.
         - Words must be in ${targetLanguage}.
         - Words must be common vocabulary that an average person knows.
-        - Remove spaces and hyphens from words.
+        - Remove spaces and hyphens from answer words.
         - Words must be between 3 and 12 letters long.
-        - Normalize words: Remove accents/diacritics (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
+        - Normalize answer words ONLY: Remove accents/diacritics from answers (e.g., 'JOÃO' -> 'JOAO', 'MÜNCHEN' -> 'MUNCHEN', 'ÑAME' -> 'NAME').
         - Generate up to 40 words, but not less than 15.
         - Return strictly JSON.`,
       },
-      contents: `Generate a new crossword theme and word list in ${targetLanguage}. Random seed: ${randomSeed}`,
+      contents: `Generate 3 crossword clues and word list in ${targetLanguage}. Random seed: ${randomSeed}`,
     });
 
     if (response.text) {

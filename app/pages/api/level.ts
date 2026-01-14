@@ -17,7 +17,7 @@ export default async function getLevel(
   }
 
   res.status(200).json({
-    theme: level.theme,
+    clues: level.clues,
     words,
   });
 }

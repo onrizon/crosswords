@@ -11,7 +11,7 @@
   "disconnetAccout": "Odhlásit se",
   "findTheWords": "NAJDI SLOVA",
   "generateNewLevel": "Generovat novou úroveň",
-  "generatingTheme": "Generování tématu...",
+  "generatingClue": "Generování nápovědy...",
   "helpAndCommands": "Nápověda a příkazy",
   "insertYourCamera": "Vložte svou kameru",
   "language": "Jazyk",
@@ -31,6 +31,6 @@
   "save": "Uložit",
   "seconds": "sekund",
   "settings": "Nastavení",
-  "theme": "Téma",
+  "clue": "Nápověda",
   "time": "Čas"
 }

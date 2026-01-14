@@ -6,14 +6,18 @@ import { createRef, useMemo } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 interface ThemeTextProps {
-  currentTheme: string;
+  currentClue: string;
+  currentClueIndex: number;
+  totalClues: number;
   hit: boolean;
   isLoading: boolean;
   lastHitInfo: { username: string; word: string; index: number } | null;
 }
 
 const ThemeText: React.FC<ThemeTextProps> = ({
-  currentTheme,
+  currentClue,
+  currentClueIndex,
+  totalClues,
   hit,
   isLoading,
   lastHitInfo,
@@ -22,7 +26,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
     ? 'loading'
     : lastHitInfo
     ? `hit-${lastHitInfo.username}-${lastHitInfo.word}`
-    : `theme-${currentTheme}`;
+    : `clue-${currentClue}`;
   const nodeRef = useMemo(() => createRef<HTMLDivElement>(), [transitionKey]);
   const { t } = useTranslation();
   const getThemeStyle = (text: string) => {
@@ -61,21 +65,23 @@ const ThemeText: React.FC<ThemeTextProps> = ({
               <div
                 className={classNames(
                   styles.title,
-                  getThemeStyle(currentTheme)
+                  getThemeStyle(currentClue)
                 )}
               >
                 {isLoading && (
                   <div className={styles.text}>
                     <span className={styles.loading}>
-                      {t('generatingTheme')}
+                      {t('generatingClue')}
                     </span>
                   </div>
                 )}
 
                 {!isLoading && !lastHitInfo?.word && (
                   <div className={styles.text}>
-                    <span className={styles.label}>{t('theme')}</span>
-                    <span className={styles.theme}>{currentTheme}</span>
+                    <span className={styles.label}>
+                      {t('clue')} ({currentClueIndex + 1})
+                    </span>
+                    <span className={styles.clue}>{currentClue}</span>
                   </div>
                 )}
 
@@ -101,7 +107,9 @@ const ThemeText: React.FC<ThemeTextProps> = ({
 
 function mapStateToProps(state: ThemeTextProps): ThemeTextProps {
   return {
-    currentTheme: state.currentTheme,
+    currentClue: state.currentClue,
+    currentClueIndex: state.currentClueIndex,
+    totalClues: state.totalClues,
     hit: state.hit,
     isLoading: state.isLoading,
     lastHitInfo: state.lastHitInfo || null,

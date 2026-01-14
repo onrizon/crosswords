@@ -163,7 +163,7 @@
   color: #ffffff;
 }
 
-.title .theme {
+.title .clue {
   color: #ffffff;
   display: block;
   width: 100%;
@@ -273,7 +273,7 @@
 
 .fade-enter .loading,
 .fade-enter .label,
-.fade-enter .theme,
+.fade-enter .clue,
 .fade-enter .who,
 .fade-enter .word {
   opacity: 0;
@@ -282,7 +282,7 @@
 
 .fade-enter-active .loading,
 .fade-enter-active .label,
-.fade-enter-active .theme,
+.fade-enter-active .clue,
 .fade-enter-active .who,
 .fade-enter-active .word {
   opacity: 1;
@@ -292,7 +292,7 @@
 
 .fade-exit .loading,
 .fade-exit .label,
-.fade-exit .theme,
+.fade-exit .clue,
 .fade-exit .who,
 .fade-exit .word {
   opacity: 1;
@@ -301,7 +301,7 @@
 
 .fade-exit-active .loading,
 .fade-exit-active .label,
-.fade-exit-active .theme,
+.fade-exit-active .clue,
 .fade-exit-active .who,
 .fade-exit-active .word {
   opacity: 0;

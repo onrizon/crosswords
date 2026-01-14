@@ -11,7 +11,7 @@
   "disconnetAccout": "Thoát tài khoản",
   "findTheWords": "TÌM CÁC TỪ",
   "generateNewLevel": "Tạo cấp độ mới",
-  "generatingTheme": "Đang tạo chủ đề...",
+  "generatingClue": "Đang tạo gợi ý...",
   "helpAndCommands": "Trợ giúp và lệnh",
   "insertYourCamera": "Chèn camera của bạn",
   "language": "Ngôn ngữ",
@@ -31,6 +31,6 @@
   "save": "Lưu",
   "seconds": "giây",
   "settings": "Cài đặt",
-  "theme": "Chủ đề",
+  "clue": "Gợi ý",
   "time": "Thời gian"
 }

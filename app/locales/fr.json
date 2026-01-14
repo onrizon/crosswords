@@ -11,7 +11,7 @@
   "disconnetAccout": "Déconnexion",
   "findTheWords": "TROUVEZ LES MOTS",
   "generateNewLevel": "Générer un nouveau niveau",
-  "generatingTheme": "Génération du thème...",
+  "generatingClue": "Génération de l'indice...",
   "helpAndCommands": "Aide et commandes",
   "insertYourCamera": "Insérez votre caméra",
   "language": "Langue",
@@ -31,6 +31,6 @@
   "save": "Enregistrer",
   "seconds": "secondes",
   "settings": "Paramètres",
-  "theme": "Thème",
+  "clue": "Indice",
   "time": "Temps"
 }

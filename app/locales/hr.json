@@ -11,7 +11,7 @@
   "disconnetAccout": "Odjavi se",
   "findTheWords": "PRONAĐI RIJEČI",
   "generateNewLevel": "Generiraj novu razinu",
-  "generatingTheme": "Generiranje teme...",
+  "generatingClue": "Generiranje naznake...",
   "helpAndCommands": "Pomoć i naredbe",
   "insertYourCamera": "Umetni svoju kameru",
   "language": "Jezik",
@@ -31,6 +31,6 @@
   "save": "Spremi",
   "seconds": "sekundi",
   "settings": "Postavke",
-  "theme": "Tema",
+  "clue": "Naznaka",
   "time": "Vrijeme"
 }

@@ -11,7 +11,7 @@
   "disconnetAccout": "Отключить аккаунт",
   "findTheWords": "НАЙДИ СЛОВА",
   "generateNewLevel": "Создать новый уровень",
-  "generatingTheme": "Генерация темы...",
+  "generatingClue": "Генерация подсказки...",
   "helpAndCommands": "Помощь и команды",
   "insertYourCamera": "Вставьте вашу камеру",
   "language": "Язык",
@@ -31,6 +31,6 @@
   "save": "Сохранить",
   "seconds": "секунд",
   "settings": "Настройки",
-  "theme": "Тема",
+  "clue": "Подсказка",
   "time": "Время"
 }

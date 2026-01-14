@@ -11,7 +11,7 @@
   "disconnetAccout": "Odłącz konto",
   "findTheWords": "ZNAJDŹ SŁOWA",
   "generateNewLevel": "Generuj nowy poziom",
-  "generatingTheme": "Generowanie tematu...",
+  "generatingClue": "Generowanie wskazówki...",
   "helpAndCommands": "Pomoc i komendy",
   "insertYourCamera": "Wstaw swoją kamerę",
   "language": "Język",
@@ -31,6 +31,6 @@
   "save": "Zapisz",
   "seconds": "sekund",
   "settings": "Ustawienia",
-  "theme": "Temat",
+  "clue": "Wskazówka",
   "time": "Czas"
 }

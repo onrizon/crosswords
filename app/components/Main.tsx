@@ -7,12 +7,12 @@ import { UserScores, WordData } from '@/types';
 import confetti from 'canvas-confetti';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as C from '../constants';
 
 export default function Main({ children }: { children: React.ReactNode }) {
   const [scale, setScale] = useState(1);
-  const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
+  const [clues, setClues] = useState<string[]>(['ESCRITORIO', '', '']);
   const [words, setWords] = useState<WordData[]>(C.FALLBACK_WORDS);
   const [customDuration, setCustomDuration] = useState<number>(
     C.DEFAULT_DURATION
@@ -37,6 +37,18 @@ export default function Main({ children }: { children: React.ReactNode }) {
     data: {},
   });
   const router = useRouter();
+
+  // Compute which clue to show based on elapsed time
+  // Clues rotate: first clue at start, second at 1/3, third at 2/3 of elapsed time
+  const currentClueIndex = useMemo(() => {
+    if (clues.length === 0) return 0;
+    const elapsed = customDuration - timeLeft;
+    const interval = customDuration / clues.length;
+    return Math.min(Math.floor(elapsed / interval), clues.length - 1);
+  }, [clues, timeLeft, customDuration]);
+
+  const currentClue = clues[currentClueIndex] || clues[0] || '';
+  const totalClues = clues.length;
 
   useEffect(() => {
     const handleResize = () => {
@@ -103,7 +115,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         const data = await response.json();
 
         setWords(data.words);
-        setCurrentTheme(data.theme);
+        setClues(data.clues);
         setTimeLeft(durationToUse);
         setUserScores(
           (users) =>
@@ -171,7 +183,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (
       isHydrated &&
-      currentTheme === 'ESCRITORIO' &&
+      clues[0] === 'ESCRITORIO' &&
       words === C.FALLBACK_WORDS
     ) {
       loadNewLevel();
@@ -298,7 +310,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         return newWords;
       });
     },
-    [isLoading, handleNextLevel, currentTheme]
+    [isLoading, handleNextLevel, currentClue]
   );
 
   useTwitch({ onMessage: handleTwitchMessage });
@@ -306,7 +318,9 @@ export default function Main({ children }: { children: React.ReactNode }) {
   return (
     <Context.Provider
       value={{
-        currentTheme,
+        currentClue,
+        currentClueIndex,
+        totalClues,
         words,
         timeLeft,
         isLoading,

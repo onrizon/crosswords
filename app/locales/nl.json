@@ -11,7 +11,7 @@
   "disconnetAccout": "Afsluiten",
   "findTheWords": "VIND DE WOORDEN",
   "generateNewLevel": "Genereer nieuw niveau",
-  "generatingTheme": "Thema genereren...",
+  "generatingClue": "Aanwijzing genereren...",
   "helpAndCommands": "Hulp en opdrachten",
   "insertYourCamera": "Voeg je camera in",
   "language": "Taal",
@@ -31,6 +31,6 @@
   "save": "Opslaan",
   "seconds": "seconden",
   "settings": "Instellingen",
-  "theme": "Thema",
+  "clue": "Aanwijzing",
   "time": "Tijd"
 }
