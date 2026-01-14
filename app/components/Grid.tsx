@@ -7,6 +7,10 @@ import { CellData, WordData } from '../types';
 import { withData } from '@/lib/Context';
 import classNames from 'classnames';
 
+import animH from '@/public/lotties/hit_effect_h.json';
+import animV from '@/public/lotties/hit_effect_v.json';
+import Lottie from 'lottie-react';
+
 interface GridProps {
   hit: boolean;
   lastHitInfo: { username: string; word: string; index: number };
@@ -111,27 +115,52 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                   {wordHit && wordHit.start && (
                     <>
                       {wordHit.direction.includes('H') ? (
-                        <div
-                          className={classNames(
-                            styles.wordGlow,
-                            styles.wordGlowH
-                          )}
-                          style={{
-                            width: lastHitInfo.word.length * 50 + 'px',
-                          }}
-                        />
+                        <>
+                          <div
+                            className={classNames(
+                              styles.wordGlow,
+                              styles.wordGlowH
+                            )}
+                            style={{
+                              width: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          />
+                          <div
+                            className={classNames(
+                              styles.wordEffect,
+                              styles.wordEffectH
+                            )}
+                            style={{
+                              width: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          >
+                            <Lottie animationData={animH} loop={true} />
+                          </div>
+                        </>
                       ) : (
-                        <div
-                          className={classNames(
-                            styles.wordGlow,
-                            styles.wordGlowV
-                          )}
-                          style={{
-                            height: lastHitInfo.word.length * 50 + 'px',
-                          }}
-                        />
+                        <>
+                          <div
+                            className={classNames(
+                              styles.wordGlow,
+                              styles.wordGlowV
+                            )}
+                            style={{
+                              height: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          />
+                          <div
+                            className={classNames(
+                              styles.wordEffect,
+                              styles.wordEffectV
+                            )}
+                            style={{
+                              height: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          >
+                            <Lottie animationData={animV} loop={true} />
+                          </div>
+                        </>
                       )}
-                      <div className={styles.wordEffect} />
                     </>
                   )}
 
