@@ -3,7 +3,6 @@ import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
-import confetti from 'canvas-confetti';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -170,12 +169,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const allSolved = words.every((w) => w.isRevealed);
     if (allSolved && words.length > 0 && !isLoading) {
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 0.6 },
-        colors: ['#a855f7', '#ec4899', '#3b82f6', '#f59e0b'],
-      });
       const timeout = setTimeout(() => {
         handleNextLevel();
       }, 3000);

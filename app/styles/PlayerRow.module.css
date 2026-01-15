@@ -166,36 +166,6 @@
   opacity: 0;
 }
 
-.fade-enter {
-  opacity: 0;
-  transform: scale(0.2);
-}
-
-.fade-enter-active {
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.fade-enter-done {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.fade-exit {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.fade-exit-active {
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.fade-exit-done {
-  opacity: 0;
-  transform: scale(0.2);
-}
-
 .playerRound:before {
   background-color: #ffffff;
   border-radius: 50%;

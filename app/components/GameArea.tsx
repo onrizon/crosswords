@@ -1,8 +1,7 @@
 import { withData } from '@/lib/Context';
 import styles from '@/styles/GameArea.module.css';
 import classNames from 'classnames';
-import { useRef } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { AnimatePresence, motion } from 'framer-motion';
 import Grid from './Grid';
 import { Loading } from './Loading';
 
@@ -12,46 +11,34 @@ interface GameAreaProps {
 }
 
 const GameArea: React.FC<GameAreaProps> = ({ hit, isLoading }) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className={styles.gameArea}>
       <div className={styles.gridContainer}>
         <div className={styles.gridLightLeft} />
         <div className={styles.gridLightRight} />
-
-        <TransitionGroup component={null}>
+        <AnimatePresence>
           {hit && (
-            <CSSTransition
-              key={'hit'}
-              nodeRef={nodeRef}
-              classNames={{
-                enter: styles['fade-enter'],
-                enterActive: styles['fade-enter-active'],
-                exit: styles['fade-exit'],
-                exitActive: styles['fade-exit-active'],
-              }}
-              timeout={250}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              key='hitLight'
             >
-              <>
-                <div
-                  ref={nodeRef}
-                  className={classNames(
-                    styles.gridLightLeft,
-                    styles.gridLightLeftActive
-                  )}
-                />
-                <div
-                  ref={nodeRef}
-                  className={classNames(
-                    styles.gridLightRight,
-                    styles.gridLightRightActive
-                  )}
-                />
-              </>
-            </CSSTransition>
+              <div
+                className={classNames(
+                  styles.gridLightLeft,
+                  styles.gridLightLeftActive
+                )}
+              />
+              <div
+                className={classNames(
+                  styles.gridLightRight,
+                  styles.gridLightRightActive
+                )}
+              />
+            </motion.div>
           )}
-        </TransitionGroup>
+        </AnimatePresence>
 
         {isLoading && <Loading />}
 

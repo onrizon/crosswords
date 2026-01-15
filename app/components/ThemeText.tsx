@@ -2,8 +2,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/ThemeText.module.css';
 import classNames from 'classnames';
-import { createRef, useMemo } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ThemeTextProps {
   currentTheme: string;
@@ -18,12 +17,6 @@ const ThemeText: React.FC<ThemeTextProps> = ({
   isLoading,
   lastHitInfo,
 }) => {
-  const transitionKey = isLoading
-    ? 'loading'
-    : lastHitInfo
-    ? `hit-${lastHitInfo.username}-${lastHitInfo.word}`
-    : `theme-${currentTheme}`;
-  const nodeRef = useMemo(() => createRef<HTMLDivElement>(), [transitionKey]);
   const { t } = useTranslation();
   const getThemeStyle = (text: string) => {
     const length = text.length;
@@ -33,67 +26,69 @@ const ThemeText: React.FC<ThemeTextProps> = ({
 
   return (
     <div className={styles.container}>
-      <TransitionGroup component={null}>
-        <CSSTransition
-          key={transitionKey}
-          nodeRef={nodeRef}
-          classNames={{
-            enter: styles['fade-enter'],
-            enterActive: styles['fade-enter-active'],
-            exit: styles['fade-exit'],
-            exitActive: styles['fade-exit-active'],
-          }}
-          timeout={250}
-        >
-          <div ref={nodeRef}>
-            {hit && (
-              <>
-                <div
-                  className={classNames(styles.hitTheme, styles.hitThemeLeft)}
-                />
-                <div
-                  className={classNames(styles.hitTheme, styles.hitThemeRight)}
-                />
-              </>
+      <AnimatePresence>
+        {hit && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            key='hitLight'
+          >
+            <div className={classNames(styles.hitTheme, styles.hitThemeLeft)} />
+            <div
+              className={classNames(styles.hitTheme, styles.hitThemeRight)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className={styles.titleContainer}>
+        <div className={classNames(styles.title, getThemeStyle(currentTheme))}>
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                key='loading'
+                className={styles.text}
+              >
+                <span className={styles.loading}>{t('generatingTheme')}</span>
+              </motion.div>
             )}
 
-            <div className={styles.titleContainer}>
-              <div
-                className={classNames(
-                  styles.title,
-                  getThemeStyle(currentTheme)
-                )}
+            {!isLoading && !lastHitInfo?.word && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                key='theme'
+                className={styles.text}
               >
-                {isLoading && (
-                  <div className={styles.text}>
-                    <span className={styles.loading}>
-                      {t('generatingTheme')}
-                    </span>
-                  </div>
-                )}
+                <span className={styles.label}>{t('theme')}</span>
+                <span className={styles.theme}>{currentTheme}</span>
+              </motion.div>
+            )}
 
-                {!isLoading && !lastHitInfo?.word && (
-                  <div className={styles.text}>
-                    <span className={styles.label}>{t('theme')}</span>
-                    <span className={styles.theme}>{currentTheme}</span>
-                  </div>
-                )}
-
-                {lastHitInfo?.word && (
-                  <div className={styles.text}>
-                    <span className={styles.who}>
-                      <b>{lastHitInfo.username}</b> ACERTOU
-                    </span>
-                    <span className={styles.word}>
-                      {lastHitInfo.index}.<b>{lastHitInfo.word}</b>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </CSSTransition>
-      </TransitionGroup>
+            {lastHitInfo?.word && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                key='hit'
+                className={styles.text}
+              >
+                <span className={styles.who}>
+                  <b>{lastHitInfo.username}</b> ACERTOU
+                </span>
+                <span className={styles.word}>
+                  {lastHitInfo.index}.<b>{lastHitInfo.word}</b>
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
       <span className={styles.find}>{t('findTheWords')}</span>
     </div>
   );

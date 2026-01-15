@@ -1,8 +1,8 @@
 import { withData } from '@/lib/Context';
 import styles from '@/styles/PlayerRow.module.css';
 import classNames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRef } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 interface PlayerRowProps {
   user: string;
@@ -31,30 +31,21 @@ const PlayerRow: React.FC<PlayerRowProps> = ({ user, score, index, hit }) => {
       <div className={styles.playerInfo}>
         <div className={getRankClass(index)}>{index + 1}</div>
         <span className={styles.playerName}>{user}</span>
-        <TransitionGroup component={null}>
-          <CSSTransition
-            key={score.round}
-            nodeRef={nodeRef}
-            classNames={{
-              enter: styles['fade-enter'],
-              enterActive: styles['fade-enter-active'],
-              enterDone: styles['fade-enter-done'],
-              exit: styles['fade-exit'],
-              exitActive: styles['fade-exit-active'],
-            }}
-            timeout={3000}
-          >
-            <span
-              ref={nodeRef}
-              className={classNames(styles.playerRound, {
-                [styles.playerRoundHidden]: !score.round,
-              })}
-            >
-              {score.round}
-            </span>
-          </CSSTransition>
-        </TransitionGroup>
 
+        <AnimatePresence>
+          {score.round && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              key='score'
+            >
+              <span className={classNames(styles.playerRound)}>
+                {score.round}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <span className={styles.playerTotal}>{score.total}</span>
       </div>
     </div>
