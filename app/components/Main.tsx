@@ -287,6 +287,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         handleTwitchMessage,
         customDuration,
         setCustomDuration,
+        setIsPaused,
         handleNextLevel,
         locale,
       }}
