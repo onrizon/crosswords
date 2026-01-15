@@ -215,7 +215,20 @@
 
 .title .who b,
 .title .word b {
+  animation: pulseColor 0.25s infinite;
   color: #f1ff66;
+}
+
+@keyframes pulseColor {
+  0% {
+    color: #f1ff66;
+  }
+  50% {
+    color: #f8ffb8;
+  }
+  100% {
+    color: #f1ff66;
+  }
 }
 
 .transitionWrapper {
