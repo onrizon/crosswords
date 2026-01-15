@@ -102,7 +102,23 @@
 }
 
 .warning .icon {
-  background: url('/images/icoClockRed.svg') no-repeat center center;
+  animation: pulseIcon 0.5s infinite;
+  background-image: url('/images/icoClockRed.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@keyframes pulseIcon {
+  0% {
+    background-image: url('/images/icoClockRed.svg');
+  }
+  50% {
+    background-image: url('/images/icoClockRed2.svg');
+  }
+  100% {
+    background-image: url('/images/icoClockRed.svg');
+  }
 }
 
 .warning .timeBar {
@@ -111,11 +127,40 @@
 }
 
 .warning .timeBar span {
+  animation: pulseBgColor 0.5s infinite;
   background: #ff418d;
   border: 2px solid #ff9ec5;
 }
 
+@keyframes pulseBgColor {
+  0% {
+    background: #ff418d;
+    border-color: #ff9ec5;
+  }
+  50% {
+    background: #ffb9d5;
+    border-color: #ffdfec;
+  }
+  100% {
+    background: #ff418d;
+    border-color: #ff9ec5;
+  }
+}
+
 .warning .label,
 .warning .value {
+  animation: pulseColor 0.5s infinite;
   color: #ff418d;
+}
+
+@keyframes pulseColor {
+  0% {
+    color: #ff418d;
+  }
+  50% {
+    color: #ffb9d5;
+  }
+  100% {
+    color: #ff418d;
+  }
 }
