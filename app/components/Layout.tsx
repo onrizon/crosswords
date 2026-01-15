@@ -46,11 +46,9 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ delay: 0, duration: 0.15 }}
-            key='hitOverlay'
-          >
-            <div ref={nodeRef} className={styles.hitOverlay} />
-          </motion.div>
+            transition={{ duration: 0.25 }}
+            className={styles.hitOverlay}
+          />
         )}
       </AnimatePresence>
       <header className={styles.header}>

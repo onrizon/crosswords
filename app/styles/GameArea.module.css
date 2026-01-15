@@ -25,10 +25,11 @@
   background-repeat: no-repeat;
   background-position: center center;
   height: 820px;
+  pointer-events: none;
   position: absolute;
   top: -24px;
   width: 123px;
-  z-index: 6;
+  z-index: 11;
 }
 
 .gridLightLeft:before,

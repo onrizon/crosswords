@@ -14,6 +14,12 @@ const GameArea: React.FC<GameAreaProps> = ({ hit, isLoading }) => {
   return (
     <div className={styles.gameArea}>
       <div className={styles.gridContainer}>
+        <div
+          className={classNames(styles.gridScrollContainer, 'custom-scrollbar')}
+        >
+          <Grid />
+        </div>
+
         <div className={styles.gridLightLeft} />
         <div className={styles.gridLightRight} />
         <AnimatePresence>
@@ -22,6 +28,7 @@ const GameArea: React.FC<GameAreaProps> = ({ hit, isLoading }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
               key='hitLight'
             >
               <div
@@ -38,15 +45,19 @@ const GameArea: React.FC<GameAreaProps> = ({ hit, isLoading }) => {
               />
             </motion.div>
           )}
+
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              key='loading'
+            >
+              <Loading />
+            </motion.div>
+          )}
         </AnimatePresence>
-
-        {isLoading && <Loading />}
-
-        <div
-          className={classNames(styles.gridScrollContainer, 'custom-scrollbar')}
-        >
-          <Grid />
-        </div>
       </div>
     </div>
   );

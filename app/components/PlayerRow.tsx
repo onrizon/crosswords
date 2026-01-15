@@ -38,6 +38,7 @@ const PlayerRow: React.FC<PlayerRowProps> = ({ user, score, index, hit }) => {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
+              transition={{ duration: 0.25 }}
               key='score'
             >
               <span className={classNames(styles.playerRound)}>

@@ -32,6 +32,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             key='hitLight'
           >
             <div className={classNames(styles.hitTheme, styles.hitThemeLeft)} />
@@ -51,6 +52,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0 }}
                 key='loading'
+                transition={{ duration: 0.25 }}
                 className={styles.text}
               >
                 <span className={styles.loading}>{t('generatingTheme')}</span>
@@ -63,6 +65,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0 }}
                 key='theme'
+                transition={{ duration: 0.25 }}
                 className={styles.text}
               >
                 <span className={styles.label}>{t('theme')}</span>
@@ -76,6 +79,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0 }}
                 key='hit'
+                transition={{ duration: 0.25 }}
                 className={styles.text}
               >
                 <span className={styles.who}>

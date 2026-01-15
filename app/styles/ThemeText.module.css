@@ -40,28 +40,6 @@
   top: -67px;
 }
 
-.fade-enter.hitTheme:before,
-.fade-enter.hitTheme:after {
-  opacity: 0;
-}
-
-.fade-enter-active.hitTheme:before,
-.fade-enter-active.hitTheme:after {
-  opacity: 1;
-  transition: opacity 250ms;
-}
-
-.fade-exit.hitTheme:before,
-.fade-exit.hitTheme:after {
-  opacity: 1;
-}
-
-.fade-exit-active.hitTheme:before,
-.fade-exit-active.hitTheme:after {
-  opacity: 0;
-  transition: opacity 250ms;
-}
-
 .titleContainer {
   align-items: center;
   display: flex;
