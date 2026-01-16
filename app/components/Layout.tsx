@@ -3,7 +3,6 @@ import styles from '@/styles/Layout.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import { useRef } from 'react';
 import CameraPlaceholder from './CameraPlaceholder';
 import GameArea from './GameArea';
 import Menu from './Menu';
@@ -30,8 +29,6 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ hit }) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
-
   return (
     <div
       className={classNames(
