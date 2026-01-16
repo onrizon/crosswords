@@ -39,24 +39,6 @@
   width: 100px;
 }
 
-.headerLogoSection:before {
-  background: radial-gradient(circle at center, #3e95ff, transparent 52%);
-  content: '';
-  height: 150%;
-  position: absolute;
-  width: 150%;
-}
-
-.headerLogoSection span {
-  background: url('/images/logo.svg') no-repeat center center;
-  background-size: contain;
-  display: block;
-  height: 100%;
-  position: relative;
-  object-fit: contain;
-  width: 100%;
-}
-
 .headerContentSection {
   align-items: flex-start;
   background: url('/images/bgHeader.svg') 0 0 no-repeat;

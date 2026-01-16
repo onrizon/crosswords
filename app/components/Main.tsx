@@ -8,17 +8,6 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as C from '../constants';
 
-// Type definitions for browser-specific fullscreen APIs
-interface ElementWithWebkitFullscreen extends HTMLElement {
-  webkitRequestFullscreen?: () => void;
-  msRequestFullscreen?: () => void;
-}
-
-interface DocumentWithWebkitFullscreen extends Document {
-  webkitExitFullscreen?: () => void;
-  msExitFullscreen?: () => void;
-}
-
 export default function Main({ children }: { children: React.ReactNode }) {
   const [scale, setScale] = useState(1);
   const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
@@ -278,72 +267,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
 
   useTwitch({ onMessage: handleTwitchMessage });
 
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  // Function to enter fullscreen
-  const enterFullscreen = useCallback(() => {
-    const element = elementRef.current as ElementWithWebkitFullscreen | null;
-    if (element) {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.webkitRequestFullscreen) {
-        /* Safari */
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        /* IE11 */
-        element.msRequestFullscreen();
-      }
-    }
-  }, []);
-
-  // Function to exit fullscreen
-  const exitFullscreen = useCallback(() => {
-    const doc = document as DocumentWithWebkitFullscreen;
-    if (doc.exitFullscreen) {
-      doc.exitFullscreen();
-    } else if (doc.webkitExitFullscreen) {
-      /* Safari */
-      doc.webkitExitFullscreen();
-    } else if (doc.msExitFullscreen) {
-      /* IE11 */
-      doc.msExitFullscreen();
-    }
-  }, []);
-
-  // Event listener for fullscreen changes
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      // Check if the current element is the one in fullscreen mode
-      setIsFullscreen(document.fullscreenElement === elementRef.current);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    // Include prefixed events for broader compatibility
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('msfullscreenchange', handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener(
-        'webkitfullscreenchange',
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        'msfullscreenchange',
-        handleFullscreenChange
-      );
-    };
-  }, []);
-
-  const toggleFullscreen = () => {
-    if (isFullscreen) {
-      exitFullscreen();
-    } else {
-      enterFullscreen();
-    }
-  };
-
   return (
     <Context.Provider
       value={{
@@ -371,7 +294,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
         locale,
       }}
     >
-      <div ref={elementRef} className={styles.main}>
+      <div className={styles.main}>
         <div
           className={styles.mainContainer}
           style={{
@@ -381,9 +304,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
             flexShrink: 0,
           }}
         >
-          <button onClick={toggleFullscreen}>
-            {isFullscreen ? 'Exit Full Screen' : 'Go Full Screen'}
-          </button>
           {children}
         </div>
       </div>
