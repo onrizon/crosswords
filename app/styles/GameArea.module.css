@@ -25,10 +25,11 @@
   background-repeat: no-repeat;
   background-position: center center;
   height: 820px;
+  pointer-events: none;
   position: absolute;
   top: -24px;
   width: 123px;
-  z-index: 6;
+  z-index: 11;
 }
 
 .gridLightLeft:before,
@@ -73,7 +74,7 @@
 
 .gridLightLeftActive:after,
 .gridLightRightActive:after {
-  animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background: url('/images/gridLightActive.svg') 0 0 no-repeat;
   content: '';
   display: block;
@@ -89,6 +90,16 @@
   right: -52px;
 }
 
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* Grid Scroll Container */
 .gridScrollContainer {
   align-items: center;
@@ -96,6 +107,6 @@
   inset: 0;
   justify-content: center;
   overflow: hidden;
-  padding: 25px;
+  padding: 17px;
   position: absolute;
 }

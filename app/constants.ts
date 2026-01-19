@@ -3,7 +3,7 @@ import { WordData } from './types';
 // Changed to a wider aspect ratio (approx 2:1) to fit desktop screens better
 // Increased to 14x26 as requested
 export const GRID_ROWS = 14;
-export const GRID_COLS = 24;
+export const GRID_COLS = 27;
 
 export const DEFAULT_DURATION = 120;
 export const BASE_WIDTH = 1920;

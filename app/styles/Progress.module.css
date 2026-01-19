@@ -8,6 +8,9 @@
   justify-content: flex-start;
   margin: 22px 0 0 20px;
   width: 310px;
+}
+
+.hit {
   z-index: 6;
 }
 
@@ -21,11 +24,29 @@
 }
 
 .icon {
-  background: url('/images/icoProgression.svg') no-repeat center center;
+  background-image: url('/images/icoProgression.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
   background-size: contain;
   display: block;
   height: 32px;
   width: 32px;
+}
+
+.hit .icon {
+  animation: pulseIcon 0.5s infinite;
+}
+
+@keyframes pulseIcon {
+  0% {
+    background-image: url('/images/icoProgression.svg');
+  }
+  50% {
+    background-image: url('/images/icoProgression2.svg');
+  }
+  100% {
+    background-image: url('/images/icoProgression.svg');
+  }
 }
 
 .timeBar {
@@ -46,6 +67,25 @@
   display: block;
   height: 100%;
   transition: width 1s linear;
+}
+
+.hit .timeBar span {
+  animation: pulseBgColor 0.5s infinite;
+}
+
+@keyframes pulseBgColor {
+  0% {
+    background: #f1ff66;
+    border-color: #fdffe4;
+  }
+  50% {
+    background: #f8ffb8;
+    border-color: #fefff8;
+  }
+  100% {
+    background: #f1ff66;
+    border-color: #fdffe4;
+  }
 }
 
 .text {
@@ -96,4 +136,21 @@
     rgb(21, 11, 96) 0.567324px -1.91785px 0px,
     rgb(21, 11, 96) 1.41734px -1.41108px 0px,
     rgb(21, 11, 96) 1.92034px -0.558831px 0px;
+}
+
+.hit .label,
+.hit .value {
+  animation: pulseColor 0.5s infinite;
+}
+
+@keyframes pulseColor {
+  0% {
+    color: #f1ff66;
+  }
+  50% {
+    color: #f8ffb8;
+  }
+  100% {
+    color: #f1ff66;
+  }
 }

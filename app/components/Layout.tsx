@@ -1,9 +1,9 @@
 import { withData } from '@/lib/Context';
 import styles from '@/styles/Layout.module.css';
 import classNames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import { useRef } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useCallback, useEffect, useState } from 'react';
 import CameraPlaceholder from './CameraPlaceholder';
 import GameArea from './GameArea';
 import Menu from './Menu';
@@ -29,29 +29,105 @@ interface LayoutProps {
   hit: boolean;
 }
 
+// Type definitions for browser-specific fullscreen APIs
+interface HTMLElementWithFullscreen extends HTMLElement {
+  webkitRequestFullscreen?: () => void;
+  msRequestFullscreen?: () => void;
+}
+
+interface DocumentWithFullscreen extends Document {
+  webkitExitFullscreen?: () => void;
+  msExitFullscreen?: () => void;
+}
+
 const Layout: React.FC<LayoutProps> = ({ hit }) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Function to enter fullscreen
+  const enterFullscreen = useCallback(() => {
+    const element = document.body as HTMLElementWithFullscreen;
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      /* Safari */
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      /* IE11 */
+      element.msRequestFullscreen();
+    }
+  }, []);
+
+  // Function to exit fullscreen
+  const exitFullscreen = useCallback(() => {
+    const doc = document as DocumentWithFullscreen;
+    if (doc.exitFullscreen) {
+      doc.exitFullscreen();
+    } else if (doc.webkitExitFullscreen) {
+      /* Safari */
+      doc.webkitExitFullscreen();
+    } else if (doc.msExitFullscreen) {
+      /* IE11 */
+      doc.msExitFullscreen();
+    }
+  }, []);
+
+  // Event listener for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      // Check if the current element is the one in fullscreen mode
+      setIsFullscreen(document.fullscreenElement === document.body);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    // Include prefixed events for broader compatibility
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        'msfullscreenchange',
+        handleFullscreenChange
+      );
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      exitFullscreen();
+    } else {
+      enterFullscreen();
+    }
+  };
 
   return (
-    <div className={classNames(nunitoSans.className, asapCondensed.className)}>
-      <TransitionGroup component={null}>
+    <div
+      className={classNames(
+        styles.layout,
+        nunitoSans.className,
+        asapCondensed.className
+      )}
+    >
+      <AnimatePresence>
         {hit && (
-          <CSSTransition
-            key={'hit'}
-            nodeRef={nodeRef}
-            classNames='borderHit'
-            timeout={{
-              enter: 900,
-              exit: 300,
-            }}
-          >
-            <div ref={nodeRef} className={styles.hitOverlay} />
-          </CSSTransition>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className={styles.hitOverlay}
+          />
         )}
-      </TransitionGroup>
+      </AnimatePresence>
       <header className={styles.header}>
         <div className={styles.headerLogoSection}>
-          <span />
+          <button onClick={toggleFullscreen}>
+            {isFullscreen ? 'Exit Full Screen' : 'Go Full Screen'}
+          </button>
         </div>
 
         <div className={styles.headerContentSection}>
@@ -65,8 +141,8 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
         <GameArea />
 
         <div className={styles.sidebar}>
-          <CameraPlaceholder />
           <TopPlayers />
+          <CameraPlaceholder />
         </div>
       </main>
       <Modal />

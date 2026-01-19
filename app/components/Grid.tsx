@@ -7,6 +7,10 @@ import { CellData, WordData } from '../types';
 import { withData } from '@/lib/Context';
 import classNames from 'classnames';
 
+import animH from '@/public/lotties/hit_effect_h.json';
+import animV from '@/public/lotties/hit_effect_v.json';
+import Lottie from 'lottie-react';
+
 interface GridProps {
   hit: boolean;
   lastHitInfo: { username: string; word: string; index: number };
@@ -34,17 +38,14 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
         grid[r][c] = {
           char: w.word[i],
           // wordId: existing ? existing.wordId : w.id, // Keep primary existing or set new
-          wordIds: existing ? [...existing.wordIds, w.id] : [w.id],
+          words: [
+            ...(existing ? existing.words : []),
+            { id: w.id, start: isStart, direction: w.direction },
+          ],
           // Cell is revealed if the word is revealed, OR if it was previously revealed (intersection), OR if it is a hint
           isRevealed: w.isRevealed || (existing ? existing.isRevealed : false),
           row: r,
           col: c,
-          isStartOfWord: existing?.isStartOfWord || isStart,
-          startWordId: existing?.startWordId || (isStart ? w.id : undefined),
-          startWordDirection:
-            (existing && existing.isStartOfWord
-              ? existing.startWordDirection
-              : '') + (w.direction && isStart ? w.direction : ''),
         };
       }
     });
@@ -88,61 +89,99 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
               ); // Subtle spacer
             }
 
+            const wordHit = hit
+              ? cell.words.find((w) => w.id === lastHitInfo?.index)
+              : undefined;
             return (
               <div key={`${rIndex}-${cIndex}`} className={styles.cell}>
-                {cell.isRevealed ? (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1.05, opacity: 1 }}
-                    transition={{
-                      delay: cell.delay || 0,
-                      type: 'spring',
-                      stiffness: 400,
-                      damping: 25,
-                    }}
-                    className={classNames(styles.cellRevealed, {
-                      [styles.cellHit]:
-                        hit && cell.wordIds.includes(lastHitInfo?.index),
-                    })}
-                  >
-                    <span className={styles.cellChar}>{cell.char}</span>
-                    {cell.isStartOfWord &&
-                      cell.startWordId !== undefined &&
-                      cell.startWordDirection!.split('').map((direction) => (
-                        <div
-                          key={direction}
-                          className={classNames(styles.cellClue, {
-                            [styles.cellClueH]: direction.includes('H'),
-                            [styles.cellClueV]: direction.includes('V'),
-                          })}
-                        >
-                          <span className={styles.cellClueArrow} />
-                          <span className={styles.cellClueNumber}>
-                            {cell.startWordId}
-                          </span>
-                        </div>
-                      ))}
-                  </motion.div>
-                ) : (
-                  <div className={styles.cellHidden}>
-                    {cell.isStartOfWord &&
-                      cell.startWordId !== undefined &&
-                      cell.startWordDirection!.split('').map((direction) => (
-                        <div
-                          key={direction}
-                          className={classNames(styles.cellClue, {
-                            [styles.cellClueH]: direction.includes('H'),
-                            [styles.cellClueV]: direction.includes('V'),
-                          })}
-                        >
-                          <span className={styles.cellClueArrow} />
-                          <span className={styles.cellClueNumber}>
-                            {cell.startWordId}
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                )}
+                {cell.words
+                  .filter((w) => w.start)
+                  .map((w) => (
+                    <div
+                      key={`${rIndex}-${cIndex}-${w.direction}`}
+                      className={classNames(styles.cellClue, {
+                        [styles.cellClueH]: w.direction.includes('H'),
+                        [styles.cellClueV]: w.direction.includes('V'),
+                      })}
+                    >
+                      <span className={styles.cellClueArrow} />
+                      <span className={styles.cellClueNumber}>{w.id}</span>
+                    </div>
+                  ))}
+                <div
+                  key={`${rIndex}-${cIndex}-hidden`}
+                  className={styles.cellHidden}
+                >
+                  {wordHit && wordHit.start && (
+                    <>
+                      {wordHit.direction.includes('H') ? (
+                        <>
+                          <div
+                            className={classNames(
+                              styles.wordGlow,
+                              styles.wordGlowH
+                            )}
+                            style={{
+                              width: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          />
+                          <div
+                            className={classNames(
+                              styles.wordEffect,
+                              styles.wordEffectH
+                            )}
+                            style={{
+                              width: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          >
+                            <Lottie animationData={animH} loop={true} />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            className={classNames(
+                              styles.wordGlow,
+                              styles.wordGlowV
+                            )}
+                            style={{
+                              height: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          />
+                          <div
+                            className={classNames(
+                              styles.wordEffect,
+                              styles.wordEffectV
+                            )}
+                            style={{
+                              height: lastHitInfo.word.length * 50 + 'px',
+                            }}
+                          >
+                            <Lottie animationData={animV} loop={true} />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
+
+                  {cell.isRevealed && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1.05, opacity: 1 }}
+                      transition={{
+                        delay: cell.delay || 0,
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 25,
+                      }}
+                      className={classNames(styles.cellRevealed, {
+                        [styles.cellHit]: !!wordHit,
+                      })}
+                    >
+                      <span className={styles.cellChar}>{cell.char}</span>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             );
           })

@@ -4,19 +4,21 @@ import styles from '@/styles/Timer.module.css';
 import classNames from 'classnames';
 
 interface TimerProps {
+  hit: boolean;
   timeLeft: number;
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
-  tempSettings: { duration: number };
+  customDuration: number;
 }
 
 const Timer: React.FC<TimerProps> = ({
+  hit,
   timeLeft,
   isPaused,
   isSettingsOpen,
   isInfoOpen,
-  tempSettings,
+  customDuration,
 }) => {
   const { t } = useTranslation();
   const formatTime = (seconds: number) => {
@@ -32,14 +34,13 @@ const Timer: React.FC<TimerProps> = ({
     <div
       className={classNames(styles.container, {
         [styles.warning]: isWarning,
+        [styles.hit]: hit,
       })}
     >
       <div className={styles.top}>
         <div className={styles.icon}></div>
         <div className={styles.timeBar}>
-          <span
-            style={{ width: `${(timeLeft / tempSettings.duration) * 100}%` }}
-          />
+          <span style={{ width: `${(timeLeft / customDuration) * 100}%` }} />
         </div>
       </div>
       <div className={styles.content}>
@@ -52,11 +53,12 @@ const Timer: React.FC<TimerProps> = ({
 
 function mapStateToProps(state: TimerProps): TimerProps {
   return {
+    hit: state.hit,
     timeLeft: state.timeLeft,
     isPaused: state.isPaused,
     isSettingsOpen: state.isSettingsOpen,
     isInfoOpen: state.isInfoOpen,
-    tempSettings: state.tempSettings,
+    customDuration: state.customDuration,
   };
 }
 

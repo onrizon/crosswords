@@ -4,51 +4,67 @@ import { withData } from '@/lib/Context';
 import { Locale } from '@/locales';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Select } from '../Select';
 import { Switch } from '../Switch';
 
 interface SettingsModalProps {
-  handleSaveSettings: () => void;
-  tempSettings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  };
-  setTempSettings: (settings: {
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  }) => void;
   handleModal: (type: number, data: React.FC) => void;
   locale: string;
   customDuration: number;
   showCameraArea: boolean;
+  setCustomDuration: (duration: number) => void;
+  setShowCameraArea: (show: boolean) => void;
+  loadNewLevel: (language?: string, duration?: number) => void;
+  setIsPaused: (paused: boolean) => void;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({
-  handleSaveSettings,
-  tempSettings,
-  setTempSettings,
   handleModal,
   locale,
   customDuration,
   showCameraArea,
+  setCustomDuration,
+  setShowCameraArea,
+  loadNewLevel,
+  setIsPaused,
 }) => {
   const { t, locales } = useTranslation();
+  const { changeLocale } = useTranslation();
+  // Settings Form State (Temporary state while modal is open)
+  const [tempSettings, setTempSettings] = useState<{
+    language: string;
+    duration: number;
+    showCameraArea: boolean;
+  }>({
+    language: locale,
+    duration: customDuration,
+    showCameraArea,
+  });
+  const handleSaveSettings = () => {
+    const hasLangChanged = tempSettings.language !== locale;
+    const hasDurationChanged = tempSettings.duration !== customDuration;
+
+    // Save to LocalStorage
+    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
+
+    // Save to State
+    changeLocale(tempSettings.language as Locale);
+    setCustomDuration(tempSettings.duration);
+    setShowCameraArea(tempSettings.showCameraArea);
+
+    // If critical settings changed, reload level immediately
+    if (hasLangChanged || hasDurationChanged) {
+      loadNewLevel(tempSettings.language, tempSettings.duration);
+    } else {
+      setIsPaused(false);
+    }
+  };
 
   const handleSave = () => {
     handleSaveSettings();
     handleModal(C.CLOSED_MODAL, () => null);
   };
-
-  useEffect(() => {
-    setTempSettings({
-      language: locale,
-      duration: customDuration,
-      showCameraArea,
-    });
-  }, [locale, customDuration, showCameraArea, setTempSettings]);
 
   return (
     <>
@@ -151,12 +167,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 function mapStateToProps(state: SettingsModalProps): SettingsModalProps {
   return {
     handleModal: state.handleModal,
-    handleSaveSettings: state.handleSaveSettings,
-    tempSettings: state.tempSettings,
-    setTempSettings: state.setTempSettings,
     locale: state.locale,
     customDuration: state.customDuration,
     showCameraArea: state.showCameraArea,
+    setCustomDuration: state.setCustomDuration,
+    setShowCameraArea: state.setShowCameraArea,
+    loadNewLevel: state.loadNewLevel,
+    setIsPaused: state.setIsPaused,
   };
 }
 

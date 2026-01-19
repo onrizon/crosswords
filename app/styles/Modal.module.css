@@ -123,6 +123,10 @@
   width: 100%;
 }
 
+.grid .description {
+  width: 375px;
+}
+
 .alertIco {
   background: url('/images/icoAlert.svg') no-repeat center center;
   background-size: contain;

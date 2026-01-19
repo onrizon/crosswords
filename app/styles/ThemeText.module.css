@@ -15,9 +15,8 @@
   z-index: 6;
 }
 
-.hitTheme:before,
-.hitTheme:after {
-  animation: pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.hitTheme {
+  animation: pulse 0.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: contain;
@@ -30,11 +29,11 @@
   width: 240px;
 }
 
-.hitTheme:before {
+.hitThemeLeft {
   background-image: url('/images/headerHitLeft.svg');
 }
 
-.hitTheme:after {
+.hitThemeRight {
   background-image: url('/images/headerHitRight.svg');
   left: auto;
   right: -85px;
@@ -47,15 +46,17 @@
   position: relative;
   height: 156px;
   justify-content: center;
+  left: 60px;
   padding: 12px;
-  position: relative;
-  width: 896px;
+  position: absolute;
+  width: 872px;
 }
 
 .title {
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: center;
   letter-spacing: 2px;
   line-height: 1;
@@ -192,7 +193,20 @@
 
 .title .who b,
 .title .word b {
+  animation: pulseColor 0.25s infinite;
   color: #f1ff66;
+}
+
+@keyframes pulseColor {
+  0% {
+    color: #f1ff66;
+  }
+  50% {
+    color: #f8ffb8;
+  }
+  100% {
+    color: #f1ff66;
+  }
 }
 
 .transitionWrapper {
@@ -220,6 +234,7 @@
 }
 
 .find {
+  bottom: 5px;
   color: #065c91;
   display: block;
   font-size: 24px;
@@ -228,7 +243,7 @@
   letter-spacing: 3px;
   line-height: 52px;
   margin-top: 3px;
-  position: relative;
+  position: absolute;
   text-align: center;
   text-shadow: rgb(204, 254, 255) 2px 0px 0px,
     rgb(204, 254, 255) 1.75517px 0.958851px 0px,
@@ -245,42 +260,4 @@
     rgb(204, 254, 255) 1.92034px -0.558831px 0px;
   text-transform: uppercase;
   width: 100%;
-}
-
-.fade-enter .loading,
-.fade-enter .label,
-.fade-enter .theme,
-.fade-enter .who,
-.fade-enter .word {
-  opacity: 0;
-  transform: scale(0.2);
-}
-
-.fade-enter-active .loading,
-.fade-enter-active .label,
-.fade-enter-active .theme,
-.fade-enter-active .who,
-.fade-enter-active .word {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 250ms, transform 250ms;
-}
-
-.fade-exit .loading,
-.fade-exit .label,
-.fade-exit .theme,
-.fade-exit .who,
-.fade-exit .word {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.fade-exit-active .loading,
-.fade-exit-active .label,
-.fade-exit-active .theme,
-.fade-exit-active .who,
-.fade-exit-active .word {
-  opacity: 0;
-  transform: scale(0.2);
-  transition: opacity 250ms, transform 250ms;
 }

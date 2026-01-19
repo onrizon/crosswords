@@ -5,7 +5,6 @@ import styles from '@/styles/Menu.module.css';
 import classNames from 'classnames';
 
 interface MenuProps {
-  hit: boolean;
   isLoading: boolean;
   isPaused: boolean;
   handlePause: () => void;
@@ -13,7 +12,6 @@ interface MenuProps {
   handleModal: (type: number, data: React.FC) => void;
 }
 const Menu: React.FC<MenuProps> = ({
-  hit,
   isPaused,
   isLoading,
   handlePause,
@@ -22,7 +20,7 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className={classNames(styles.container, { [styles.hit]: hit })}>
+    <div className={styles.container}>
       <button
         onClick={handlePause}
         className={classNames(styles.button, {
@@ -69,7 +67,6 @@ const Menu: React.FC<MenuProps> = ({
 
 function mapStateToProps(state: MenuProps): MenuProps {
   return {
-    hit: state.hit,
     isLoading: state.isLoading,
     isPaused: state.isPaused,
     handlePause: state.handlePause,

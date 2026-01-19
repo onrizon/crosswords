@@ -1,13 +1,11 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
-import { Locale } from '@/locales';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
-import confetti from 'canvas-confetti';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as C from '../constants';
 
 export default function Main({ children }: { children: React.ReactNode }) {
@@ -28,6 +26,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
     word: string;
     index: number;
   } | null>(null);
+  const hitTimeout = useRef<NodeJS.Timeout | null>(null);
   const { changeLocale, locale } = useTranslation();
   const [showCameraArea, setShowCameraArea] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -67,17 +66,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
     setIsHydrated(true);
   }, []);
 
-  // Settings Form State (Temporary state while modal is open)
-  const [tempSettings, setTempSettings] = useState<{
-    language: string;
-    duration: number;
-    showCameraArea: boolean;
-  }>({
-    language: 'pt',
-    duration: customDuration,
-    showCameraArea,
-  });
-
   useEffect(() => {
     if (sessionStatus === 'unauthenticated') {
       router.push('/');
@@ -87,6 +75,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
   // --- Game Logic ---
   const loadNewLevel = useCallback(
     async (targetLang?: string, durationOverride?: number) => {
+      if (hitTimeout.current) clearTimeout(hitTimeout.current);
       setIsLoading(true);
       setIsPaused(false);
       const langToUse = targetLang || locale;
@@ -117,30 +106,12 @@ export default function Main({ children }: { children: React.ReactNode }) {
         setTimeout(() => loadNewLevel(langToUse, durationToUse), 2000);
       } finally {
         setIsLoading(false);
+        setYouHit(false);
+        setLastHitInfo(null);
       }
     },
     [locale, customDuration]
   );
-
-  const handleSaveSettings = () => {
-    const hasLangChanged = tempSettings.language !== locale;
-    const hasDurationChanged = tempSettings.duration !== customDuration;
-
-    // Save to LocalStorage
-    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
-
-    // Save to State
-    changeLocale(tempSettings.language as Locale);
-    setCustomDuration(tempSettings.duration);
-    setShowCameraArea(tempSettings.showCameraArea);
-
-    // If critical settings changed, reload level immediately
-    if (hasLangChanged || hasDurationChanged) {
-      loadNewLevel(tempSettings.language, tempSettings.duration);
-    } else {
-      setIsPaused(false);
-    }
-  };
 
   const handlePause = () => {
     setIsPaused(!isPaused);
@@ -161,8 +132,11 @@ export default function Main({ children }: { children: React.ReactNode }) {
         'https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'
       );
       audio.volume = 0.2;
-      audio.play().catch(() => {});
-    } catch (e) {}
+      console.log('playSuccessSound');
+      audio.play();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // Initial load - wait for hydration to ensure localStorage settings are loaded
@@ -200,12 +174,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const allSolved = words.every((w) => w.isRevealed);
     if (allSolved && words.length > 0 && !isLoading) {
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 0.6 },
-        colors: ['#a855f7', '#ec4899', '#3b82f6', '#f59e0b'],
-      });
       const timeout = setTimeout(() => {
         handleNextLevel();
       }, 3000);
@@ -286,7 +254,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
           }));
 
           playSuccessSound();
-          setTimeout(() => {
+          if (hitTimeout.current) clearTimeout(hitTimeout.current);
+          hitTimeout.current = setTimeout(() => {
             setYouHit(false);
             setLastHitInfo(null);
           }, 3000);
@@ -313,19 +282,16 @@ export default function Main({ children }: { children: React.ReactNode }) {
         lastHitInfo,
         setYouHit,
         loadNewLevel,
-        handleSaveSettings,
         handlePause,
         handleLogout,
         handleModal,
-        playSuccessSound,
         modal,
         showCameraArea,
         setShowCameraArea,
         handleTwitchMessage,
-        tempSettings,
-        setTempSettings,
         customDuration,
         setCustomDuration,
+        setIsPaused,
         handleNextLevel,
         locale,
       }}
