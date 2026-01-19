@@ -4,31 +4,15 @@
   flex-direction: column;
   font-family: var(--font-asap-condensed);
   font-weight: 700;
-  height: 122px;
+  height: 145px;
   justify-content: flex-start;
   margin: 22px 0 0 5px;
-  width: 310px;
+  pointer-events: none;
+  width: 285px;
 }
 
 .hit {
   z-index: 6;
-}
-
-.top {
-  align-items: center;
-  display: flex;
-  gap: 18px;
-  justify-content: flex-start;
-  margin: 14px 0 0 28px;
-  width: 100%;
-}
-
-.icon {
-  background: url('/images/icoClock.svg') no-repeat center center;
-  background-size: contain;
-  display: block;
-  height: 32px;
-  width: 32px;
 }
 
 .timeBar {
@@ -37,10 +21,11 @@
   border-radius: 3px;
   box-shadow: 0 0 0 1px #2a1c7c;
   display: block;
-  height: 30px;
+  height: 27px;
+  margin: 15px 0 0 27px;
   overflow: hidden;
-  transform: skew(-15deg);
-  width: 212px;
+  transform: skew(-10deg);
+  width: 245px;
 }
 
 .timeBar span {
@@ -52,12 +37,28 @@
   transition: width 1s linear;
 }
 
+.bottom {
+  align-items: flex-start;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.icon {
+  background: url('/images/icoClock.svg') no-repeat center center;
+  background-size: contain;
+  display: block;
+  height: 56px;
+  margin: 7px 0 0 19px;
+  width: 56px;
+}
+
 .content {
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 4px;
   width: 180px;
 }
 
@@ -65,7 +66,8 @@
   color: #72f2ff;
   font-size: 18px;
   letter-spacing: 2px;
-  line-height: 0.5;
+  line-height: 1;
+  margin: 4px 0 11px;
   text-shadow: rgb(21, 11, 96) 2px 0px 0px,
     rgb(21, 11, 96) 1.75517px 0.958851px 0px,
     rgb(21, 11, 96) 1.0806px 1.68294px 0px,
@@ -79,6 +81,7 @@
     rgb(21, 11, 96) 0.567324px -1.91785px 0px,
     rgb(21, 11, 96) 1.41734px -1.41108px 0px,
     rgb(21, 11, 96) 1.92034px -0.558831px 0px;
+  text-transform: uppercase;
 }
 
 .value {

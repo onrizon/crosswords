@@ -37,15 +37,15 @@ const Timer: React.FC<TimerProps> = ({
         [styles.hit]: hit,
       })}
     >
-      <div className={styles.top}>
-        <div className={styles.icon}></div>
-        <div className={styles.timeBar}>
-          <span style={{ width: `${(timeLeft / customDuration) * 100}%` }} />
-        </div>
+      <div className={styles.timeBar}>
+        <span style={{ width: `${(timeLeft / customDuration) * 100}%` }} />
       </div>
+      <div className={styles.bottom}>
+        <div className={styles.icon}></div>
       <div className={styles.content}>
         <span className={styles.label}>{t('time')}</span>
         <span className={styles.value}>{formatTime(timeLeft)}</span>
+      </div>
       </div>
     </div>
   );

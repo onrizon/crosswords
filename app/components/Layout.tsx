@@ -133,8 +133,8 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
         <div className={styles.headerContentSection}>
           <ThemeText />
           <Timer />
-          <Menu />
           <Progress />
+          <Menu />
         </div>
       </header>
       <main className={styles.main}>

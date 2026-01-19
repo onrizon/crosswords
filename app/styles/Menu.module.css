@@ -1,27 +1,28 @@
 .container {
   align-items: center;
-  bottom: 65px;
   display: flex;
-  gap: 12.5px;
-  height: 64px;
+  gap: 20px;
+  flex-direction: column;
   justify-content: center;
   position: absolute;
-  right: 222px;
-  width: 267px;
+  right: 32px;
+  top:25px;
+  transform: skew(-10deg);
+  width: 68px;
 }
 
 .button {
   align-items: center;
   background-color: #e72eed;
   border: 2px solid #f75cff;
-  border-radius: 50%;
-  box-shadow: 0 2px 0 #a714af, 0 4px 0 #d400e5;
+  border-radius: 5px;
+  box-shadow: 0 4px 0 #860C8D, 0 4px 0 4px #2B1977, 0 4px 0 6px #CBCAFF;
   color: #fff;
   display: flex;
-  height: 43px;
+  height: 55px;
   justify-content: center;
   position: relative;
-  width: 43px;
+  width: 68px;
 }
 
 .button span {
@@ -37,44 +38,41 @@
 
 .button:active {
   top: 2px;
-  box-shadow: 0 2px 0 #a714af;
+  box-shadow: 0 2px 0 #860C8D, 0 2px 0 4px #2B1977, 0 2px 0 6px #CBCAFF;
 }
 
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.btnFullscreen span {
+  background-image: url('/images/icoFullscreen.svg');
+  height: 42px;
+  width: 45px;
 }
 
-.btnPlay span {
-  background-image: url('/images/icoPlay.svg');
-  height: 27px;
-  width: 22px;
+.btnFullscreen:active span {
+  background-image: url('/images/icoFullscreenActive.svg');
 }
 
-.btnPause span {
-  background-image: url('/images/icoPause.svg');
-  height: 25px;
-  width: 22px;
-}
-.btnRefresh span {
-  background-image: url('/images/icoRefresh.svg');
-  height: 30px;
-  width: 34px;
-}
-.btnSettings span {
-  background-image: url('/images/icoSettings.svg');
-  height: 28px;
-  width: 28px;
-}
-.btnInfo span {
-  background-image: url('/images/icoInfo.svg');
-  height: 32px;
-  width: 10px;
+.btnFullscreen.active span {
+  background-image: url('/images/icoFullscreenOff.svg');
 }
 
-.btnLogout span {
-  background-image: url('/images/icoLogout.svg');
-  height: 26px;
-  margin-left: 5px;
-  width: 29px;
+.btnFullscreen.active:active span {
+  background-image: url('/images/icoFullscreenOffActive.svg');
+}
+
+.btnSound span {
+  background-image: url('/images/icoSound.svg');
+  height: 42px;
+  width: 45px;
+}
+
+.btnSound:active span {
+  background-image: url('/images/icoSoundActive.svg');
+}
+
+.btnSound.active span {
+  background-image: url('/images/icoSoundOff.svg');
+}
+
+.btnSound.active:active span {
+  background-image: url('/images/icoSoundOffActive.svg');
 }

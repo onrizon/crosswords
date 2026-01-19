@@ -18,19 +18,19 @@ const Progress: React.FC<ProgressProps> = ({ hit, words }) => {
 
   return (
     <div className={classNames(styles.container, { [styles.hit]: hit })}>
-      <div className={styles.top}>
-        <div className={styles.icon}></div>
-        <div className={styles.timeBar}>
-          <span style={{ width: `${progress}%` }} />
-        </div>
+      <div className={styles.timeBar}>
+        <span style={{ width: `${progress}%` }} />
       </div>
-      <div className={styles.text}>
-        <span className={styles.label}>{t('progress')}</span>
-        <span className={styles.value}>
-          {solvedCount}
-          <span className={styles.divider}>/</span>
-          {totalCount}
-        </span>
+      <div className={styles.bottom}>
+        <div className={styles.text}>
+          <span className={styles.label}>{t('progress')}</span>
+          <span className={styles.value}>
+            {solvedCount}
+            <span className={styles.divider}>/</span>
+            {totalCount}
+          </span>
+        </div>
+        <div className={styles.icon}></div>
       </div>
     </div>
   );
