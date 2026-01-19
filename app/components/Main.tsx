@@ -106,6 +106,8 @@ export default function Main({ children }: { children: React.ReactNode }) {
         setTimeout(() => loadNewLevel(langToUse, durationToUse), 2000);
       } finally {
         setIsLoading(false);
+        setYouHit(false);
+        setLastHitInfo(null);
       }
     },
     [locale, customDuration]

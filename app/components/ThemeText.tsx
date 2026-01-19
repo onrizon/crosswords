@@ -46,7 +46,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
       <div className={styles.titleContainer}>
         <div className={classNames(styles.title, getThemeStyle(currentTheme))}>
           <AnimatePresence>
-            {isLoading && (
+            {isLoading ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -57,23 +57,7 @@ const ThemeText: React.FC<ThemeTextProps> = ({
               >
                 <span className={styles.loading}>{t('generatingTheme')}</span>
               </motion.div>
-            )}
-
-            {!isLoading && !lastHitInfo?.word && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                key='theme'
-                transition={{ duration: 0.25 }}
-                className={styles.text}
-              >
-                <span className={styles.label}>{t('theme')}</span>
-                <span className={styles.theme}>{currentTheme}</span>
-              </motion.div>
-            )}
-
-            {lastHitInfo?.word && (
+            ): lastHitInfo?.word ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -89,7 +73,19 @@ const ThemeText: React.FC<ThemeTextProps> = ({
                   {lastHitInfo.index}.<b>{lastHitInfo.word}</b>
                 </span>
               </motion.div>
-            )}
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  key='theme'
+                  transition={{ duration: 0.25 }}
+                  className={styles.text}
+                >
+                  <span className={styles.label}>{t('theme')}</span>
+                  <span className={styles.theme}>{currentTheme}</span>
+                </motion.div>
+            )}            
           </AnimatePresence>
         </div>
       </div>
