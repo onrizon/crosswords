@@ -28,7 +28,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
   } | null>(null);
   const hitTimeout = useRef<NodeJS.Timeout | null>(null);
   const { changeLocale, locale } = useTranslation();
-  const [showCameraArea, setShowCameraArea] = useState<boolean>(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [modal, setModal] = useState({
     type: C.CLOSED_MODAL,
@@ -58,7 +57,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
         const settings = JSON.parse(saved);
         if (settings.language) changeLocale(settings.language);
         if (settings.duration) setCustomDuration(settings.duration);
-        if (settings.showCameraArea) setShowCameraArea(settings.showCameraArea);
       }
     } catch {
       // Ignore localStorage errors
@@ -248,9 +246,9 @@ export default function Main({ children }: { children: React.ReactNode }) {
             [username]: !prev[username]
               ? { round: 1, total: 1 }
               : {
-                  round: prev[username].round + 1,
-                  total: prev[username].total + 1,
-                },
+                round: prev[username].round + 1,
+                total: prev[username].total + 1,
+              },
           }));
 
           playSuccessSound();
@@ -286,8 +284,6 @@ export default function Main({ children }: { children: React.ReactNode }) {
         handleLogout,
         handleModal,
         modal,
-        showCameraArea,
-        setShowCameraArea,
         handleTwitchMessage,
         customDuration,
         setCustomDuration,

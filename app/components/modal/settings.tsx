@@ -6,15 +6,12 @@ import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { Select } from '../Select';
-import { Switch } from '../Switch';
 
 interface SettingsModalProps {
   handleModal: (type: number, data: React.FC) => void;
   locale: string;
   customDuration: number;
-  showCameraArea: boolean;
   setCustomDuration: (duration: number) => void;
-  setShowCameraArea: (show: boolean) => void;
   loadNewLevel: (language?: string, duration?: number) => void;
   setIsPaused: (paused: boolean) => void;
 }
@@ -23,9 +20,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   handleModal,
   locale,
   customDuration,
-  showCameraArea,
   setCustomDuration,
-  setShowCameraArea,
   loadNewLevel,
   setIsPaused,
 }) => {
@@ -35,11 +30,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const [tempSettings, setTempSettings] = useState<{
     language: string;
     duration: number;
-    showCameraArea: boolean;
   }>({
     language: locale,
     duration: customDuration,
-    showCameraArea,
   });
   const handleSaveSettings = () => {
     const hasLangChanged = tempSettings.language !== locale;
@@ -51,7 +44,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     // Save to State
     changeLocale(tempSettings.language as Locale);
     setCustomDuration(tempSettings.duration);
-    setShowCameraArea(tempSettings.showCameraArea);
 
     // If critical settings changed, reload level immediately
     if (hasLangChanged || hasDurationChanged) {
@@ -128,23 +120,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
             ]}
           />
         </div>
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>{t('cameraArea')}</h3>
-          <div
-            className={classNames(styles.description, styles.switchDescription)}
-          >
-            <span>{t('cameraAreaDesc')}</span>
-            <Switch
-              checked={tempSettings.showCameraArea}
-              onChange={() =>
-                setTempSettings({
-                  ...tempSettings,
-                  showCameraArea: !tempSettings.showCameraArea,
-                })
-              }
-            />
-          </div>
-        </div>
       </div>
       <div className={styles.footer}>
         <button
@@ -169,9 +144,7 @@ function mapStateToProps(state: SettingsModalProps): SettingsModalProps {
     handleModal: state.handleModal,
     locale: state.locale,
     customDuration: state.customDuration,
-    showCameraArea: state.showCameraArea,
     setCustomDuration: state.setCustomDuration,
-    setShowCameraArea: state.setShowCameraArea,
     loadNewLevel: state.loadNewLevel,
     setIsPaused: state.setIsPaused,
   };

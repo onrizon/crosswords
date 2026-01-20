@@ -3,14 +3,14 @@ import styles from '@/styles/Layout.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import CameraPlaceholder from './CameraPlaceholder';
 import GameArea from './GameArea';
 import Menu from './Menu';
+import Modal from './modal/Modal';
 import Progress from './Progress';
+import QrCode from './QrCode';
 import ThemeText from './ThemeText';
 import Timer from './Timer';
 import TopPlayers from './TopPlayers';
-import Modal from './modal/Modal';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
@@ -61,7 +61,7 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
         <GameArea />
         <div className={styles.sidebar}>
           <TopPlayers />
-          <CameraPlaceholder />
+          <QrCode />
         </div>
       </main>
       <Modal />
