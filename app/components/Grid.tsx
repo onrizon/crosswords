@@ -43,7 +43,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
             { id: w.id, start: isStart, direction: w.direction },
           ],
           // Cell is revealed if the word is revealed, OR if it was previously revealed (intersection), OR if it is a hint
-          isRevealed: w.isRevealed || (existing ? existing.isRevealed : false),
+          revealedCount: (existing ? existing.revealedCount : 0) + (w.isRevealed ? 1 : 0),
           row: r,
           col: c,
         };
@@ -57,12 +57,8 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
         for (let i = 0; i < w.word.length; i++) {
           const r = w.direction === 'V' ? w.start.row + i : w.start.row;
           const c = w.direction === 'H' ? w.start.col + i : w.start.col;
-          if (grid[r] && grid[r][c]) {
-            grid[r][c]!.isRevealed = true;
-            // Only set cascade delay if it wasn't already revealed by a hint
-            if (!grid[r][c]!.delay) {
-              grid[r][c]!.delay = i * 0.1;
-            }
+          if (grid[r] && grid[r][c] && !grid[r][c]!.delay) {
+            grid[r][c]!.delay = i * 0.1;
           }
         }
       }
@@ -164,7 +160,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                     </>
                   )}
 
-                  {cell.isRevealed && (
+                  {cell.revealedCount > 0 && (
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1.05, opacity: 1 }}
@@ -176,6 +172,7 @@ const Grid: React.FC<GridProps> = ({ hit, lastHitInfo, words }) => {
                       }}
                       className={classNames(styles.cellRevealed, {
                         [styles.cellHit]: !!wordHit,
+                        [styles.cellTwoWords]: cell.words.length > 1 && cell.revealedCount == 1,
                       })}
                     >
                       <span className={styles.cellChar}>{cell.char}</span>

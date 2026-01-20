@@ -16,7 +16,7 @@ export interface CellData {
   char: string;
   // wordId: number; // The primary word this cell belongs to (for coloring/logic)
   words: { id: number; start: boolean; direction: 'H' | 'V' }[]; // All words this cell belongs to (intersections)
-  isRevealed: boolean;
+  revealedCount: number;
   row: number;
   col: number;
   delay?: number; // Animation delay in seconds
