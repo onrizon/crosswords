@@ -14,6 +14,10 @@ export const ALERT_MODAL = 2;
 export const INFO_MODAL = 3;
 export const SETTINGS_MODAL = 4;
 
+export const STATUS_START = 0;
+export const STATUS_GAME= 1;
+export const STATUS_END = 2;
+
 // Fallback data in case API fails or for initial render before fetch
 export const FALLBACK_WORDS: WordData[] = [
   {

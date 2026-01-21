@@ -1,16 +1,12 @@
-import { withData } from '@/lib/Context';
 import styles from '@/styles/Layout.module.css';
 import classNames from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Asap_Condensed, Nunito_Sans } from 'next/font/google';
-import GameArea from './GameArea';
-import Menu from './Menu';
+import { useState } from 'react';
+import * as C from '../constants';
+import End from './End';
+import Game from './Game';
 import Modal from './modal/Modal';
-import Progress from './Progress';
-import QrCode from './QrCode';
-import ThemeText from './ThemeText';
-import Timer from './Timer';
-import TopPlayers from './TopPlayers';
+import Start from './Start';
 
 const nunitoSans = Nunito_Sans({
   subsets: ['latin'],
@@ -24,11 +20,8 @@ const asapCondensed = Asap_Condensed({
   variable: '--font-asap-condensed',
 });
 
-interface LayoutProps {
-  hit: boolean;
-}
-
-const Layout: React.FC<LayoutProps> = ({ hit }) => {
+const Layout: React.FC = () => {
+  const [status, setStatus] = useState(C.STATUS_START);
   return (
     <div
       className={classNames(
@@ -37,42 +30,21 @@ const Layout: React.FC<LayoutProps> = ({ hit }) => {
         asapCondensed.className
       )}
     >
-      <AnimatePresence>
-        {hit && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className={styles.hitOverlay}
-          />
-        )}
-      </AnimatePresence>
-      <header className={styles.header}>
-        <div className={styles.headerLogoSection}></div>
-        <div className={styles.headerContentSection}>
-          <ThemeText />
-          <Timer />
-          <Progress />
-          <Menu />
-        </div>
-      </header>
-      <main className={styles.main}>
-        <GameArea />
-        <div className={styles.sidebar}>
-          <TopPlayers />
-          <QrCode />
-        </div>
-      </main>
+      {(() => {
+        switch (status) {
+          case C.STATUS_START:
+            return <Start />;
+          case C.STATUS_GAME:
+            return <Game />;
+          case C.STATUS_END:
+            return <End />;
+          default:
+            return null;
+        }
+      })()}
       <Modal />
     </div>
   );
 };
 
-function mapStateToProps(state: LayoutProps): LayoutProps {
-  return {
-    hit: state.hit,
-  };
-}
-
-export default withData(Layout, mapStateToProps);
+export default Layout;

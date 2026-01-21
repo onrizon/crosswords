@@ -9,7 +9,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/game');
+      router.push('/system');
     }
   }, [isAuthenticated, router]);
 

@@ -1205,7 +1205,7 @@ const INSPIRATIONS = [
 ];
 
 // Track used inspirations to avoid repetition within a session
-let usedInspirations: Set<string> = new Set();
+const usedInspirations: Set<string> = new Set();
 
 // Function to get a random unused inspiration
 const getRandomInspiration = (): string => {
