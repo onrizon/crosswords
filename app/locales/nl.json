@@ -1,4 +1,5 @@
 {
+  "accessLink": "KOPPEL DE LINK",
   "and": "en",
   "beFirstToScore": "Vind een woord en wees de eerste in de ranglijst",
   "cancel": "Annuleren",
@@ -12,12 +13,17 @@
   "generateNewLevel": "Genereer nieuw niveau",
   "generatingTheme": "Thema genereren...",
   "helpAndCommands": "Hulp en opdrachten",
+  "howToPlay": "Hoe speel je",
+  "howToPlayItem1": "bekijk de hint en probeer het woord 1",
+  "howToPlayItem2": "bekijk de hint en probeer het woord 2",
+  "howToPlayItem3": "bekijk de hint en probeer het woord 3",
   "language": "Taal",
   "levelComplete": "NIVEAU VOLTOOID! Volgende genereren...",
   "logout": "Uitloggen",
   "minute": "minuut",
   "minutes": "minuten",
   "ok": "Ok",
+  "or": "OF",
   "pause": "Pauze",
   "pauseTime": "Tijd stoppen",
   "play": "Spelen",
@@ -29,8 +35,10 @@
   "resumeTime": "Tijd hervatten",
   "roundTime": "Rondetijd",
   "save": "Opslaan",
+  "scanTheQrCode": "SCANNEN DE QR CODE OM TE SPELLEN",
   "seconds": "seconden",
   "settings": "Instellingen",
   "theme": "Thema",
-  "time": "Tijd"
+  "time": "Tijd",
+  "waitHost": "wacht op de host om te starten"
 }

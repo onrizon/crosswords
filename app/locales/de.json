@@ -1,4 +1,5 @@
 {
+  "accessLink": "ZUGRIFF AUF DEN LINK",
   "and": "und",
   "beFirstToScore": "Finden Sie ein Wort und seien Sie der erste, der in die Rangliste eintritt",
   "cancel": "Abbrechen",
@@ -12,12 +13,17 @@
   "generateNewLevel": "Neues Level generieren",
   "generatingTheme": "Thema wird generiert...",
   "helpAndCommands": "Hilfe und Befehle",
+  "howToPlay": "Wie spielen?",
+  "howToPlayItem1": "schauen Sie auf den Hinweis und versuchen Sie, das Wort 1 zu erraten",
+  "howToPlayItem2": "schauen Sie auf den Hinweis und versuchen Sie, das Wort 2 zu erraten",
+  "howToPlayItem3": "schauen Sie auf den Hinweis und versuchen Sie, das Wort 3 zu erraten",
   "language": "Sprache",
   "levelComplete": "LEVEL ABGESCHLOSSEN! Nächstes wird generiert...",
   "logout": "Abmelden",
   "minute": "minute",
   "minutes": "minuten",
   "ok": "Ok",
+  "or": "ODER",
   "pause": "Pause",
   "pauseTime": "Zeit anhalten",
   "play": "Spielen",
@@ -29,8 +35,10 @@
   "resumeTime": "Zeit fortsetzen",
   "roundTime": "Rundenzeit",
   "save": "Speichern",
+  "scanTheQrCode": "SCANNEN SIE DEN QR CODE UM ZU SPIELEN",
   "seconds": "sekunden",
   "settings": "Einstellungen",
   "theme": "Thema",
-  "time": "Zeit"
+  "time": "Zeit",
+  "waitHost": "warten Sie auf den Host, um zu beginnen"
 }

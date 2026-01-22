@@ -1,4 +1,5 @@
 {
+  "accessLink": "ACCESS THE LINK",
   "and": "and",
   "beFirstToScore": "Find a word and be the first to enter the ranking",
   "cancel": "Cancel",
@@ -12,12 +13,17 @@
   "generateNewLevel": "Generate new level",
   "generatingTheme": "Generating theme...",
   "helpAndCommands": "Help and commands",
+  "howToPlay": "How to play",
+  "howToPlayItem1": "watch the hint and to guess the words 1",
+  "howToPlayItem2": "watch the hint and to guess the words 2",
+  "howToPlayItem3": "watch the hint and to guess the words 3",
   "language": "Language",
   "levelComplete": "LEVEL COMPLETE! Generating next...",
   "logout": "Logout",
   "minute": "minute",
   "minutes": "minutes",
   "ok": "Ok",
+  "or": "OR",
   "pause": "Pause",
   "pauseTime": "Pause time",
   "play": "Play now",
@@ -29,8 +35,10 @@
   "resumeTime": "Resume time",
   "roundTime": "Round time",
   "save": "Save",
+  "scanTheQrCode": "SCAN THE QR CODE TO PLAY",
   "seconds": "seconds",
   "settings": "Settings",
   "theme": "Theme",
-  "time": "Time"
+  "time": "Time",
+  "waitHost":"wait for the host to start"
 }

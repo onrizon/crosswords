@@ -1,4 +1,5 @@
 {
+  "accessLink": "ACCESSEZ LE LIEN",
   "and": "et",
   "beFirstToScore": "Trouvez un mot et soyez le premier à entrer dans le classement",
   "Area": "Zone de la caméra",
@@ -13,12 +14,17 @@
   "generateNewLevel": "Générer un nouveau niveau",
   "generatingTheme": "Génération du thème...",
   "helpAndCommands": "Aide et commandes",
+  "howToPlay": "Comment jouer",
+  "howToPlayItem1": "regardez le indice et essayez de deviner le mot 1",
+  "howToPlayItem2": "regardez le indice et essayez de deviner le mot 2",
+  "howToPlayItem3": "regardez le indice et essayez de deviner le mot 3",
   "language": "Langue",
   "levelComplete": "NIVEAU TERMINÉ ! Génération du suivant...",
   "logout": "Déconnexion",
   "minute": "minute",
   "minutes": "minutes",
   "ok": "Ok",
+  "or": "OU",
   "pause": "Pause",
   "pauseTime": "Temps de pause",
   "play": "Jouer",
@@ -30,8 +36,10 @@
   "resumeTime": "Reprendre le temps",
   "roundTime": "Temps de la manche",
   "save": "Enregistrer",
+  "scanTheQrCode": "SCANNEZ LE QR CODE POUR JOUER",
   "seconds": "secondes",
   "settings": "Paramètres",
   "theme": "Thème",
-  "time": "Temps"
+  "time": "Temps",
+  "waitHost": "attendez le host pour commencer"
 }

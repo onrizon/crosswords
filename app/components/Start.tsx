@@ -1,12 +1,28 @@
 import FullscreenButton from '@/components/FullscreenButton';
 import SoundButton from '@/components/SoundButton';
+import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Start.module.css';
 import classNames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
 import QRCode from 'qrcode';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const STEP_TIME = 6000;
 
 const Start: React.FC = () => {
+  const { t } = useTranslation();
   const qrcodeRef = useRef<HTMLCanvasElement>(null);
+  const [stepCont, setStepCont] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStepCont((prevStepCont: number) => (prevStepCont + 1) % 3);
+    }, STEP_TIME);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [stepCont]);
 
   useEffect(() => {
     QRCode.toCanvas(
@@ -45,12 +61,14 @@ const Start: React.FC = () => {
               <canvas ref={qrcodeRef} />
             </div>
           </div>
-          <p>SCAN THE QR CODE<br />TO PLAY</p>
+          <p>{t('scanTheQrCode')}</p>
         </div>
 
         <div className={styles.box}>
-          <div className={styles.or}>or</div>
-          <p>ACCESS THE LINK</p>
+          <div className={styles.or}>
+            {t('or')}
+          </div>
+          <p>{t('accessLink')}</p>
           <div className={styles.input}>
             <span />
             <p>https://jogo.tv/play</p>
@@ -60,6 +78,72 @@ const Start: React.FC = () => {
         <div className={classNames(styles.corners, styles.cornersRight)}>
           <div className={classNames(styles.light, styles.lightRight)}></div>
         </div>
+      </div>
+
+      <div className={styles.right}>
+        <div className={styles.logo}></div>
+        <div className={styles.howToPlay}>
+          <div className={styles.title}>
+            {t('howToPlay')}
+          </div>
+          <div className={classNames(styles.steps, styles[`step_${stepCont}`])}>
+            <div className={styles.data}>
+              <AnimatePresence>
+                {stepCont === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    key='step_1'
+                    className={styles.step}
+                  >
+                    <div className={styles.lottie}></div>
+                    <p>{t('howToPlayItem1')}</p>
+                  </motion.div>
+                )}
+                {stepCont === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    key='step_2'
+                    className={styles.step}
+                  >
+                    <div className={styles.lottie}></div>
+                    <p>{t('howToPlayItem2')}</p>
+                  </motion.div>
+                )}
+                {stepCont === 2 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    key='step_3'
+                    className={styles.step}
+                  >
+                    <div className={styles.lottie}></div>
+                    <p>{t('howToPlayItem3')}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            <ul>
+              <li onClick={() => { setStepCont(0) }}>
+                <span />
+              </li>
+              <li onClick={() => { setStepCont(1) }}>
+                <span />
+              </li>
+              <li onClick={() => { setStepCont(2) }}>
+                <span />
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p>{t('waitHost')}</p>
       </div>
 
     </div>

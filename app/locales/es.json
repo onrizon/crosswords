@@ -1,4 +1,5 @@
 {
+  "accessLink": "ACCEDE AL LINK",
   "and": "y",
   "beFirstToScore": "Encuentra una palabra y se el primero en entrar en el ranking",
   "cancel": "Cancelar",
@@ -12,12 +13,17 @@
   "generateNewLevel": "Generar nuevo nivel",
   "generatingTheme": "Generando tema...",
   "helpAndCommands": "Ayuda y comandos",
+  "howToPlay": "Cómo jugar",
+  "howToPlayItem1": "observa el indicador y trata de adivinar la palabra 1",
+  "howToPlayItem2": "observa el indicador y trata de adivinar la palabra 2",
+  "howToPlayItem3": "observa el indicador y trata de adivinar la palabra 3",
   "language": "Idioma",
   "levelComplete": "¡NIVEL COMPLETADO! Generando el siguiente...",
   "logout": "Cerrar sesión",
   "minute": "minuto",
   "minutes": "minutos",
   "ok": "Ok",
+  "or": "O",
   "pause": "Pausa",
   "pauseTime": "Pausar tiempo",
   "play": "Jugar",
@@ -29,8 +35,10 @@
   "resumeTime": "Reanudar tiempo",
   "roundTime": "Tiempo de ronda",
   "save": "Guardar",
+  "scanTheQrCode": "ESCANEA EL QR CODE PARA JUGAR",
   "seconds": "segundos",
   "settings": "Configuración",
   "theme": "Tema",
-  "time": "Tiempo"
+  "time": "Tiempo",
+  "waitHost": "espera al host para empezar"
 }
