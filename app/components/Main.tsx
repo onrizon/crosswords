@@ -124,14 +124,15 @@ export default function Main({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Sound effect helper
-  const playSuccessSound = () => {
+  const playSuccessSound = async () => {
     try {
       const audio = new Audio(
         'https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'
       );
       audio.volume = 0.2;
-      console.log('playSuccessSound');
-      audio.play();
+      await audio.play().catch((error) => {
+        console.debug('Audio play failed:', error);
+      });
     } catch (e) {
       console.error(e);
     }

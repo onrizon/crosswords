@@ -29,7 +29,7 @@
 }
 
 .cell {
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-weight: 700;
   position: relative;
   width: 46px;

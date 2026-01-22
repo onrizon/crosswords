@@ -4,8 +4,7 @@
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
-  font-family: var(--font-nunito-sans);
-  font-weight: 700;
+  font-family: var(--nunito);
   height: 493px;
   justify-content: center;
   padding: 5px;
@@ -40,7 +39,7 @@
   padding: 0 14px;
   position: absolute;
   right: -4px;
-  top: -38px;
+  top: -36px;
   width: 342px;
 }
 
@@ -56,6 +55,8 @@
   color: #ffffff;
   display: block;
   font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
   text-shadow: rgb(139, 19, 145) 2px 0px 0px,
     rgb(139, 19, 145) 1.75517px 0.958851px 0px,
     rgb(139, 19, 145) 1.0806px 1.68294px 0px,
@@ -69,6 +70,7 @@
     rgb(139, 19, 145) 0.567324px -1.91785px 0px,
     rgb(139, 19, 145) 1.41734px -1.41108px 0px,
     rgb(139, 19, 145) 1.92034px -0.558831px 0px;
+  text-transform: uppercase;
 }
 
 .list {
@@ -87,8 +89,10 @@
   display: flex;
   flex-direction: column;
   font-size: 22px;
+  font-weight: 600;
   height: 100%;
   justify-content: center;
+  line-height: 1.2;
   padding: 0 30px;
   text-align: center;
   width: 100%;

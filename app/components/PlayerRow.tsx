@@ -2,7 +2,6 @@ import { withData } from '@/lib/Context';
 import styles from '@/styles/PlayerRow.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRef } from 'react';
 
 interface PlayerRowProps {
   user: string;
@@ -12,7 +11,6 @@ interface PlayerRowProps {
 }
 
 const PlayerRow: React.FC<PlayerRowProps> = ({ user, score, index, hit }) => {
-  const nodeRef = useRef<HTMLDivElement>(null);
 
   const getRankClass = (index: number) => {
     if (index === 0) return `${styles.playerRank} ${styles.playerRankGold}`;

@@ -4,7 +4,7 @@
   border: 2px solid #7976ff;
   border-radius: 19px;
   display: flex;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-weight: 700;
   height: 228px;
   justify-content: center;
@@ -31,7 +31,7 @@
   padding: 0 14px;
   position: absolute;
   right: -4px;
-  top: -38px;
+  top: -36px;
   width: 342px;
 }
 
@@ -48,6 +48,8 @@
   color: #ffffff;
   display: block;
   font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
   text-shadow: rgb(139, 19, 145) 2px 0px 0px,
     rgb(139, 19, 145) 1.75517px 0.958851px 0px,
     rgb(139, 19, 145) 1.0806px 1.68294px 0px,
@@ -61,6 +63,7 @@
     rgb(139, 19, 145) 0.567324px -1.91785px 0px,
     rgb(139, 19, 145) 1.41734px -1.41108px 0px,
     rgb(139, 19, 145) 1.92034px -0.558831px 0px;
+  text-transform: uppercase;
 }
 
 .body {
@@ -75,7 +78,7 @@
 .body p {
   color: #00E7FF;
   display: block;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-size: 18px;
   font-weight: 900;
   text-align: center;
@@ -110,13 +113,20 @@
   flex-direction: column;
 }
 
-.text span {
+.text > span {
   color: #ffffff;
   display: block;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-size: 34px;
   font-weight: 600;
+  line-height: 1;
+  position: relative;
+  top: -3px;
   text-align: center;
+}
+
+.text p {
+  margin: 3px 0;
 }
 
 .code {
@@ -133,7 +143,7 @@
   border-radius: 6px;
   color: #F1FF66;
   display: block;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-size: 62px;
   font-weight: 600
   height: 66px;

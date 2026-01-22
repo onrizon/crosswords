@@ -147,7 +147,7 @@
 .box > p {
   color: #47E1F1;
   display: block;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-size: 38px;
   font-weight: 600;
   line-height: 40px;
@@ -202,7 +202,9 @@
   color: #B4ACFF;
   display: block;
   height: 60px;
+  font-family: var(--asap-condensed);
   font-size: 36px;
+  font-weight: 700;
   left: 50%;
   line-height: 54px;
   text-align: center;
@@ -239,5 +241,7 @@
 .input p {
   color: #DDE0FF;
   display: block;
+  font-family: var(--nunito);
   font-size: 33px;
+  font-weight: 700;
 }

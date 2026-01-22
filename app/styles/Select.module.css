@@ -5,7 +5,7 @@
   border-radius: 5px;
   box-shadow: 0 0 0 2px #2d0b92;
   display: flex;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-weight: 700;
   height: 76px;
   justify-content: space-between;
@@ -38,7 +38,7 @@
   border: none;
   color: #fff;
   cursor: pointer;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-size: 28px;
   font-weight: 700;
   height: 100%;

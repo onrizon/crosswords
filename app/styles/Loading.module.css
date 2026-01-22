@@ -3,7 +3,7 @@
   background-color: rgba(2, 6, 23, 0.6);
   backdrop-filter: blur(12px);
   display: flex;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-weight: 700;
   flex-direction: column;
   inset: 0;

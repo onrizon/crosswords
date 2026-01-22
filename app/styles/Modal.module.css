@@ -3,7 +3,7 @@
   background-color: rgba(2, 6, 23, 0.8);
   backdrop-filter: blur(4px);
   display: flex;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-weight: 700;
   position: fixed;
   inset: 0;
@@ -145,7 +145,7 @@
 .text {
   color: #d3d7ff;
   display: block;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-size: 28px;
   font-weight: 600;
   text-align: center;
@@ -172,7 +172,7 @@
 .description span {
   color: #d3d7ff;
   display: block;
-  font-family: var(--font-nunito-sans);
+  font-family: var(--nunito);
   font-size: 24px;
   line-height: 1.2;
   text-align: center;
@@ -214,7 +214,7 @@
   color: #fff;
   cursor: pointer;
   display: block;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-size: 28px;
   font-weight: 700;
   height: 60px;

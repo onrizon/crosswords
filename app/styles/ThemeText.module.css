@@ -4,7 +4,7 @@
   background-size: contain;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-weight: 700;
   height: 214px;
   justify-content: flex-start;

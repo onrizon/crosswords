@@ -2,7 +2,7 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-asap-condensed);
+  font-family: var(--asap-condensed);
   font-weight: 700;
   height: 145px;
   justify-content: flex-start;

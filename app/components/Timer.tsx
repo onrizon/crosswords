@@ -9,6 +9,7 @@ interface TimerProps {
   isPaused: boolean;
   isSettingsOpen: boolean;
   isInfoOpen: boolean;
+  isLoading: boolean;
   customDuration: number;
 }
 
@@ -18,6 +19,7 @@ const Timer: React.FC<TimerProps> = ({
   isPaused,
   isSettingsOpen,
   isInfoOpen,
+  isLoading,
   customDuration,
 }) => {
   const { t } = useTranslation();
@@ -28,7 +30,7 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   const isWarning =
-    timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen;
+    timeLeft < 30 && !isPaused && !isSettingsOpen && !isInfoOpen && !isLoading;
 
   return (
     <div
@@ -42,10 +44,10 @@ const Timer: React.FC<TimerProps> = ({
       </div>
       <div className={styles.bottom}>
         <div className={styles.icon}></div>
-      <div className={styles.content}>
-        <span className={styles.label}>{t('time')}</span>
-        <span className={styles.value}>{formatTime(timeLeft)}</span>
-      </div>
+        <div className={styles.content}>
+          <span className={styles.label}>{t('time')}</span>
+          <span className={styles.value}>{formatTime(timeLeft)}</span>
+        </div>
       </div>
     </div>
   );
@@ -58,6 +60,7 @@ function mapStateToProps(state: TimerProps): TimerProps {
     isPaused: state.isPaused,
     isSettingsOpen: state.isSettingsOpen,
     isInfoOpen: state.isInfoOpen,
+    isLoading: state.isLoading,
     customDuration: state.customDuration,
   };
 }
