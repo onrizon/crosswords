@@ -1,5 +1,5 @@
-import FullscreenButton from '@/components/FullscreenButton';
-import SoundButton from '@/components/SoundButton';
+import FullscreenButton from './common/FullscreenButton';
+import SoundButton from './common/SoundButton';
 import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Start.module.css';
 import classNames from 'classnames';

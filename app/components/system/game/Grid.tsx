@@ -2,7 +2,7 @@ import * as C from '@/constants';
 import styles from '@/styles/Grid.module.css';
 import { motion } from 'framer-motion';
 import React, { useMemo } from 'react';
-import { CellData, WordData } from '../types';
+import { CellData, WordData } from '@/types';
 
 import { withData } from '@/lib/Context';
 import classNames from 'classnames';

@@ -3,7 +3,7 @@ import styles from '@/styles/GameArea.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import Grid from './Grid';
-import { Loading } from './Loading';
+import { Loading } from '../common/Loading';
 
 interface GameAreaProps {
   hit: boolean;

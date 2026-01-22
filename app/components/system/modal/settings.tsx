@@ -5,7 +5,7 @@ import { Locale } from '@/locales';
 import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { Select } from '../Select';
+import { Select } from '../common/Select';
 
 interface SettingsModalProps {
   handleModal: (type: number, data: React.FC) => void;

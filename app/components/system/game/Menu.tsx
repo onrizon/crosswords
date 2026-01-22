@@ -1,6 +1,6 @@
 import styles from '@/styles/Menu.module.css';
-import FullscreenButton from './FullscreenButton';
-import SoundButton from './SoundButton';
+import FullscreenButton from '../common/FullscreenButton';
+import SoundButton from '../common/SoundButton';
 
 const Menu: React.FC = () => {
   return (
