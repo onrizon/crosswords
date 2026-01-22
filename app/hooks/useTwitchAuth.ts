@@ -6,7 +6,7 @@ export const useTwitchAuth = () => {
   const isAuthenticated = status === 'authenticated';
   const isLoading = status === 'loading';
 
-  const loginWithTwitch = (callbackUrl: string = '/game') => {
+  const loginWithTwitch = (callbackUrl: string = '/system') => {
     signIn('twitch', { callbackUrl });
   };
 
