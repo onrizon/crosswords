@@ -1222,7 +1222,7 @@ const getRandomInspiration = (): string => {
   // Select a random one
   const inspiration =
     availableInspirations[
-      Math.floor(Math.random() * availableInspirations.length)
+    Math.floor(Math.random() * availableInspirations.length)
     ];
 
   // Mark it as used
@@ -1243,15 +1243,8 @@ const LANGUAGE_NAMES: Record<Locale, string> = {
   de: 'German',
   it: 'Italian',
   es: 'Spanish',
-  ru: 'Russian',
-  tr: 'Turkish',
-  vi: 'Vietnamese',
-  pl: 'Polish',
-  ro: 'Romanian',
-  cs: 'Czech',
   nl: 'Dutch',
-  hr: 'Croatian',
-  el: 'Greek',
+  id: 'Bahasa Indonesia',
 };
 
 // Robust fallback data with enough words to guarantee a valid grid
