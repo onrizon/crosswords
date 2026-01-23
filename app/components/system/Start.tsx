@@ -1,11 +1,11 @@
-import FullscreenButton from './common/FullscreenButton';
-import SoundButton from './common/SoundButton';
 import { useTranslation } from '@/hooks/useTranslation';
 import styles from '@/styles/Start.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import QRCode from 'qrcode';
 import { useEffect, useRef, useState } from 'react';
+import FullscreenButton from './common/FullscreenButton';
+import SoundButton from './common/SoundButton';
 
 const STEP_TIME = 6000;
 

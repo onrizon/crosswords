@@ -4,14 +4,14 @@ import { Context } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
 import { signOut, useSession } from 'next-auth/react';
+import localFont from 'next/font/local';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import * as C from '../constants';
+import End from '../components/system/End';
 import Start from '../components/system/Start';
 import Game from '../components/system/game/Game';
-import End from '../components/system/End';
 import Modal from '../components/system/modal/Modal';
-import localFont from 'next/font/local';
+import * as C from '../constants';
 
 const asapCondensed = localFont({
   src: [
