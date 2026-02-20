@@ -48,3 +48,23 @@
   width: 100%;
   z-index: 2;
 }
+
+.select:has(select:disabled)::after {
+  display: none;
+}
+
+.small {
+  box-shadow: none;
+  height: 44px;
+}
+
+.small::after {
+  height: 14px;
+  right: 10px;
+  top: 12px;
+  width: 17px;
+}
+
+.small select {
+  font-size: 18px;
+}

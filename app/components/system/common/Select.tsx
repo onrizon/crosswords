@@ -1,4 +1,5 @@
 import styles from '@/styles/Select.module.css';
+import classNames from 'classnames';
 
 interface SelectOption {
   value: string | number;
@@ -7,11 +8,12 @@ interface SelectOption {
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: SelectOption[];
+  small?: boolean;
 }
 
-export const Select = ({ options, ...props }: SelectProps) => {
+export const Select = ({ options, small = false, ...props }: SelectProps) => {
   return (
-    <div className={styles.select}>
+    <div className={classNames(styles.select, small && styles.small)}>
       <select {...props}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
