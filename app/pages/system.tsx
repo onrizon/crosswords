@@ -1,5 +1,4 @@
 import { useTranslation } from '@/hooks/useTranslation';
-import { useTwitch } from '@/hooks/useTwitch';
 import { Context } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types';
@@ -293,8 +292,6 @@ export default function Main() {
     },
     [isLoading, handleNextLevel, currentTheme]
   );
-
-  useTwitch({ onMessage: handleTwitchMessage });
 
   return (
     <Context.Provider

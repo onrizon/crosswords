@@ -266,3 +266,32 @@
   font-weight: bold;
   text-align: center;
 }
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgb(17, 24, 39);
+}
+
+.loadingSpinner {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border-top: 2px solid rgb(168, 85, 247);
+  border-bottom: 2px solid rgb(168, 85, 247);
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,6 +1,9 @@
-import styles from '@/styles/mobile/Create.module.css';
+import { useAuth } from '@/hooks/useAuth';
+import styles from '@/styles/mobile/Index.module.css';
 import classNames from 'classnames';
 import localFont from 'next/font/local';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const asapCondensed = localFont({
   src: [
@@ -24,7 +27,24 @@ const nunito = localFont({
   variable: '--nunito',
 });
 
-export default function Create() {
+export default function Index() {
+  const router = useRouter();
+  const { isAuthenticated, isLoading, loginWithTwitch, loginWithDiscord } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/mobile/system');
+    }
+  }, [isAuthenticated, router]);
+
+  if (isLoading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingSpinner}></div>
+      </div>
+    );
+  }
+
   return <div className={styles.container}>
     <div className={styles.logo}></div>
     <div className={styles.content}>
@@ -43,11 +63,11 @@ export default function Create() {
         </button>
         <p className={styles.or}>OU</p>
         <div className={styles.buttons}>
-          <button className={classNames(styles.btn, styles.btnSecondary, styles.twitch)}>
+          <button onClick={() => loginWithTwitch()} className={classNames(styles.btn, styles.btnSecondary, styles.twitch)}>
             <div className={styles.icon} />
             Twitch
           </button>
-          <button className={classNames(styles.btn, styles.btnSecondary, styles.discord)}>
+          <button onClick={() => loginWithDiscord()} className={classNames(styles.btn, styles.btnSecondary, styles.discord)}>
             <div className={styles.icon} />
             Discord
           </button>

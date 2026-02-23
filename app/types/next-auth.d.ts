@@ -10,6 +10,9 @@ declare module 'next-auth' {
       image?: string | null;
       twitchId?: string;
       twitchLogin?: string;
+      discordId?: string;
+      discordUsername?: string;
+      discordAvatar?: string;
     };
   }
 }
@@ -20,5 +23,8 @@ declare module 'next-auth/jwt' {
     refreshToken?: string;
     twitchId?: string;
     twitchLogin?: string;
+    discordId?: string;
+    discordUsername?: string;
+    discordAvatar?: string;
   }
 }

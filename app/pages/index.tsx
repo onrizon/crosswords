@@ -1,11 +1,11 @@
-import { useTwitchAuth } from '@/hooks/useTwitchAuth';
+import { useAuth } from '@/hooks/useAuth';
 import styles from '@/styles/Index.module.css';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const App: React.FC = () => {
   const router = useRouter();
-  const { isAuthenticated, isLoading, loginWithTwitch } = useTwitchAuth();
+  const { isAuthenticated, isLoading, loginWithTwitch } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
