@@ -1,6 +1,6 @@
 import { Locale } from '@/locales';
 import { GoogleGenAI, Type } from '@google/genai';
-import { RawLevel } from '../types';
+import { RawLevel } from '../types/types';
 
 // Get API key from environment variable
 const API_KEY = process.env.GEMINI_API_KEY || '';

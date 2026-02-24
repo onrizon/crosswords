@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Select } from '@/components/system/common/Select';
 import { useAuth } from '@/hooks/useAuth';
 import { localeNames, useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 import localFont from 'next/font/local';
@@ -30,11 +31,15 @@ const nunito = localFont({
   variable: '--nunito',
 });
 
-export default function Settings() {
+interface SettingsProps {
+  isOwner: boolean;
+}
+
+const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
+
   const { data: session } = useSession();
   const { logout } = useAuth();
   const { t, locales } = useTranslation();
-  const [isOwner, setIsOwner] = useState(false);
   const [activeTab, setActiveTab] = useState(false);
   // const { changeLocale } = useTranslation();
 
@@ -170,3 +175,11 @@ export default function Settings() {
       `}</style>
   </div>;
 }
+
+function mapStateToProps(state: SettingsProps): SettingsProps {
+  return {
+    isOwner: state.isOwner,
+  };
+}
+
+export default withData(Settings, mapStateToProps);

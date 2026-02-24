@@ -1,4 +1,4 @@
-import { WordData } from './types';
+import { WordData } from './types/types';
 
 // Changed to a wider aspect ratio (approx 2:1) to fit desktop screens better
 // Increased to 14x26 as requested
@@ -15,7 +15,7 @@ export const INFO_MODAL = 3;
 export const SETTINGS_MODAL = 4;
 
 export const STATUS_START = 0;
-export const STATUS_GAME= 1;
+export const STATUS_GAME = 1;
 export const STATUS_END = 2;
 
 // Fallback data in case API fails or for initial render before fetch

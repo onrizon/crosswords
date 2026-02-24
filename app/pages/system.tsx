@@ -1,7 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { Context } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
-import { UserScores, WordData } from '@/types';
+import { UserScores, WordData } from '@/types/types';
 import { signOut, useSession } from 'next-auth/react';
 import localFont from 'next/font/local';
 import { useRouter } from 'next/router';

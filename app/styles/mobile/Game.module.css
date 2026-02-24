@@ -1,0 +1,198 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  min-width: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.header {
+  align-items: center;
+  background-color: #603ff9;
+  display: flex;
+  gap: 10px;
+  height: 70px;
+  justify-content: center;
+  padding: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.hit {
+  align-items: center;
+  background-color: #2a16a1;
+  border: 2px solid #211087;
+  box-shadow: 0 0 0 2px #6a4aff;
+  display: flex;
+  flex-direction: column;
+  height: 56px;
+  justify-content: center;
+  width: 122px;
+}
+
+.hit .top {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.hit .top .icon {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  height: 34px;
+  width: 34px;
+}
+
+.hit p,
+.hit span {
+  display: block;
+  font-family: var(--asap-condensed);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow:
+    rgb(13, 18, 82) 2px 0px 0px,
+    rgb(13, 18, 82) 1.75517px 0.958851px 0px,
+    rgb(13, 18, 82) 1.0806px 1.68294px 0px,
+    rgb(13, 18, 82) 0.141474px 1.99499px 0px,
+    rgb(13, 18, 82) -0.832294px 1.81859px 0px,
+    rgb(13, 18, 82) -1.60229px 1.19694px 0px,
+    rgb(13, 18, 82) -1.97998px 0.28224px 0px,
+    rgb(13, 18, 82) -1.87291px -0.701566px 0px,
+    rgb(13, 18, 82) -1.30729px -1.5136px 0px,
+    rgb(13, 18, 82) -0.421592px -1.95506px 0px,
+    rgb(13, 18, 82) 0.567324px -1.91785px 0px,
+    rgb(13, 18, 82) 1.41734px -1.41108px 0px,
+    rgb(13, 18, 82) 1.92034px -0.558831px 0px;
+  text-transform: uppercase;
+}
+
+.hit span {
+  font-size: 36px;
+}
+
+.hitRound {
+  border-radius: 10px 4px 4px 10px;
+}
+
+.hitRound .icon {
+  background-image: url('/images/icoHitRound.svg');
+}
+
+.hitRound p,
+.hitRound span {
+  color: #f941ff;
+}
+
+.hitTotal {
+  border-radius: 4px 10px 10px 4px;
+}
+
+.hitTotal .icon {
+  background-image: url('/images/icoHitTotal.svg');
+}
+
+.hitTotal p,
+.hitTotal span {
+  color: #f1ff66;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.content h2 {
+  color: #fff36c;
+  display: block;
+  font-family: var(--asap-condensed);
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    rgb(31, 0, 125) 2px 0px 0px,
+    rgb(31, 0, 125) 1.75517px 0.958851px 0px,
+    rgb(31, 0, 125) 1.0806px 1.68294px 0px,
+    rgb(31, 0, 125) 0.141474px 1.99499px 0px,
+    rgb(31, 0, 125) -0.832294px 1.81859px 0px,
+    rgb(31, 0, 125) -1.60229px 1.19694px 0px,
+    rgb(31, 0, 125) -1.97998px 0.28224px 0px,
+    rgb(31, 0, 125) -1.87291px -0.701566px 0px,
+    rgb(31, 0, 125) -1.30729px -1.5136px 0px,
+    rgb(31, 0, 125) -0.421592px -1.95506px 0px,
+    rgb(31, 0, 125) 0.567324px -1.91785px 0px,
+    rgb(31, 0, 125) 1.41734px -1.41108px 0px,
+    rgb(31, 0, 125) 1.92034px -0.558831px 0px;
+}
+
+.content .lottie,
+.content .lottie div {
+  display: block;
+  height: 168px;
+  width: 2050px;
+}
+
+.content p {
+  color: #ffffff;
+  display: block;
+  font-family: var(--asap-condensed);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow:
+    rgb(31, 0, 125) 2px 0px 0px,
+    rgb(31, 0, 125) 1.75517px 0.958851px 0px,
+    rgb(31, 0, 125) 1.0806px 1.68294px 0px,
+    rgb(31, 0, 125) 0.141474px 1.99499px 0px,
+    rgb(31, 0, 125) -0.832294px 1.81859px 0px,
+    rgb(31, 0, 125) -1.60229px 1.19694px 0px,
+    rgb(31, 0, 125) -1.97998px 0.28224px 0px,
+    rgb(31, 0, 125) -1.87291px -0.701566px 0px,
+    rgb(31, 0, 125) -1.30729px -1.5136px 0px,
+    rgb(31, 0, 125) -0.421592px -1.95506px 0px,
+    rgb(31, 0, 125) 0.567324px -1.91785px 0px,
+    rgb(31, 0, 125) 1.41734px -1.41108px 0px,
+    rgb(31, 0, 125) 1.92034px -0.558831px 0px;
+  width: 200px;
+}
+
+.footer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 0 20px;
+  width: 305px;
+}
+
+.input {
+  background-color: #230089;
+  border: 2px solid #625afb;
+  border-radius: 5px;
+  color: #dde0ff;
+  font-family: var(--nunito);
+  font-size: 20px;
+  font-weight: bold;
+  height: 44px;
+  padding: 0 10px;
+  outline: none;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: #dde0ff;
+}

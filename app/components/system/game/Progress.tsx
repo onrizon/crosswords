@@ -1,7 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/Progress.module.css';
-import { WordData } from '@/types';
+import { WordData } from '@/types/types';
 import classNames from 'classnames';
 
 interface ProgressProps {

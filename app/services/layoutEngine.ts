@@ -1,5 +1,5 @@
 import * as C from '@/constants';
-import { WordData } from '../types';
+import { WordData } from '../types/types';
 
 // Represents the grid state during generation
 type GridChar = string | null;

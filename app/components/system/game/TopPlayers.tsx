@@ -1,7 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
 import { withData } from '@/lib/Context';
 import styles from '@/styles/TopPlayers.module.css';
-import { UserScores } from '@/types';
+import { UserScores } from '@/types/types';
 import classNames from 'classnames';
 import PlayerRow from './PlayerRow';
 
