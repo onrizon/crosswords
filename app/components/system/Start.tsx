@@ -1,5 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/Start.module.css';
+import { Player } from '@/types/types';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import QRCode from 'qrcode';
@@ -9,10 +11,18 @@ import SoundButton from './common/SoundButton';
 
 const STEP_TIME = 6000;
 
-const Start: React.FC = () => {
+interface StartProps {
+  roomCode: string;
+  players: Player[];
+}
+
+const Start: React.FC<StartProps> = ({ roomCode, players }) => {
   const { t } = useTranslation();
   const qrcodeRef = useRef<HTMLCanvasElement>(null);
   const [stepCont, setStepCont] = useState(0);
+  const joinUrl = roomCode
+    ? `https://jogo.tv/mobile/join?room=${roomCode}`
+    : 'https://jogo.tv/play';
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,7 +37,7 @@ const Start: React.FC = () => {
   useEffect(() => {
     QRCode.toCanvas(
       qrcodeRef.current,
-      `https://jogo.tv/play`,
+      joinUrl,
       {
         width: 326,
         margin: 2,
@@ -38,7 +48,7 @@ const Start: React.FC = () => {
         errorCorrectionLevel: 'L',
       }
     );
-  }, []);
+  }, [joinUrl]);
 
 
   return (
@@ -71,8 +81,18 @@ const Start: React.FC = () => {
           <p>{t('accessLink')}</p>
           <div className={styles.input}>
             <span />
-            <p>https://jogo.tv/play</p>
+            <p>{joinUrl}</p>
           </div>
+          {roomCode && (
+            <div style={{ marginTop: '12px', fontSize: '24px', fontWeight: 700, letterSpacing: '8px' }}>
+              {roomCode}
+            </div>
+          )}
+          {players && players.length > 0 && (
+            <div style={{ marginTop: '8px', fontSize: '16px', opacity: 0.7 }}>
+              {players.length} player{players.length !== 1 ? 's' : ''} in room
+            </div>
+          )}
         </div>
 
         <div className={classNames(styles.corners, styles.cornersRight)}>
@@ -150,4 +170,11 @@ const Start: React.FC = () => {
   );
 };
 
-export default Start;
+function mapStateToProps(state: StartProps): StartProps {
+  return {
+    roomCode: state.roomCode,
+    players: state.players,
+  };
+}
+
+export default withData(Start, mapStateToProps);

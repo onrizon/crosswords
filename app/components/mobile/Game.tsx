@@ -3,61 +3,72 @@ import answer from '@/public/lotties/answer.json';
 import exit from '@/public/lotties/exit.json';
 import styles from '@/styles/mobile/Game.module.css';
 import { ModalContextProps } from '@/types/modalTypes';
+import { GuessResult, UserScores } from '@/types/types';
 import classNames from 'classnames';
 import Lottie from 'lottie-react';
-import { useRouter } from 'next/router';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import Answer from './Answer';
 import Scroll from './Scroll';
 
 interface GameProps {
   isOwner: boolean;
+  socket: Socket;
+  roomCode: string;
+  playerScores: UserScores;
+  roundNumber: number;
 }
 
-function Game({ isOwner }: GameProps) {
-  const router = useRouter();
+function Game({ isOwner, socket, roomCode, playerScores, roundNumber }: GameProps) {
   const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
-  const [list, setList] = useState<{ word: string, hit: boolean }[]>([
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'qweqwe', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'asdasdasd', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'tesdsfsdfste', hit: true },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: false },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'qweqwe', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'asdasdasd', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'tesdsfsdfste', hit: true },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: false },
-  ]);
+  const [list, setList] = useState<{ word: string; hit: boolean }[]>([]);
   const [word, setWord] = useState('');
   const wordRef = useRef<HTMLInputElement>(null);
+  const playerName = typeof window !== 'undefined' ? sessionStorage.getItem('playerName') || '' : '';
+
+  // Get current player scores
+  const myScores = playerScores?.[playerName] || { round: 0, total: 0 };
+
+  // Listen for guess results and word reveals
+  useEffect(() => {
+    if (!socket) return;
+
+    function onGuessResult(result: GuessResult) {
+      if (result.hit && result.word) {
+        // Mark the matching guess as a hit
+        setList((prev) => {
+          const updated = [...prev];
+          for (let i = updated.length - 1; i >= 0; i--) {
+            if (updated[i].word.toUpperCase().replace(/\s/g, '') === result.word && !updated[i].hit) {
+              updated[i] = { ...updated[i], hit: true };
+              break;
+            }
+          }
+          return updated;
+        });
+      }
+    }
+
+    function onNewLevel() {
+      setList([]);
+    }
+
+    socket.on('game:guessResult', onGuessResult);
+    socket.on('game:newLevel', onNewLevel);
+
+    return () => {
+      socket.off('game:guessResult', onGuessResult);
+      socket.off('game:newLevel', onNewLevel);
+    };
+  }, [socket]);
 
   function handleSend(e: React.FormEvent) {
     e.preventDefault();
     const value = word.toLocaleLowerCase().trim().replace(/\s/g, '');
-    if (value) {
+    if (value && socket) {
       setList((prev) => [...prev, { word: value, hit: false }]);
       setWord('');
+      socket.emit('game:guess', { roomCode, word: value });
       document.getElementById('answers')?.scrollTo({
         top: document.getElementById('answers')?.scrollHeight,
         behavior: 'smooth',
@@ -66,32 +77,35 @@ function Game({ isOwner }: GameProps) {
     wordRef.current?.focus();
   }
 
+  function handleReset() {
+    if (!socket) return;
+    socket.emit('game:reset', { roomCode });
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={classNames(styles.hit, styles.hitRound)}>
           <div className={styles.top}>
             <div className={styles.icon}></div>
-            <span>10</span>
+            <span>{myScores.round}</span>
           </div>
           <p>Rodada</p>
         </div>
         <div className={classNames(styles.hit, styles.hitTotal)}>
           <div className={styles.top}>
             <div className={styles.icon}></div>
-            <span>10</span>
+            <span>{myScores.total}</span>
           </div>
           <p>Total</p>
         </div>
         {isOwner && (
           <button className={styles.exit} onClick={() => {
             setModal({
-              title: 'Sair',
+              title: 'Reiniciar',
               lottie: exit,
-              description: 'Deseja realmente sair da sala?',
-              button: () => {
-                router.push('/mobile');
-              },
+              description: 'Deseja reiniciar a partida?',
+              button: () => handleReset(),
             });
           }} />
         )}
@@ -100,8 +114,8 @@ function Game({ isOwner }: GameProps) {
       {list.length > 0 ? (
         <div id="answers" className={styles.answers}>
           <Scroll scrollBottom={true}>
-            {list.map((word, index) => (
-              <Answer data={word} key={index} />
+            {list.map((item, index) => (
+              <Answer data={item} key={index} />
             ))}
           </Scroll>
         </div>
@@ -137,6 +151,10 @@ function Game({ isOwner }: GameProps) {
 function mapStateToProps(state: GameProps): GameProps {
   return {
     isOwner: state.isOwner,
+    socket: state.socket,
+    roomCode: state.roomCode,
+    playerScores: state.playerScores,
+    roundNumber: state.roundNumber,
   };
 }
 

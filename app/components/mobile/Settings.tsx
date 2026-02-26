@@ -3,13 +3,14 @@ import styles from '@/styles/mobile/Settings.module.css';
 import { useContext, useState } from 'react';
 
 import { Select } from '@/components/system/common/Select';
-import { useAuth } from '@/hooks/useAuth';
 import { localeNames, useTranslation } from '@/hooks/useTranslation';
 import { ModalContext, withData } from '@/lib/Context';
 import { ModalContextProps } from '@/types/modalTypes';
+import { Player } from '@/types/types';
 import classNames from 'classnames';
-import { useSession } from 'next-auth/react';
 import localFont from 'next/font/local';
+import { useRouter } from 'next/router';
+import { Socket } from 'socket.io-client';
 
 const asapCondensed = localFont({
   src: [
@@ -35,16 +36,41 @@ const nunito = localFont({
 
 interface SettingsProps {
   isOwner: boolean;
+  socket: Socket;
+  roomCode: string;
+  players: Player[];
+  duration: number;
+  language: string;
+  endMode: number;
+  endTarget: number;
 }
 
-const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
+const Settings: React.FC<SettingsProps> = ({
+  isOwner, socket, roomCode, players, duration, language, endMode, endTarget,
+}) => {
+  const router = useRouter();
   const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
-  const { data: session } = useSession();
-  const { logout } = useAuth();
   const { t, locales } = useTranslation();
   const [activeTab, setActiveTab] = useState(false);
-  // const { changeLocale } = useTranslation();
+  const playerName = typeof window !== 'undefined' ? sessionStorage.getItem('playerName') || '' : '';
 
+  function emitSettings(updates: Record<string, unknown>) {
+    if (!socket || !isOwner) return;
+    socket.emit('game:updateSettings', { roomCode, ...updates });
+  }
+
+  function handleStart() {
+    if (!socket || !isOwner) return;
+    socket.emit('game:start', { roomCode });
+  }
+
+  function handleLeave() {
+    if (!socket) return;
+    socket.emit('room:leave', { roomCode });
+    sessionStorage.removeItem('roomCode');
+    sessionStorage.removeItem('playerId');
+    router.push('/mobile');
+  }
 
   return <div className={classNames(styles.fullContainer, { [styles.active]: activeTab })}>
     <div className={styles.container}>
@@ -54,11 +80,11 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
             title: 'Sair',
             lottie: exit,
             description: 'Deseja realmente sair da sala?',
-            button: () => logout(),
+            button: () => handleLeave(),
           });
         }} />
         <div className={styles.headerTitle}>
-          <h2>{session?.user.name}</h2>
+          <h2>{playerName}</h2>
           {isOwner && (<h4>
             <span className={classNames(styles.icon, styles.iconHost)} />
             Você é o host
@@ -70,7 +96,7 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
       <div className={styles.content}>
         <div className={styles.users}>
           <div className={styles.icon} />
-          500 pessoas na sala
+          {players.length} pessoa{players.length !== 1 ? 's' : ''} na sala
         </div>
         <div className={styles.box}>
           <h4>
@@ -80,8 +106,8 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
           <Select
             disabled={!isOwner}
             small={true}
-            value={120}
-            onChange={() => { }}
+            value={duration}
+            onChange={(e) => emitSettings({ duration: parseInt(e.target.value) })}
             options={[
               { value: 30, label: `30 ${t('seconds')}` },
               { value: 60, label: `1 ${t('minute')}` },
@@ -117,8 +143,12 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
           <Select
             disabled={!isOwner}
             small={true}
-            value={1}
-            onChange={() => { }}
+            value={endMode}
+            onChange={(e) => {
+              const mode = parseInt(e.target.value);
+              const defaultTarget = mode === 2 ? 3 : mode === 3 ? 10 : 0;
+              emitSettings({ endMode: mode, endTarget: defaultTarget });
+            }}
             options={[
               { value: 1, label: 'Infinito (subathon)' },
               { value: 2, label: 'Meta de rodadas' },
@@ -127,30 +157,54 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
           />
         </div>
 
-        <div className={styles.box}>
-          <h4>
-            <span className={classNames(styles.icon, styles.iconTarget)} />
-            Meta
-          </h4>
-          <Select
-            disabled={!isOwner}
-            small={true}
-            value={200}
-            onChange={() => { }}
-            options={[
-              { value: 100, label: '100 pontos' },
-              { value: 200, label: '200 pontos' },
-              { value: 300, label: '300 pontos' },
-              { value: 400, label: '400 pontos' },
-              { value: 500, label: '500 pontos' },
-            ]}
-          />
-        </div>
+        {endMode === 2 && (
+          <div className={styles.box}>
+            <h4>
+              <span className={classNames(styles.icon, styles.iconTarget)} />
+              Meta
+            </h4>
+            <Select
+              disabled={!isOwner}
+              small={true}
+              value={endTarget}
+              onChange={(e) => emitSettings({ endTarget: parseInt(e.target.value) })}
+              options={[
+                { value: 1, label: '1 rodada' },
+                { value: 2, label: '2 rodadas' },
+                { value: 3, label: '3 rodadas' },
+                { value: 4, label: '4 rodadas' },
+                { value: 5, label: '5 rodadas' },
+              ]}
+            />
+          </div>
+        )}
+
+        {endMode === 3 && (
+          <div className={styles.box}>
+            <h4>
+              <span className={classNames(styles.icon, styles.iconTarget)} />
+              Meta
+            </h4>
+            <Select
+              disabled={!isOwner}
+              small={true}
+              value={endTarget}
+              onChange={(e) => emitSettings({ endTarget: parseInt(e.target.value) })}
+              options={[
+                { value: 2, label: '2 pontos' },
+                { value: 10, label: '10 pontos' },
+                { value: 15, label: '15 pontos' },
+                { value: 20, label: '20 pontos' },
+                { value: 30, label: '30 pontos' },
+              ]}
+            />
+          </div>
+        )}
       </div>
       <div className={styles.footer}>
         {isOwner ?
           <button
-            onClick={() => { }}
+            onClick={handleStart}
             className={styles.btn}
           >
             Iniciar
@@ -169,10 +223,10 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
       </div>
       <div className={styles.content}>
         <ul>
-          {locales.map((locale) => (
-            <li key={locale}>
-              <button onClick={() => { }} className={classNames({ [styles.active]: locale === 'pt' })}>
-                {localeNames[locale]}
+          {locales.map((loc) => (
+            <li key={loc}>
+              <button onClick={() => emitSettings({ language: loc })} className={classNames({ [styles.active]: loc === language })}>
+                {localeNames[loc]}
                 <span className={classNames(styles.icon, styles.iconCheck)} />
               </button>
             </li>
@@ -192,6 +246,13 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
 function mapStateToProps(state: SettingsProps): SettingsProps {
   return {
     isOwner: state.isOwner,
+    socket: state.socket,
+    roomCode: state.roomCode,
+    players: state.players,
+    duration: state.duration,
+    language: state.language,
+    endMode: state.endMode,
+    endTarget: state.endTarget,
   };
 }
 

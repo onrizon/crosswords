@@ -22,32 +22,7 @@ export interface CellData {
   delay?: number; // Animation delay in seconds
 }
 
-export interface GameState {
-  status: 'connecting' | 'connected' | 'error';
-  words: WordData[];
-  score: number;
-  latestWinner: string | null;
-}
-
 export type UserScores = Record<string, { round: number; total: number }>;
-
-export type LevelKey =
-  | 'ESCRITORIO'
-  | 'ESCOLA'
-  | 'NATAL'
-  | 'QUADRINHOS'
-  | 'ANIMAIS'
-  | 'CHURRASCO'
-  | 'FIM_DE_ANO'
-  | 'FANTASIAS'
-  | 'PAISES'
-  | 'COMIDAS'
-  | 'NOMES';
-
-export interface LevelData {
-  key: LevelKey;
-  words: WordData[];
-}
 
 // Raw AI response (words without positions)
 export interface RawLevel {
@@ -59,4 +34,41 @@ export interface RawLevel {
 export interface Level {
   theme: string;
   words: WordData[];
+}
+
+// Player in a room
+export interface Player {
+  id: string;
+  name: string;
+  provider?: string | null;
+  roundScore: number;
+  totalScore: number;
+}
+
+// Room state from server
+export interface RoomState {
+  code: string;
+  ownerId: string;
+  ownerName: string;
+  authMode: 'anonymous' | 'twitch' | 'discord';
+  language: string;
+  duration: number;
+  endMode: number;
+  endTarget: number;
+  status: number;
+  players: Player[];
+  currentTheme: string;
+  words: WordData[];
+  timeLeft: number;
+  isLoading: boolean;
+  isPaused: boolean;
+  roundNumber: number;
+  lastHit: { username: string; word: string; index: number } | null;
+  playerScores: UserScores;
+}
+
+export interface GuessResult {
+  hit: boolean;
+  word?: string | null;
+  index?: number | null;
 }

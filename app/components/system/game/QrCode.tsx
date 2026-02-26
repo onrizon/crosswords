@@ -1,16 +1,24 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import { withData } from '@/lib/Context';
 import styles from '@/styles/QrCode.module.css';
 import QRCode from 'qrcode';
 import { useEffect, useRef } from 'react';
 
-const QrCode: React.FC = () => {
+interface QrCodeProps {
+  roomCode: string;
+}
+
+const QrCode: React.FC<QrCodeProps> = ({ roomCode }) => {
   const { t } = useTranslation();
   const qrcodeRef = useRef<HTMLCanvasElement>(null);
+  const joinUrl = roomCode
+    ? `https://jogo.tv/mobile/join?room=${roomCode}`
+    : 'https://jogo.tv/play';
 
   useEffect(() => {
     QRCode.toCanvas(
       qrcodeRef.current,
-      `https://jogo.tv/play`,
+      joinUrl,
       {
         width: 123,
         margin: 2,
@@ -21,7 +29,7 @@ const QrCode: React.FC = () => {
         errorCorrectionLevel: 'L',
       }
     );
-  }, []);
+  }, [joinUrl]);
 
   return (
     <div className={styles.container}>
@@ -40,13 +48,16 @@ const QrCode: React.FC = () => {
             </div>
             <div className={styles.text}>
               <span>jogo.tv/play</span>
-              <p>{t('code')}</p>
-              <div className={styles.code}>
-                <span>X</span>
-                <span>G</span>
-                <span>N</span>
-                <span>M</span>
-              </div>
+              {roomCode && (
+                <>
+                  <p>{t('code')}</p>
+                  <div className={styles.code}>
+                    {roomCode.split('').map((char, i) => (
+                      <span key={i}>{char}</span>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -55,4 +66,10 @@ const QrCode: React.FC = () => {
   );
 };
 
-export default QrCode;
+function mapStateToProps(state: QrCodeProps): QrCodeProps {
+  return {
+    roomCode: state.roomCode,
+  };
+}
+
+export default withData(QrCode, mapStateToProps);

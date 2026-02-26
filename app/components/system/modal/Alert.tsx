@@ -5,18 +5,15 @@ import styles from '@/styles/Modal.module.css';
 import classNames from 'classnames';
 
 interface AlertModalProps {
-  handleLogout: () => void;
   handleModal: (type: number, data: React.FC) => void;
 }
 
 const AlertModal: React.FC<AlertModalProps> = ({
-  handleLogout,
   handleModal,
 }) => {
   const { t } = useTranslation();
 
   const handleConfirm = () => {
-    handleLogout();
     handleModal(C.CLOSED_MODAL, () => null);
   };
 
@@ -50,7 +47,6 @@ const AlertModal: React.FC<AlertModalProps> = ({
 
 function mapStateToProps(state: AlertModalProps): AlertModalProps {
   return {
-    handleLogout: state.handleLogout,
     handleModal: state.handleModal,
   };
 }

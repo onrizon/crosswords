@@ -12,8 +12,6 @@ interface SettingsModalProps {
   locale: string;
   customDuration: number;
   setCustomDuration: (duration: number) => void;
-  loadNewLevel: (language?: string, duration?: number) => void;
-  setIsPaused: (paused: boolean) => void;
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -21,12 +19,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   locale,
   customDuration,
   setCustomDuration,
-  loadNewLevel,
-  setIsPaused,
 }) => {
   const { t, locales } = useTranslation();
   const { changeLocale } = useTranslation();
-  // Settings Form State (Temporary state while modal is open)
   const [tempSettings, setTempSettings] = useState<{
     language: string;
     duration: number;
@@ -34,27 +29,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     language: locale,
     duration: customDuration,
   });
-  const handleSaveSettings = () => {
-    const hasLangChanged = tempSettings.language !== locale;
-    const hasDurationChanged = tempSettings.duration !== customDuration;
-
-    // Save to LocalStorage
-    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
-
-    // Save to State
-    changeLocale(tempSettings.language as Locale);
-    setCustomDuration(tempSettings.duration);
-
-    // If critical settings changed, reload level immediately
-    if (hasLangChanged || hasDurationChanged) {
-      loadNewLevel(tempSettings.language, tempSettings.duration);
-    } else {
-      setIsPaused(false);
-    }
-  };
 
   const handleSave = () => {
-    handleSaveSettings();
+    localStorage.setItem('streamCross', JSON.stringify(tempSettings));
+    changeLocale(tempSettings.language as Locale);
+    if (setCustomDuration) setCustomDuration(tempSettings.duration);
     handleModal(C.CLOSED_MODAL, () => null);
   };
 
@@ -65,7 +44,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
       </div>
 
       <div className={styles.body}>
-        {/* Language */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>{t('language')}</h3>
           <Select
@@ -83,7 +61,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           />
         </div>
 
-        {/* Duration */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>{t('roundTime')}</h3>
           <Select
@@ -145,8 +122,6 @@ function mapStateToProps(state: SettingsModalProps): SettingsModalProps {
     locale: state.locale,
     customDuration: state.customDuration,
     setCustomDuration: state.setCustomDuration,
-    loadNewLevel: state.loadNewLevel,
-    setIsPaused: state.setIsPaused,
   };
 }
 

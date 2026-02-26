@@ -1,8 +1,8 @@
+import { useSocket } from '@/hooks/useSocket';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SystemContext } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
-import { UserScores, WordData } from '@/types/types';
-import { signOut, useSession } from 'next-auth/react';
+import { Player, UserScores, WordData } from '@/types/types';
 import localFont from 'next/font/local';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -35,18 +35,18 @@ const nunito = localFont({
 });
 
 export default function Main() {
+  const router = useRouter();
+  const { socket, isConnected } = useSocket();
+  const { locale } = useTranslation();
+
   const [scale, setScale] = useState(1);
-  const [currentTheme, setCurrentTheme] = useState<string>('ESCRITORIO');
+  const [currentTheme, setCurrentTheme] = useState<string>('');
   const [status, setStatus] = useState(C.STATUS_START);
-  const [words, setWords] = useState<WordData[]>(C.FALLBACK_WORDS);
-  const [customDuration, setCustomDuration] = useState<number>(
-    C.DEFAULT_DURATION
-  );
-  const [timeLeft, setTimeLeft] = useState(customDuration);
+  const [words, setWords] = useState<WordData[]>([]);
+  const [timeLeft, setTimeLeft] = useState(C.DEFAULT_DURATION);
   const [isLoading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [userScores, setUserScores] = useState<UserScores>({});
-  const { data: session, status: sessionStatus } = useSession();
   const [hit, setYouHit] = useState(false);
   const [lastHitInfo, setLastHitInfo] = useState<{
     username: string;
@@ -54,14 +54,15 @@ export default function Main() {
     index: number;
   } | null>(null);
   const hitTimeout = useRef<NodeJS.Timeout | null>(null);
-  const { changeLocale, locale } = useTranslation();
-  const [isHydrated, setIsHydrated] = useState(false);
   const [modal, setModal] = useState({
     type: C.CLOSED_MODAL,
     data: {},
   });
-  const router = useRouter();
+  const [roomCode, setRoomCode] = useState('');
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [customDuration, setCustomDuration] = useState(C.DEFAULT_DURATION);
 
+  // Scaling
   useEffect(() => {
     const handleResize = () => {
       const scaleX = (window.innerWidth - 50) / C.BASE_WIDTH;
@@ -72,83 +73,26 @@ export default function Main() {
 
     window.addEventListener('resize', handleResize);
     handleResize();
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Load settings from localStorage after hydration (client-side only)
+  // Get room code from URL
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('streamCross');
-      if (saved) {
-        const settings = JSON.parse(saved);
-        if (settings.language) changeLocale(settings.language);
-        if (settings.duration) setCustomDuration(settings.duration);
-      }
-    } catch {
-      // Ignore localStorage errors
+    const room = router.query.room as string;
+    if (room) {
+      setRoomCode(room);
+    } else {
+      const stored = sessionStorage.getItem('roomCode');
+      if (stored) setRoomCode(stored);
     }
-    setIsHydrated(true);
-  }, []);
+  }, [router.query.room]);
 
+  // Register display with server
   useEffect(() => {
-    if (sessionStatus === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [sessionStatus, router]);
+    if (!socket || !isConnected || !roomCode) return;
 
-  // --- Game Logic ---
-  const loadNewLevel = useCallback(
-    async (targetLang?: string, durationOverride?: number) => {
-      if (hitTimeout.current) clearTimeout(hitTimeout.current);
-      setIsLoading(true);
-      setIsPaused(false);
-      const langToUse = targetLang || locale;
-      const durationToUse =
-        durationOverride !== undefined ? durationOverride : customDuration;
-
-      try {
-        const response = await fetch(`/api/level?language=${langToUse}`);
-        if (!response.ok) {
-          throw new Error('Failed to generate level');
-        }
-        const data = await response.json();
-
-        setWords(data.words);
-        setCurrentTheme(data.theme);
-        setTimeLeft(durationToUse);
-        setUserScores(
-          (users) =>
-            Object.fromEntries(
-              Object.entries(users).map(([username, scores]) => [
-                username,
-                { total: scores.total, round: 0 },
-              ])
-            ) as UserScores
-        );
-      } catch (err) {
-        console.error(err);
-        setTimeout(() => loadNewLevel(langToUse, durationToUse), 2000);
-      } finally {
-        setIsLoading(false);
-        setYouHit(false);
-        setLastHitInfo(null);
-      }
-    },
-    [locale, customDuration]
-  );
-
-  const handlePause = () => {
-    setIsPaused(!isPaused);
-  };
-
-  const handleLogout = () => {
-    signOut({ callbackUrl: '/' });
-  };
-
-  const handleModal = useCallback((type: number, data: React.FC) => {
-    setModal({ type, data });
-  }, []);
+    socket.emit('display:register', { roomCode });
+  }, [socket, isConnected, roomCode]);
 
   // Sound effect helper
   const playSuccessSound = async () => {
@@ -165,133 +109,132 @@ export default function Main() {
     }
   };
 
-  // Initial load - wait for hydration to ensure localStorage settings are loaded
+  const handleModal = useCallback((type: number, data: React.FC) => {
+    setModal({ type, data });
+  }, []);
+
+  // Socket event listeners
   useEffect(() => {
-    if (
-      isHydrated &&
-      currentTheme === 'ESCRITORIO' &&
-      words === C.FALLBACK_WORDS
-    ) {
-      loadNewLevel();
-    }
-  }, [isHydrated]); // Run once after hydration
+    if (!socket) return;
 
-  const handleNextLevel = useCallback(() => {
-    loadNewLevel();
-  }, [loadNewLevel]);
-
-  // Timer Effect
-  useEffect(() => {
-    if (isLoading || isPaused) return;
-
-    if (timeLeft <= 0) {
-      handleNextLevel();
-      return;
+    function onStateUpdate(state: Record<string, unknown>) {
+      if (state.status !== undefined) setStatus(state.status as number);
+      if (state.currentTheme !== undefined) setCurrentTheme(state.currentTheme as string);
+      if (state.words !== undefined) setWords(state.words as WordData[]);
+      if (state.timeLeft !== undefined) setTimeLeft(state.timeLeft as number);
+      if (state.isLoading !== undefined) setIsLoading(state.isLoading as boolean);
+      if (state.isPaused !== undefined) setIsPaused(state.isPaused as boolean);
+      if (state.playerScores !== undefined) setUserScores(state.playerScores as UserScores);
+      if (state.players !== undefined) setPlayers(state.players as Player[]);
+      if (state.duration !== undefined) setCustomDuration(state.duration as number);
     }
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
+    function onNewLevel({ theme, words: newWords, timeLeft: tl, playerScores }: {
+      theme: string;
+      words: WordData[];
+      timeLeft: number;
+      playerScores: UserScores;
+    }) {
+      setCurrentTheme(theme);
+      setWords(newWords);
+      setTimeLeft(tl);
+      setUserScores(playerScores);
+      setYouHit(false);
+      setLastHitInfo(null);
+      if (hitTimeout.current) clearTimeout(hitTimeout.current);
+    }
 
-    return () => clearInterval(timer);
-  }, [timeLeft, handleNextLevel, isLoading, isPaused]);
+    function onTick({ timeLeft: tl }: { timeLeft: number }) {
+      setTimeLeft(tl);
+    }
 
-  // Check for level completion
-  useEffect(() => {
-    const allSolved = words.every((w) => w.isRevealed);
-    if (allSolved && words.length > 0 && !isLoading) {
-      const timeout = setTimeout(() => {
-        handleNextLevel();
+    function onWordRevealed({ wordIndex, revealedBy, playerScores, lastHit }: {
+      wordIndex: number;
+      revealedBy: string;
+      playerScores: UserScores;
+      lastHit: { username: string; word: string; index: number };
+    }) {
+      setWords((prev) =>
+        prev.map((w, i) =>
+          i === wordIndex ? { ...w, isRevealed: true, revealedBy } : w
+        )
+      );
+      setUserScores(playerScores);
+      setYouHit(true);
+      setLastHitInfo(lastHit);
+      playSuccessSound();
+
+      if (hitTimeout.current) clearTimeout(hitTimeout.current);
+      hitTimeout.current = setTimeout(() => {
+        setYouHit(false);
+        setLastHitInfo(null);
       }, 3000);
-      return () => clearTimeout(timeout);
     }
-  }, [words, handleNextLevel, isLoading]);
 
-  const handleTwitchMessage = useCallback(
-    (username: string, message: string) => {
-      const msgLower = message.trim().toLowerCase();
-      const userLower = username.toLowerCase();
-      const adminUser = session?.user?.twitchLogin || ''.toLowerCase();
+    function onStarted({ status: s }: { status: number }) {
+      setStatus(s);
+    }
 
-      // Admin Commands
-      if (userLower === adminUser) {
-        if (msgLower === '!refresh') {
-          handleNextLevel();
-          return;
-        }
-        if (msgLower === '!reset') {
-          setUserScores({});
-          handleNextLevel();
-          return;
-        }
-        if (msgLower === '!pause') {
-          setIsPaused(true);
-          return;
-        }
-        if (msgLower === '!resume' || msgLower === '!play') {
-          setIsPaused(false);
-          return;
-        }
-      }
+    function onEnded({ status: s, finalScores }: { status: number; finalScores: UserScores }) {
+      setStatus(s);
+      setUserScores(finalScores);
+    }
 
-      if (isLoading) return;
+    function onLoading({ isLoading: loading }: { isLoading: boolean }) {
+      setIsLoading(loading);
+    }
 
-      const cleanMessage = message
-        .trim()
-        .toUpperCase()
-        .replace(/Ç/g, 'C')
-        .replace(/[ÁÀÂÃÄ]/g, 'A')
-        .replace(/[ÉÊË]/g, 'E')
-        .replace(/[ÍÏ]/g, 'I')
-        .replace(/[ÓÔÕÖ]/g, 'O')
-        .replace(/[ÚÜ]/g, 'U')
-        .replace(/Ñ/g, 'N')
-        .replace(/ß/g, 'SS')
-        .replace(/(\s|-)+/g, '');
+    function onPaused() {
+      setIsPaused(true);
+    }
 
-      setWords((currentWords) => {
-        let wordFound = false;
-        let foundWordIndex = -1;
-        const newWords = currentWords.map((w, index) => {
-          if (!w.isRevealed && w.word === cleanMessage) {
-            wordFound = true;
-            foundWordIndex = index;
-            return { ...w, isRevealed: true, revealedBy: username };
-          }
-          return w;
-        });
+    function onResumed() {
+      setIsPaused(false);
+    }
 
-        if (wordFound && foundWordIndex >= 0) {
-          setYouHit(true);
-          setLastHitInfo({
-            username: username.toUpperCase(),
-            word: cleanMessage,
-            index: foundWordIndex + 1,
-          });
+    function onPlayerList({ players: p }: { players: Player[] }) {
+      setPlayers(p);
+    }
 
-          setUserScores((prev) => ({
-            ...prev,
-            [username]: !prev[username]
-              ? { round: 1, total: 1 }
-              : {
-                round: prev[username].round + 1,
-                total: prev[username].total + 1,
-              },
-          }));
+    function onResetToStart({ status: s }: { status: number }) {
+      setStatus(s);
+      setWords([]);
+      setCurrentTheme('');
+      setTimeLeft(customDuration);
+      setUserScores({});
+      setIsLoading(false);
+      setIsPaused(false);
+      setYouHit(false);
+      setLastHitInfo(null);
+      if (hitTimeout.current) clearTimeout(hitTimeout.current);
+    }
 
-          playSuccessSound();
-          if (hitTimeout.current) clearTimeout(hitTimeout.current);
-          hitTimeout.current = setTimeout(() => {
-            setYouHit(false);
-            setLastHitInfo(null);
-          }, 3000);
-        }
+    socket.on('display:stateUpdate', onStateUpdate);
+    socket.on('game:newLevel', onNewLevel);
+    socket.on('game:tick', onTick);
+    socket.on('game:wordRevealed', onWordRevealed);
+    socket.on('game:started', onStarted);
+    socket.on('game:ended', onEnded);
+    socket.on('game:loading', onLoading);
+    socket.on('game:paused', onPaused);
+    socket.on('game:resumed', onResumed);
+    socket.on('room:playerList', onPlayerList);
+    socket.on('game:resetToStart', onResetToStart);
 
-        return newWords;
-      });
-    },
-    [isLoading, handleNextLevel, currentTheme]
-  );
+    return () => {
+      socket.off('display:stateUpdate', onStateUpdate);
+      socket.off('game:newLevel', onNewLevel);
+      socket.off('game:tick', onTick);
+      socket.off('game:wordRevealed', onWordRevealed);
+      socket.off('game:started', onStarted);
+      socket.off('game:ended', onEnded);
+      socket.off('game:loading', onLoading);
+      socket.off('game:paused', onPaused);
+      socket.off('game:resumed', onResumed);
+      socket.off('room:playerList', onPlayerList);
+      socket.off('game:resetToStart', onResetToStart);
+    };
+  }, [socket]);
 
   return (
     <SystemContext.Provider
@@ -305,17 +248,15 @@ export default function Main() {
         hit,
         lastHitInfo,
         setYouHit,
-        loadNewLevel,
-        handlePause,
-        handleLogout,
         handleModal,
         modal,
-        handleTwitchMessage,
         customDuration,
         setCustomDuration,
-        setIsPaused,
-        handleNextLevel,
         locale,
+        roomCode,
+        isConnected,
+        players,
+        socket,
       }}
     >
       <div className={styles.main}>
@@ -327,7 +268,6 @@ export default function Main() {
             transform: `scale(${scale})`,
             flexShrink: 0,
           }}
-          onClick={() => setStatus((status) => status + 1)}
         >
           {(() => {
             switch (status) {
