@@ -119,3 +119,8 @@
     rgb(6, 3, 22) 2.88051px -0.838247px 0px;
   text-transform: uppercase;
 }
+
+.btn:active {
+  background-color: #46d5dc;
+  border-color: #89ebf0;
+}

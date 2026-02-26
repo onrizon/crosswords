@@ -1,12 +1,15 @@
+import End from '@/components/mobile/End';
 import Game from '@/components/mobile/Game';
-import ModalContext from '@/components/mobile/ModalContext';
+import ModalWrapper from '@/components/mobile/ModalWrapper';
 import Settings from '@/components/mobile/Settings';
 import { useAuth } from '@/hooks/useAuth';
-import { Context } from '@/lib/Context';
+import { SystemContext } from '@/lib/Context';
+
+import * as C from '@/constants';
 import styles from '@/styles/mobile/System.module.css';
 import localFont from 'next/font/local';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const asapCondensed = localFont({
   src: [
@@ -31,24 +34,34 @@ const nunito = localFont({
 });
 
 
-export default function System() {
+export default function SystemWithModal() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isOwner, setIsOwner] = useState(true);
-  const [status, setStatus] = useState(2);
+  const [status, setStatus] = useState(C.STATUS_GAME);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/mobile');
-    }
-  }, [isAuthenticated, router]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     router.push('/mobile');
+  //   }
+  // }, [isAuthenticated, router]);
 
   return (
-    <Context.Provider value={{ isOwner, setIsOwner }}>
-      <ModalContext>
+    <SystemContext.Provider value={{ isOwner }}>
+      <ModalWrapper>
         <div className={styles.container}>
-          {status === 1 && <Settings />}
-          {status === 2 && <Game />}
+          {(() => {
+            switch (status) {
+              case C.STATUS_START:
+                return <Settings />;
+              case C.STATUS_GAME:
+                return <Game />;
+              case C.STATUS_END:
+                return <End />;
+              default:
+                return null;
+            }
+          })()}
         </div>
         <style jsx global>{`
         :root {
@@ -56,6 +69,6 @@ export default function System() {
           --nunito: ${nunito.style.fontFamily};
         }
       `}</style>
-      </ModalContext>
-    </Context.Provider>);
+      </ModalWrapper>
+    </SystemContext.Provider>);
 }

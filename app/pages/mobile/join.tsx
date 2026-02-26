@@ -1,7 +1,11 @@
+import ModalWrapper from '@/components/mobile/ModalWrapper';
+import { ModalContext } from '@/lib/Context';
+import nick from '@/public/lotties/nick.json';
 import styles from '@/styles/mobile/Join.module.css';
+import { ModalContextProps } from '@/types/modalTypes';
 import classNames from 'classnames';
 import localFont from 'next/font/local';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 const asapCondensed = localFont({
   src: [
@@ -25,8 +29,22 @@ const nunito = localFont({
   variable: '--nunito',
 });
 
-export default function Join() {
+function Join() {
+  const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
+  const [nickname, setNickname] = useState('');
   const [joinType, setJoinType] = useState<'nickname' | 'twitch' | 'discord'>('nickname');
+
+  function handleEnter() {
+    if (nickname.trim()) {
+      // router.push(`/mobile/system`);
+    } else {
+      setModal({
+        title: 'Nome Inválido',
+        lottie: nick,
+        description: 'Este apelido já foi escolhido por outro jogador',
+      });
+    }
+  }
 
   return <div className={styles.container}>
     <div className={styles.logo}></div>
@@ -45,9 +63,9 @@ export default function Join() {
               <div className={styles.icon} />
               Seu nickname
             </h4>
-            <input className={styles.input} type="text" placeholder="Player2234" />
+            <input className={styles.input} type="text" placeholder="Player2234" value={nickname} onChange={(e) => setNickname(e.target.value)} />
             <button
-              onClick={() => { }}
+              onClick={handleEnter}
               className={classNames(styles.btn, styles.btnPrimary)}
             >
               Entrar
@@ -76,4 +94,12 @@ export default function Join() {
         }
       `}</style>
   </div>;
+}
+
+export default function JoinWithModal() {
+  return (
+    <ModalWrapper>
+      <Join />
+    </ModalWrapper>
+  );
 }

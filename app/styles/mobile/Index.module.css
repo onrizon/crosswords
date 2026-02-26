@@ -99,7 +99,7 @@
   width: 18px;
 }
 
-.box input {
+.input {
   background-color: #230089;
   border: 2px solid #625afb;
   border-radius: 5px;
@@ -114,12 +114,23 @@
   width: 100%;
 }
 
+.input::placeholder {
+  color: #939bf3;
+}
+
+.input:focus {
+  border-color: #b1adff;
+}
+
 .btn {
   align-items: center;
   background-color: #01e1ff;
   border: 1px solid #61ecff;
   border-radius: 12px;
-  box-shadow: 0 3px #008ed4;
+  box-shadow:
+    0 3px #008ed4,
+    0 5px 0 2px #111156,
+    0 5px 0 4px #5941cd;
   color: #fff;
   display: flex;
   gap: 10px;
@@ -149,15 +160,10 @@
   width: 100%;
 }
 
-/* .btn:hover {
-  background-color: #947eff;
-  border-color: #b8a9ff;
-}
-
 .btn:active {
-  background-color: #5f43eb;
-  border-color: #8269ff;
-} */
+  background-color: #00b7e0;
+  border-color: #0dddf9;
+}
 
 .btn.btnPrimary {
   background-color: #e72eed;

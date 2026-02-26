@@ -1,0 +1,54 @@
+.scroll {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 0;
+}
+.scroll:before,
+.scroll:after {
+  content: '';
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 250ms linear;
+  opacity: 0;
+}
+.scroll:before {
+  top: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  background: linear-gradient(
+    180deg,
+    rgba(82, 50, 231, 1) 0%,
+    rgba(72, 42, 223, 0) 100%
+  );
+}
+.scroll:after {
+  bottom: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(82, 50, 231, 1) 2%,
+    rgba(72, 42, 223, 0) 100%
+  );
+}
+.scrollElements {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: scroll;
+  align-items: center;
+}
+.scroll.over.bottom:before {
+  opacity: 1;
+}
+.scroll.over.top:after {
+  opacity: 1;
+}
+.scroll.over.middle:before,
+.scroll.over.middle:after {
+  opacity: 1;
+}

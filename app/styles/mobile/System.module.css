@@ -1,11 +1,8 @@
 .container {
-  align-items: center;
   background: linear-gradient(to bottom, #5232e7 0%, #3b20d6 42%);
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 100%;
   inset: 0;
-  justify-content: center;
   position: fixed;
   width: 100%;
 }

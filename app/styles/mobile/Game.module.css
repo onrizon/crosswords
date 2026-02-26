@@ -5,7 +5,7 @@
   height: 100%;
   justify-content: space-between;
   min-width: 100%;
-  position: relative;
+  position: fixed;
   width: 100%;
 }
 
@@ -103,6 +103,22 @@
   color: #f1ff66;
 }
 
+.exit {
+  background: none;
+  background-image: url('/images/icoPower.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: none;
+  display: block;
+  height: 40px;
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  width: 40px;
+  z-index: 1;
+}
+
 .content {
   align-items: center;
   display: flex;
@@ -170,12 +186,23 @@
   width: 200px;
 }
 
+.answers {
+  align-self: stretch;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+}
+
 .footer {
   align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 0 20px;
+  padding: 0 0 10px;
   width: 305px;
 }
 
@@ -187,12 +214,16 @@
   font-family: var(--nunito);
   font-size: 20px;
   font-weight: bold;
-  height: 44px;
+  height: 46px;
   padding: 0 10px;
   outline: none;
   width: 100%;
 }
 
 .input::placeholder {
-  color: #dde0ff;
+  color: #939bf3;
+}
+
+.input:focus {
+  border-color: #b1adff;
 }

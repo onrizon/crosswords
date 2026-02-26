@@ -1,10 +1,12 @@
+import exit from '@/public/lotties/exit.json';
 import styles from '@/styles/mobile/Settings.module.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Select } from '@/components/system/common/Select';
 import { useAuth } from '@/hooks/useAuth';
 import { localeNames, useTranslation } from '@/hooks/useTranslation';
-import { withData } from '@/lib/Context';
+import { ModalContext, withData } from '@/lib/Context';
+import { ModalContextProps } from '@/types/modalTypes';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
 import localFont from 'next/font/local';
@@ -36,7 +38,7 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
-
+  const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
   const { data: session } = useSession();
   const { logout } = useAuth();
   const { t, locales } = useTranslation();
@@ -47,7 +49,14 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
   return <div className={classNames(styles.fullContainer, { [styles.active]: activeTab })}>
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.logout} onClick={() => logout()} />
+        <button className={styles.logout} onClick={() => {
+          setModal({
+            title: 'Sair',
+            lottie: exit,
+            description: 'Deseja realmente sair da sala?',
+            button: () => logout(),
+          });
+        }} />
         <div className={styles.headerTitle}>
           <h2>{session?.user.name}</h2>
           {isOwner && (<h4>
@@ -59,6 +68,10 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
         <button className={styles.language} onClick={() => setActiveTab(true)} />
       </div>
       <div className={styles.content}>
+        <div className={styles.users}>
+          <div className={styles.icon} />
+          500 pessoas na sala
+        </div>
         <div className={styles.box}>
           <h4>
             <span className={classNames(styles.icon, styles.iconTime)} />

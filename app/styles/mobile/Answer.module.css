@@ -1,0 +1,80 @@
+.answer {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  margin: 3px 0;
+}
+
+.answer p {
+  align-items: center;
+  background: #3300a2;
+  border: 1px solid #6a4cff;
+  border-radius: 3px;
+  color: #c2a6ff;
+  display: flex;
+  font-family: var(--asap-condensed);
+  font-size: 20px;
+  font-weight: 700;
+  height: 26px;
+  justify-content: center;
+  position: relative;
+  text-transform: uppercase;
+  width: 26px;
+}
+
+.answer.hit {
+  position: relative;
+}
+
+.answer.hit span {
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.answer.hit span div {
+  display: block;
+  position: absolute;
+  top: -12px;
+  height: 48px;
+  width: 100%;
+}
+
+.answer.hit p {
+  background: linear-gradient(to bottom, #e72eed 48%, #c400c9);
+  border-color: #f75cff;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  text-shadow:
+    rgb(139, 19, 145) 2px 0px 0px,
+    rgb(139, 19, 145) 1.75517px 0.958851px 0px,
+    rgb(139, 19, 145) 1.0806px 1.68294px 0px,
+    rgb(139, 19, 145) 0.141474px 1.99499px 0px,
+    rgb(139, 19, 145) -0.832294px 1.81859px 0px,
+    rgb(139, 19, 145) -1.60229px 1.19694px 0px,
+    rgb(139, 19, 145) -1.97998px 0.28224px 0px,
+    rgb(139, 19, 145) -1.87291px -0.701566px 0px,
+    rgb(139, 19, 145) -1.30729px -1.5136px 0px,
+    rgb(139, 19, 145) -0.421592px -1.95506px 0px,
+    rgb(139, 19, 145) 0.567324px -1.91785px 0px,
+    rgb(139, 19, 145) 1.41734px -1.41108px 0px,
+    rgb(139, 19, 145) 1.92034px -0.558831px 0px;
+}
+
+.answer.hit p:before {
+  background-color: #ffffff;
+  border-radius: 50%;
+  content: '';
+  display: block;
+  height: 2px;
+  left: 1px;
+  position: absolute;
+  top: 2px;
+  transform: rotate(-30deg);
+  width: 3px;
+}

@@ -1,5 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
-import { Context } from '@/lib/Context';
+import { SystemContext } from '@/lib/Context';
 import styles from '@/styles/Main.module.css';
 import { UserScores, WordData } from '@/types/types';
 import { signOut, useSession } from 'next-auth/react';
@@ -294,7 +294,7 @@ export default function Main() {
   );
 
   return (
-    <Context.Provider
+    <SystemContext.Provider
       value={{
         currentTheme,
         words,
@@ -350,6 +350,6 @@ export default function Main() {
           --nunito: ${nunito.style.fontFamily};
         }
       `}</style>
-    </Context.Provider>
+    </SystemContext.Provider>
   );
 }

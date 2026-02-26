@@ -2,10 +2,13 @@ import styles from '@/styles/mobile/Modal.module.css';
 import { AnimatePresence, motion } from "framer-motion";
 import Lottie from 'lottie-react';
 
-import { withData } from '@/lib/Context';
+import { ModalContext } from '@/lib/Context';
 import { ModalContextProps } from '@/types/modalTypes';
+import { useContext } from 'react';
 
-const Modal: React.FC<ModalContextProps> = ({ modal, setModal }) => {
+export default function Modal({ modal }: { modal: ModalContextProps["modal"] }) {
+  const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
+
   if (modal == null) return;
 
   return (
@@ -46,12 +49,3 @@ const Modal: React.FC<ModalContextProps> = ({ modal, setModal }) => {
     </AnimatePresence>
   );
 };
-
-function mapStateToProps(state: ModalContextProps): ModalContextProps {
-  return {
-    modal: state.modal,
-    setModal: state.setModal,
-  };
-}
-
-export default withData(Modal, mapStateToProps);
