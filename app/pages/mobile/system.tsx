@@ -38,7 +38,7 @@ export default function SystemWithModal() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isOwner, setIsOwner] = useState(true);
-  const [status, setStatus] = useState(C.STATUS_GAME);
+  const [status, setStatus] = useState(C.STATUS_START);
 
   // useEffect(() => {
   //   if (!isAuthenticated) {

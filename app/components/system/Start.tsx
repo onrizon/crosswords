@@ -1,7 +1,11 @@
 import { useTranslation } from '@/hooks/useTranslation';
+import howToPlay1 from '@/public/lotties/htp_1.json';
+import howToPlay2 from '@/public/lotties/htp_2.json';
+import howToPlay3 from '@/public/lotties/htp_3.json';
 import styles from '@/styles/Start.module.css';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
+import Lottie from 'lottie-react';
 import QRCode from 'qrcode';
 import { useEffect, useRef, useState } from 'react';
 import FullscreenButton from './common/FullscreenButton';
@@ -98,8 +102,13 @@ const Start: React.FC = () => {
                     key='step_1'
                     className={styles.step}
                   >
-                    <div className={styles.lottie}></div>
-                    <p>{t('howToPlayItem1')}</p>
+                    <div className={classNames(styles.lottie, styles.lottie1)}>
+                      <Lottie animationData={howToPlay1} loop={true} />
+                    </div>
+                    <div className={styles.text}>
+                      <h3>{t('howToPlayItem1Title')}</h3>
+                      <p>{t('howToPlayItem1')}</p>
+                    </div>
                   </motion.div>
                 )}
                 {stepCont === 1 && (
@@ -111,8 +120,13 @@ const Start: React.FC = () => {
                     key='step_2'
                     className={styles.step}
                   >
-                    <div className={styles.lottie}></div>
-                    <p>{t('howToPlayItem2')}</p>
+                    <div className={classNames(styles.lottie, styles.lottie2)}>
+                      <Lottie animationData={howToPlay2} loop={true} />
+                    </div>
+                    <div className={styles.text}>
+                      <h3>{t('howToPlayItem2Title')}</h3>
+                      <p>{t('howToPlayItem2')}</p>
+                    </div>
                   </motion.div>
                 )}
                 {stepCont === 2 && (
@@ -124,8 +138,13 @@ const Start: React.FC = () => {
                     key='step_3'
                     className={styles.step}
                   >
-                    <div className={styles.lottie}></div>
-                    <p>{t('howToPlayItem3')}</p>
+                    <div className={classNames(styles.lottie, styles.lottie3)}>
+                      <Lottie animationData={howToPlay3} loop={true} />
+                    </div>
+                    <div className={styles.text}>
+                      <h3>{t('howToPlayItem3Title')}</h3>
+                      <p>{t('howToPlayItem3')}</p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>

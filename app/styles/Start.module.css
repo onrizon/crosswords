@@ -371,31 +371,43 @@
 .data .step {
   align-items: center;
   display: flex;
-  flex-direction: column;
   height: 100%;
+  gap: 10px;
   justify-content: center;
   left: 0;
+  padding: 20px;
   position: absolute;
   top: 0;
   width: 100%;
 }
 
 .data .step .lottie {
-  background-color: rgba(179, 49, 255, 0.2);
-  border-radius: 15px;
   display: block;
-  height: 275px;
-  margin-bottom: 15px;
-  width: 530px;
 }
 
-.data .step p {
+.data .step .text {
+  display: block;
+  width: 320px;
+}
+
+.data .step .text h3 {
+  color: #47e1f1;
+  display: block;
+  font-family: var(--asap-condensed);
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.data .step .text p {
   color: #bb9cff;
   display: block;
   font-family: var(--nunito);
-  font-size: 33px;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 35px;
+  line-height: 1;
   text-align: center;
   text-shadow:
     rgb(11, 0, 114) 2px 0px 0px,
@@ -411,7 +423,7 @@
     rgb(11, 0, 114) 0.567324px -1.91785px 0px,
     rgb(11, 0, 114) 1.41734px -1.41108px 0px,
     rgb(11, 0, 114) 1.92034px -0.558831px 0px;
-  width: 70%;
+  width: 100%;
 }
 
 .steps ul {

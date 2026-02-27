@@ -17,38 +17,7 @@ interface GameProps {
 function Game({ isOwner }: GameProps) {
   const router = useRouter();
   const setModal = useContext(ModalContext) as ModalContextProps["setModal"];
-  const [list, setList] = useState<{ word: string, hit: boolean }[]>([
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'qweqwe', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'asdasdasd', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'tesdsfsdfste', hit: true },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: false },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'qweqwe', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'asdasdasd', hit: false },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWM', hit: true },
-    { word: 'teste', hit: false },
-    { word: 'teste2', hit: false },
-    { word: 'tesdsfsdfste', hit: true },
-    { word: 'teste4', hit: false },
-    { word: 'WMWMWMWMWMWM', hit: false },
-  ]);
+  const [list, setList] = useState<{ word: string, hit: boolean }[]>([]);
   const [word, setWord] = useState('');
   const wordRef = useRef<HTMLInputElement>(null);
 

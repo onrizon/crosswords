@@ -193,8 +193,8 @@ function Scroll({
       <div
         className={classNames(
           styles.scroll,
-          { over: data.scroll || fixedTrack },
-          data.scrollType
+          { [styles.over]: data.scroll || fixedTrack },
+          data.scrollType && styles[data.scrollType]
         )}
         ref={scrollRef}
       >

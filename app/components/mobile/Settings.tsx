@@ -9,29 +9,6 @@ import { ModalContext, withData } from '@/lib/Context';
 import { ModalContextProps } from '@/types/modalTypes';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
-import localFont from 'next/font/local';
-
-const asapCondensed = localFont({
-  src: [
-    { path: '../../_assets/fonts/AsapCondensed-Medium.ttf', weight: '500' },
-    { path: '../../_assets/fonts/AsapCondensed-SemiBold.ttf', weight: '600' },
-    { path: '../../_assets/fonts/AsapCondensed-Bold.ttf', weight: '700' },
-    { path: '../../_assets/fonts/AsapCondensed-ExtraBold.ttf', weight: '800' },
-    { path: '../../_assets/fonts/AsapCondensed-Black.ttf', weight: '900' },
-  ],
-  variable: '--asap-condensed',
-});
-
-const nunito = localFont({
-  src: [
-    { path: '../../_assets/fonts/Nunito-Medium.ttf', weight: '500' },
-    { path: '../../_assets/fonts/Nunito-SemiBold.ttf', weight: '600' },
-    { path: '../../_assets/fonts/Nunito-Bold.ttf', weight: '700' },
-    { path: '../../_assets/fonts/Nunito-ExtraBold.ttf', weight: '800' },
-    { path: '../../_assets/fonts/Nunito-Black.ttf', weight: '900' },
-  ],
-  variable: '--nunito',
-});
 
 interface SettingsProps {
   isOwner: boolean;
@@ -180,12 +157,6 @@ const Settings: React.FC<SettingsProps> = ({ isOwner }) => {
         </ul>
       </div>
     </div>
-    <style jsx global>{`
-        :root {
-          --asap-condensed: ${asapCondensed.style.fontFamily};
-          --nunito: ${nunito.style.fontFamily};
-        }
-      `}</style>
   </div>;
 }
 

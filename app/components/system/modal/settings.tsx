@@ -24,9 +24,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   loadNewLevel,
   setIsPaused,
 }) => {
-  const { t, locales } = useTranslation();
-  const { changeLocale } = useTranslation();
-  // Settings Form State (Temporary state while modal is open)
+  const { t, locales, changeLocale } = useTranslation();
   const [tempSettings, setTempSettings] = useState<{
     language: string;
     duration: number;

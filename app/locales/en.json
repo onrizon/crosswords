@@ -14,9 +14,12 @@
   "generatingTheme": "Generating theme...",
   "helpAndCommands": "Help and commands",
   "howToPlay": "How to play",
-  "howToPlayItem1": "watch the hint and to guess the words 1",
-  "howToPlayItem2": "watch the hint and to guess the words 2",
-  "howToPlayItem3": "watch the hint and to guess the words 3",
+  "howToPlayItem1Title": " Find the words",
+  "howToPlayItem1": "Watch the theme and try to find the words based on the number of letters",
+  "howToPlayItem2Title": "Your phone is the control",
+  "howToPlayItem2": "Send your guesses through your device",
+  "howToPlayItem3Title": "Ranking",
+  "howToPlayItem3": "Your successes are worth points. Stay at the top and have fun!",
   "language": "Language",
   "levelComplete": "LEVEL COMPLETE! Generating next...",
   "logout": "Logout",
@@ -40,5 +43,5 @@
   "settings": "Settings",
   "theme": "Theme",
   "time": "Time",
-  "waitHost":"wait for the host to start"
+  "waitHost": "wait for the host to start"
 }
